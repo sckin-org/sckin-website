@@ -1,0 +1,24 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        # Build on Node 20 even though newer may be available on the image.
+        - nvm install 20
+        - nvm use 20
+        - node --version
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    # Next.js SSR/App Router build output. Do NOT switch to `out` unless the app
+    # opts into static export (output: 'export') — /donate (Stripe), the Pro
+    # lead-capture form, and the Voiceflow embed assume server capability.
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*

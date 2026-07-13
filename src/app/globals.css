@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/*
+ * SCKIN design tokens.
+ * These raw values live in :root so they are emitted verbatim as CSS custom
+ * properties. The incoming Claude Design handoff consumes them directly, e.g.
+ *   color: var(--color-primary);
+ *   border-radius: var(--radius);
+ * The @theme inline block below maps the same tokens onto Tailwind's utility
+ * layer (bg-primary, text-ink, bg-surface, text-muted, rounded, ...) WITHOUT
+ * re-emitting duplicate variables. See docs/tokens.md.
+ */
+:root {
+  --color-primary: #c41e3a; /* SCKIN red */
+  --color-ink: #16161a;
+  --color-bg: #ffffff;
+  --color-surface: #fafaf8;
+  --color-muted: #5c5c56;
+  --radius: 12px;
+}
+
+@theme inline {
+  --color-primary: var(--color-primary);
+  --color-ink: var(--color-ink);
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-muted: var(--color-muted);
+
+  --radius-DEFAULT: var(--radius);
+
+  /* Humanist sans stack; swap the concrete family in during the design handoff. */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+}
+
+/*
+ * Minimal, intentionally unstyled base. Visual design (type scale, spacing,
+ * layout) arrives separately from the Claude Design handoff — keep this thin.
+ */
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}

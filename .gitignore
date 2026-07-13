@@ -13,6 +13,10 @@ out/
 .nuxt/
 .cache/
 
+# Next.js auto-generated (regenerated on build)
+next-env.d.ts
+.next/types/
+
 # Coverage
 coverage/
 
@@ -26,3 +30,6 @@ coverage/
 .vscode/
 .idea/
 *.tmp
+
+# Claude Code — personal overrides only; .claude/settings.json IS committed
+.claude/settings.local.json
