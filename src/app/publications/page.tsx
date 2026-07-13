@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getPublications } from "@/lib/content";
+import Prose from "@/components/Prose";
 
 export function generateMetadata(): Metadata {
   const { frontmatter } = getPublications();
@@ -11,7 +12,7 @@ export function generateMetadata(): Metadata {
 }
 
 export default function PublicationsPage() {
-  const { frontmatter } = getPublications();
+  const { frontmatter, html } = getPublications();
 
   return (
     <article data-page="publications">
@@ -36,6 +37,8 @@ export default function PublicationsPage() {
       ) : (
         <p>Publications will be listed here.</p>
       )}
+
+      <Prose html={html} />
     </article>
   );
 }

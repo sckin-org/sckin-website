@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getMission } from "@/lib/content";
+import Prose from "@/components/Prose";
 
 export function generateMetadata(): Metadata {
   const { frontmatter } = getMission();
@@ -10,7 +11,7 @@ export function generateMetadata(): Metadata {
 }
 
 export default function MissionPage() {
-  const { frontmatter } = getMission();
+  const { frontmatter, html } = getMission();
   const { mission, vision, hypothesis, use_cases } = frontmatter;
 
   return (
@@ -49,6 +50,8 @@ export default function MissionPage() {
           ))}
         </section>
       ) : null}
+
+      <Prose html={html} />
     </article>
   );
 }

@@ -30,7 +30,12 @@ contract between the codebase and the incoming Claude Design handoff.
   | `--color-bg`      | `bg-bg`                                |
   | `--color-surface` | `bg-surface`                           |
   | `--color-muted`   | `text-muted`, `bg-muted`               |
-  | `--radius`        | `rounded` (via `--radius-DEFAULT`)     |
+  | `--radius`        | `rounded-token` — or use `var(--radius)` directly |
+
+> Radius note: Tailwind v4's built-in `rounded` utility is hardcoded to
+> `0.25rem` and is **not** driven by our token. Use `rounded-token`
+> (= `var(--radius)` = 12px) or `border-radius: var(--radius)` /
+> `rounded-[var(--radius)]`. Do not assume bare `rounded` picks up the token.
 
 > If the design bundle assumes Tailwind v3 (a `tailwind.config` file, `@tailwind`
 > directives, `theme.extend.colors`), port it to the v4 CSS-first form above.

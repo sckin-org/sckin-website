@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getSicklecellpediaPro } from "@/lib/content";
+import Prose from "@/components/Prose";
 
 export function generateMetadata(): Metadata {
   const { frontmatter } = getSicklecellpediaPro();
@@ -15,7 +16,7 @@ export function generateMetadata(): Metadata {
  * is connected during the design/integration handoff.
  */
 export default function SicklecellpediaProPage() {
-  const { frontmatter } = getSicklecellpediaPro();
+  const { frontmatter, html } = getSicklecellpediaPro();
   const { intro, status, form } = frontmatter;
 
   return (
@@ -64,6 +65,8 @@ export default function SicklecellpediaProPage() {
           <button type="submit">{form.submit_label ?? "Submit"}</button>
         </form>
       ) : null}
+
+      <Prose html={html} />
     </article>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getHome } from "@/lib/content";
+import Prose from "@/components/Prose";
 
 export function generateMetadata(): Metadata {
   const { frontmatter } = getHome();
@@ -16,7 +17,7 @@ export function generateMetadata(): Metadata {
  * handoff.
  */
 export default function HomePage() {
-  const { frontmatter } = getHome();
+  const { frontmatter, html } = getHome();
   const { hero, stats, statement, tools } = frontmatter;
 
   return (
@@ -61,6 +62,8 @@ export default function HomePage() {
           ))}
         </section>
       ) : null}
+
+      <Prose html={html} />
     </article>
   );
 }

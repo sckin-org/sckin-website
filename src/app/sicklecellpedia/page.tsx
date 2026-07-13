@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getSicklecellpedia } from "@/lib/content";
+import Prose from "@/components/Prose";
 
 export function generateMetadata(): Metadata {
   const { frontmatter } = getSicklecellpedia();
@@ -14,7 +15,7 @@ export function generateMetadata(): Metadata {
  * during the design handoff; the frontmatter carries the Voiceflow config.
  */
 export default function SicklecellpediaPage() {
-  const { frontmatter } = getSicklecellpedia();
+  const { frontmatter, html } = getSicklecellpedia();
 
   return (
     <article data-page="sicklecellpedia">
@@ -29,6 +30,8 @@ export default function SicklecellpediaPage() {
         {/* Voiceflow chat embed mounts here. */}
         <p>SickleCellPedia chat loads here.</p>
       </div>
+
+      <Prose html={html} />
     </article>
   );
 }

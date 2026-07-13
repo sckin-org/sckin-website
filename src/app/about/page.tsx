@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAbout } from "@/lib/content";
+import Prose from "@/components/Prose";
 
 export function generateMetadata(): Metadata {
   const { frontmatter } = getAbout();
@@ -16,7 +17,7 @@ export function generateMetadata(): Metadata {
  * links (/about#board, ...) resolve.
  */
 export default function AboutPage() {
-  const { frontmatter } = getAbout();
+  const { frontmatter, html } = getAbout();
 
   return (
     <article data-page="about">
@@ -55,6 +56,8 @@ export default function AboutPage() {
           ) : null}
         </section>
       ))}
+
+      <Prose html={html} />
     </article>
   );
 }
