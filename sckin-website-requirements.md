@@ -35,7 +35,7 @@
 - [x] Deploy and confirm the production URL (https://<project>.vercel.app) renders the Home page.
 
 **Verification**
-- [ ] Push a trivial commit to `main` → confirm auto-deploy triggers and completes.
+- [x] Push a trivial commit to `main` → confirm auto-deploy triggers and completes.
 - [ ] Open a test PR → confirm Vercel posts a preview URL on the PR, then close it.
 - [x] Do NOT attach the sckin.org custom domain yet — that is Step 9.
 
