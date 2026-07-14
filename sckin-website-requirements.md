@@ -36,7 +36,7 @@
 
 **Verification**
 - [x] Push a trivial commit to `main` → confirm auto-deploy triggers and completes.
-- [ ] Open a test PR → confirm Vercel posts a preview URL on the PR, then close it.
+- [x] Open a test PR → confirm Vercel posts a preview URL on the PR, then close it.
 - [x] Do NOT attach the sckin.org custom domain yet — that is Step 9.
 
 **Done when:** every push to `main` auto-deploys to the staging URL and PRs generate preview links.
