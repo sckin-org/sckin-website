@@ -43,3 +43,5 @@
 
 **Status log**
 - 2026-07-14 — Deployed to Vercel (team: SCKIN, project: sckin-website, plan: Pro). Staging URL live, content rendering unstyled as expected pre-design. Vercel plugin installed in Claude Code.
+
+<!-- preview-url verification test — safe to delete with this PR -->
