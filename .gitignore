@@ -13,17 +13,17 @@ out/
 .nuxt/
 .cache/
 
-# Next.js auto-generated (regenerated on build)
+# Next.js / TypeScript auto-generated (regenerated on build)
 next-env.d.ts
 .next/types/
+*.tsbuildinfo
 
 # Coverage
 coverage/
 
-# Environments / secrets
-.env
-.env.local
-.env.*.local
+# Environments / secrets — ignore all .env* except the tracked template
+.env*
+!.env.example
 
 # Editor / OS
 .DS_Store

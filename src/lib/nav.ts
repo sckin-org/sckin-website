@@ -32,6 +32,7 @@ export const NAV_ITEMS: NavItem[] = [
   },
   { label: "SickleCellPedia", href: "/sicklecellpedia" },
   { label: "SickleCellPedia Pro", href: "/sicklecellpedia-pro" },
+  { label: "News", href: "/news" },
   {
     label: "Responsible AI",
     href: "/responsible-ai",
@@ -43,8 +44,14 @@ export const NAV_ITEMS: NavItem[] = [
       },
     ],
   },
-  { label: "Publications", href: "/publications" },
-  { label: "News", href: "/news" },
+  {
+    label: "Impact",
+    href: "/impact",
+    children: [
+      { label: "Overview", href: "/impact" },
+      { label: "Publications", href: "/impact/publications" },
+    ],
+  },
 ];
 
 export const DONATE_CTA: NavChild = { label: "Donate", href: "/donate" };

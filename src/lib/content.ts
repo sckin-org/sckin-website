@@ -60,6 +60,25 @@ export interface HomeFrontmatter extends FrontmatterBase {
   }>;
 }
 
+export interface Testimonial {
+  quote: string;
+  name: string;
+  role?: string;
+  institution?: string;
+  country?: string;
+  image?: string;
+}
+
+export interface ImpactFrontmatter extends FrontmatterBase {
+  hero: {
+    headline: string;
+    subhead: string;
+  };
+  stats?: Array<{ figure: string; caption: string }>;
+  testimonials_community?: Testimonial[];
+  testimonials_clinical?: Testimonial[];
+}
+
 export interface MissionFrontmatter extends FrontmatterBase {
   mission?: string;
   vision?: string;
@@ -99,9 +118,39 @@ export interface SicklecellpediaProFrontmatter extends FrontmatterBase {
   intro?: string;
   status?: string;
   form?: {
-    endpoint?: string;
     submit_label?: string;
+    confirmation?: string;
     fields: FormField[];
+  };
+}
+
+export interface ContactFrontmatter extends FrontmatterBase {
+  hero: {
+    headline: string;
+    subhead: string;
+  };
+  /** Deflection block, rendered above the form: steers disease questions to
+   * the chatbot rather than the inbox. */
+  deflect?: {
+    heading: string;
+    body: string;
+    cta: Cta;
+  };
+  form: {
+    heading?: string;
+    submit_label?: string;
+    confirmation?: string;
+    fields: FormField[];
+  };
+  schedule?: {
+    heading: string;
+    body: string;
+    cta: Cta;
+  };
+  direct?: {
+    email?: string;
+    facebook?: string;
+    linkedin?: string;
   };
 }
 
@@ -137,11 +186,29 @@ function render(body: string): string {
 }
 
 /**
- * Load a single top-level page, e.g. getDoc("home") reads content/home.md.
- * The caller supplies the expected frontmatter type.
+ * Resolve the on-disk Markdown file for a page slug in a given locale.
+ *
+ * Today every page ships English-only at `content/<slug>.md`, so the `locale`
+ * argument is accepted but does not yet change the path. This is deliberate:
+ * callers and pages can thread a locale through now, and when the first
+ * non-English content lands, this is the single place that grows a
+ * `content/<slug>.<locale>.md` lookup with fallback to the English file —
+ * nothing else has to change. (Fallback intentionally not built yet.)
  */
-export function getDoc<T extends FrontmatterBase>(slug: string): Doc<T> {
-  const filePath = path.join(CONTENT_DIR, `${slug}.md`);
+function resolveContentPath(slug: string, _locale?: string): string {
+  return path.join(CONTENT_DIR, `${slug}.md`);
+}
+
+/**
+ * Load a single top-level page, e.g. getDoc("home") reads content/home.md.
+ * The caller supplies the expected frontmatter type. An optional `locale` is
+ * accepted for forward-compatibility (see resolveContentPath).
+ */
+export function getDoc<T extends FrontmatterBase>(
+  slug: string,
+  locale?: string
+): Doc<T> {
+  const filePath = resolveContentPath(slug, locale);
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
   return {
@@ -154,12 +221,14 @@ export function getDoc<T extends FrontmatterBase>(slug: string): Doc<T> {
 
 /* Convenience typed accessors for each page. */
 export const getHome = () => getDoc<HomeFrontmatter>("home");
+export const getImpact = () => getDoc<ImpactFrontmatter>("impact");
 export const getMission = () => getDoc<MissionFrontmatter>("mission");
 export const getAbout = () => getDoc<AboutFrontmatter>("about");
 export const getSicklecellpedia = () =>
   getDoc<SicklecellpediaFrontmatter>("sicklecellpedia");
 export const getSicklecellpediaPro = () =>
   getDoc<SicklecellpediaProFrontmatter>("sicklecellpedia-pro");
+export const getContact = () => getDoc<ContactFrontmatter>("contact");
 export const getResponsibleAi = () =>
   getDoc<ResponsibleAiFrontmatter>("responsible-ai");
 export const getPublications = () =>

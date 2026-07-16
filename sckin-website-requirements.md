@@ -16,7 +16,9 @@
 9. ☐ Domain cutover — lower TTL a few days ahead, point sckin.org DNS at Vercel, keep Squarespace live until it resolves. Vercel provisions SSL automatically once DNS verifies.
 10. ☐ Post-launch — Decap CMS at /admin for the team (needs a GitHub OAuth app + one-file OAuth handler API route), news auto-repost to FB/LinkedIn, registrar move to Cloudflare, then the MCP server on AWS.
 
-**Guardrail:** keep everything vanilla Next.js — no Vercel-proprietary storage, cron, or middleware — so the hosting decision stays a two-way door.
+**Guardrail:** keep everything vanilla Next.js so core functionality stays portable — avoid Vercel-*proprietary* primitives (e.g. Vercel-managed storage/KV, Vercel Cron) where a standard Next.js equivalent exists.
+
+> **Updated 2026-07-16:** Hosting is now committed to **Vercel (Pro)**, so "two-way door" is no longer a hard constraint. Standard **Next.js `middleware.ts`** is explicitly allowed (it is a framework feature, not a Vercel-proprietary product) — it powers the i18n locale routing. This supersedes the earlier blanket "no middleware" wording, which was aimed at Vercel's proprietary Routing Middleware product and the Amplify two-way-door goal.
 
 ---
 
