@@ -80,10 +80,21 @@ export interface ImpactFrontmatter extends FrontmatterBase {
 }
 
 export interface MissionFrontmatter extends FrontmatterBase {
-  mission?: string;
   vision?: string;
+  mission?: string;
   hypothesis?: string;
-  use_cases?: Array<{ title: string; description: string }>;
+  /** "What this looks like in practice" — narrative scenarios. */
+  practice?: {
+    heading: string;
+    intro?: string;
+    cases: Array<{ title: string; description: string }>;
+    note?: string;
+  };
+  /** Closing statement + calls to action. */
+  closing?: {
+    statement: string;
+    ctas?: Cta[];
+  };
 }
 
 export interface AboutSection {
