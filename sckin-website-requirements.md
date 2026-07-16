@@ -57,17 +57,18 @@ i18n locale routing.
 ### 1. Home — `/` ✅
 Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 
-### 2. Mission — `/mission`
-*Short page. Good warm-up.*
+### 2. Mission — `/mission` ✅
+*Committed `36fb373`, live on staging. Short page — done.*
 
-- [ ] Mission statement *(have it)*
-- [ ] Vision — the future state SCKIN is working toward
-- [ ] Hypothesis *(have it — reuse from Home)*
-- [ ] Use case — Patient
-- [ ] Use case — Caregiver
-- [ ] Use case — Clinician
-- [ ] Use case — Under-resourced HCP
-- [ ] → Paste to Claude Code
+- [x] Mission statement
+- [x] Vision — the future state SCKIN is working toward
+- [x] Hypothesis
+- [x] Use case — Patient *(Danielle, Houston — hydroxyurea prep)*
+- [x] Use case — Caregiver *(Amina, Dakar — the 2 a.m. fever)*
+- [x] Use case — Clinician / under-resourced HCP *(Dr. Okonkwo, Nigeria — delivered as one combined scenario)*
+- [x] Use case — Newly diagnosed family *(Claire & Thomas, Paris — added beyond the original list)*
+- [x] Closing statement + CTAs *(Try SickleCellPedia · Support our work)*
+- [x] → Paste to Claude Code
 
 ### 3. SickleCellPedia — `/sicklecellpedia`
 *Mostly migration. Quick win.*
