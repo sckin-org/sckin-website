@@ -3,6 +3,7 @@ import "../globals.css";
 import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import VoiceflowWidget from "@/components/VoiceflowWidget";
 import { LOCALES, isLocale, type Locale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -44,6 +45,9 @@ export default async function LocaleLayout({
         <SiteHeader locale={activeLocale} />
         <main>{children}</main>
         <SiteFooter locale={activeLocale} />
+        {/* Collapsed chat launcher, every page. /sicklecellpedia additionally
+            auto-opens it — see <VoiceflowAutoOpen />. */}
+        <VoiceflowWidget />
       </body>
     </html>
   );

@@ -109,12 +109,21 @@ export interface AboutFrontmatter extends FrontmatterBase {
   sections: AboutSection[];
 }
 
+/**
+ * One way to reach SickleCellPedia (web / WhatsApp / Messenger). `body` is
+ * Markdown so the copy can carry its links inline — see renderAccessBody.
+ */
+export interface AccessChannel {
+  id: string;
+  heading: string;
+  body: string;
+  image?: string;
+  image_alt?: string;
+}
+
 export interface SicklecellpediaFrontmatter extends FrontmatterBase {
   intro?: string;
-  voiceflow?: {
-    project_id?: string;
-    embed_url?: string;
-  };
+  access?: AccessChannel[];
 }
 
 export interface FormField {
@@ -194,6 +203,23 @@ export interface NewsFrontmatter extends FrontmatterBase {
 
 function render(body: string): string {
   return marked.parse(body, { async: false }) as string;
+}
+
+/**
+ * Render a single frontmatter string as *inline* Markdown — links and emphasis,
+ * no wrapping <p>. Used for the SickleCellPedia access channels, whose copy
+ * carries its links mid-sentence ("Start a chat at wa.me/...").
+ *
+ * Links to other sites open in a new tab so a visitor mid-question does not
+ * lose the page. Scoped to these short strings on purpose: page bodies keep the
+ * default same-tab behaviour.
+ */
+export function renderAccessBody(md: string): string {
+  const html = marked.parseInline(md, { async: false }) as string;
+  return html.replace(
+    /<a href="(https?:\/\/[^"]+)"/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer"'
+  );
 }
 
 /**
