@@ -52,6 +52,39 @@ i18n locale routing.
 
 ---
 
+## WhatsApp integration (SickleCellPedia → FlowBridge → Meta)
+
+*SickleCellPedia runs in Voiceflow and reaches WhatsApp via FlowBridge. Replies had stopped: the Meta app lost its WhatsApp webhook subscription and reverted to "unpublished," so Meta stopped delivering inbound messages. The app cannot go Live until the blockers below clear.*
+
+**Meta app:** "Sickle Cell Information App" (App ID `1000244904758270`) · WhatsApp number `+1 555-751-3738`
+
+**Fixes already done**
+- [x] Voiceflow routing corrected — FlowBridge uses the WhatsApp clone's Dialog Manager API token
+- [x] Meta app: WhatsApp use case re-added; webhook reconfigured + verified (callback `https://sckin.flowbridge.app/api/webhooks/whatsapp/1`, verify token stored in FlowBridge); `messages` field subscribed
+- [x] Business payment method added in WhatsApp Manager
+- [x] FlowBridge webhook endpoint confirmed healthy
+
+**Remaining Meta blockers** — *"ineligible for submission" until all three clear*
+- [ ] App icon — exactly 1024×1024 px, square, PNG/JPG (RGB), <5 MB *(compliant icon being prepared separately)*
+- [ ] Privacy Policy URL — replace the rejected Google Docs link with the hosted `/privacy` page *(see Legal, §13)*
+- [ ] Terms of Service URL — replace the Google Docs link with the hosted `/terms` page
+- [ ] Category = **Education** — save so the requirement clears
+
+**Publish steps** — *after the pages + icon exist*
+- [ ] Enter the hosted Privacy Policy + Terms of Service URLs in Meta → Basic Settings
+- [ ] Upload the 1024×1024 icon; confirm Category = Education; save
+- [ ] When the "ineligible for submission" banner clears → publish the app (set to Live)
+- [ ] *(Business Verification already complete. "Access verification / Tech Provider" is a separate multi-day review — not required for this single first-party bot; skip it.)*
+
+**Final acceptance test** — *after the app is Live*
+- [ ] Send a fresh WhatsApp message to `+1 555-751-3738` and confirm: reply comes from the WhatsApp clone (references `sckin.org/whatsapp` terms) · four-language welcome appears (English, French, Hindi, Arabic) · welcome does **not** repeat on a second message (`welcome_shown` gating works)
+
+**Risks to watch**
+- [ ] Both the Privacy Policy and ToS URLs in Meta must be swapped away from Google Docs links — Meta re-validates periodically and rejects Docs links
+- [ ] Keep the WhatsApp payment method valid — an unpaid/invalid method can suppress outbound messages
+
+---
+
 ## Pages
 
 ### 1. Home — `/` ✅
@@ -174,9 +207,19 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 
 ### 12. Utility ♻️
 
-- [ ] `/whatsapp` — migrate from existing site
+- [ ] `/whatsapp` — migrate from existing site *(the WhatsApp bot's welcome links here for terms — keep consistent with `/terms`; see WhatsApp integration)*
 - [ ] `/feedback` — migrate + add testimonial consent language
-- [ ] Footer — contact · socials · links
+- [ ] Footer — contact · socials · links · legal (`/privacy` · `/terms`)
+- [ ] → Paste to Claude Code
+
+### 13. Legal — `/privacy` · `/terms`
+*New pages. Blocking the WhatsApp/Meta app publish — see **WhatsApp integration** above.*
+
+- [ ] `/privacy` — Privacy Policy as a real hosted page on the SCKIN domain (e.g. `sckin.org/privacy`), **not** a Google Doc
+- [ ] `/terms` — Terms of Service as a real hosted page on the SCKIN domain (e.g. `sckin.org/terms`), **not** a Google Doc
+- [ ] Both: distinct, permanent URLs · publicly viewable without login · stable (no link rotation) — Meta stores and periodically re-validates them
+- [ ] ToS content consistent with what the WhatsApp bot tells users (welcome references `sckin.org/whatsapp` terms)
+- [ ] Link both from the footer
 - [ ] → Paste to Claude Code
 
 ---
