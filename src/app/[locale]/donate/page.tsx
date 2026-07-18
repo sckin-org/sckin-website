@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import DonateForm from "./DonateForm";
 
 export const metadata: Metadata = {
   title: "Donate",
@@ -7,21 +8,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * Donations. A custom Stripe checkout is wired here during the payments
- * integration handoff. Placeholder only.
+ * Donations. The interactive tier/frequency picker is a client component;
+ * this server wrapper exists so the page keeps static metadata.
  */
 export default function DonatePage() {
-  return (
-    <article data-page="donate">
-      <h1>Support SCKIN</h1>
-      <p>
-        SCKIN is a 501(c)(3) nonprofit. Your donation helps make useful,
-        reliable information about sickle cell disease universally accessible.
-      </p>
-      <div data-embed="stripe-checkout">
-        {/* Custom Stripe checkout mounts here. */}
-        <p>Secure checkout coming soon.</p>
-      </div>
-    </article>
-  );
+  return <DonateForm />;
 }

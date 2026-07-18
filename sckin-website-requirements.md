@@ -85,6 +85,18 @@ i18n locale routing.
 
 ---
 
+## Donations (Stripe)
+
+Integrated 2026-07-17 — see `docs/stripe-donations.md` for full setup and go-live steps.
+
+- **Recurring-first donate page** — `/donate` defaults to Monthly with $20 pre-selected; one-time tiers ($25/$50/$100) show a monthly-upsell nudge; custom amounts supported ($1–$25,000).
+- **Stripe Checkout integration** — `POST /api/checkout` creates a Checkout Session (`subscription` mode for monthly, `payment` for one-time) and redirects to Stripe-hosted checkout; success returns to `/donate/success` with tax-receipt language (EIN 33-1763512).
+- **Webhook receipts** — signature-verified `/api/webhooks/stripe` handles `checkout.session.completed`, `invoice.paid` (renewals only, no double receipts), and `invoice.payment_failed`; IRS-compliant acknowledgment text is ready in `src/lib/donations.ts`, Kit email send still TODO.
+- **Lookup-key price resolution** — suggested tiers resolve catalog prices by lookup key (`monthly_10/20/50`, `once_25/50/100`), seeded idempotently by `scripts/stripe-seed.mjs`.
+- **Test/live parity** — same code and env-var names in both modes; go-live is re-running the seed script with the live key and swapping key values in Vercel.
+
+---
+
 ## Pages
 
 ### 1. Home — `/` ✅
