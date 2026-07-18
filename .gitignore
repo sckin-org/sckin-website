@@ -33,3 +33,4 @@ coverage/
 
 # Claude Code — personal overrides only; .claude/settings.json IS committed
 .claude/settings.local.json
+.vercel

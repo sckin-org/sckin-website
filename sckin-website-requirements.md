@@ -95,6 +95,19 @@ Integrated 2026-07-17 — see `docs/stripe-donations.md` for full setup and go-l
 - **Lookup-key price resolution** — suggested tiers resolve catalog prices by lookup key (`monthly_10/20/50`, `once_25/50/100`), seeded idempotently by `scripts/stripe-seed.mjs`.
 - **Test/live parity** — same code and env-var names in both modes; go-live is re-running the seed script with the live key and swapping key values in Vercel.
 
+**Status (2026-07-17)** — live in TEST MODE end to end:
+- [x] Code integrated, typecheck + production build passing, committed (`3ff1ca4`) and deployed to Vercel production
+- [x] Test catalog seeded (product + 6 lookup-key prices)
+- [x] Local e2e verified: all three checkout shapes return Checkout URLs; webhook signature verification passed via `stripe listen` + `stripe trigger`
+- [x] All three env vars in Vercel (Preview + Production): `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`
+- [x] Test-mode webhook endpoint created (`we_1TuMqKBzu5I6XlHdtYgUqbaH` → `https://sckin-website.vercel.app/api/webhooks/stripe`) via `scripts/stripe-webhook-setup.mjs`, which pipes the signing secret straight into `vercel env add` without displaying it — reuse it at go-live
+- [x] Production smoke test: `/api/checkout` returns Checkout URLs; webhook rejects forged signatures (400)
+- [ ] One full test-card donation on production (`4242 4242 4242 4242`) + confirm `[donation] checkout completed` in Vercel function logs
+- [ ] After domain cutover: update the webhook endpoint URL to `www.sckin.org` (Stripe dashboard, secret unchanged) or rerun the setup script with `WEBHOOK_URL=...`
+- [ ] Enable Customer portal (Stripe dashboard → Settings → Billing) for recurring-donor self-serve
+- [ ] Kit acknowledgment-email wiring (TODOs in webhook route; copy ready in `src/lib/donations.ts`)
+- [ ] Go-live (after Stripe account review): reseed with live key, swap key values in Vercel, live webhook endpoint, $1 verify-and-refund
+
 ---
 
 ## Pages
@@ -138,16 +151,16 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 - [ ] → Paste to Claude Code
 
 ### 5. Donate — `/donate`
-*Prioritize — revenue page.*
+*Prioritize — revenue page. Stripe checkout is live in test mode — see the Donations (Stripe) section above.*
 
-- [ ] Why donations matter / what they fund
-- [ ] Suggested amounts (e.g. $25 / $50 / $100 / custom)
-- [ ] Recurring giving — offer monthly? yes/no
-- [ ] Tax note *(have it)*
+- [x] Why donations matter / what they fund *(lede: sustains SickleCellPedia; expand later if desired)*
+- [x] Suggested amounts — $10/$20/$50 monthly, $25/$50/$100 one-time, custom
+- [x] Recurring giving — yes; monthly is the default with $20 pre-selected
+- [x] Tax note — EIN 33-1763512, 501(c)(3) language on donate + success pages
 - [ ] 2–3 condensed impact stats + link to `/impact`
 - [ ] 1 patient testimonial
-- [ ] Confirmation / thank-you copy
-- [ ] → Paste to Claude Code
+- [x] Confirmation / thank-you copy — `/donate/success` with IRS receipt language
+- [x] → Paste to Claude Code
 
 ### 6. SickleCellPedia Pro — `/sicklecellpedia-pro`
 *Pre-launch page — credibility carries it. Lead-capture backend is wired; page copy is still stubbed.*
@@ -277,6 +290,16 @@ Impact last on purpose — it depends on numbers you may still be gathering.
 ---
 
 ## History
+
+### Stripe donations integrated, test mode (2026-07-17)
+
+Donations feature integrated from the handoff bundle and deployed: recurring-first
+donate page, Checkout API with lookup-key pricing, signature-verified webhook.
+Catalog seeded, all three Stripe env vars set in Vercel (Preview + Production),
+test-mode webhook endpoint pointed at the `.vercel.app` production URL pending
+domain cutover. Vercel CLI installed and repo linked (`.vercel/` gitignored).
+Full status checklist in the Donations (Stripe) section; setup/go-live runbook
+in `docs/stripe-donations.md`.
 
 ### Hosting: Amplify → Vercel (2026-07-16)
 

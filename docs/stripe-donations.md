@@ -8,6 +8,7 @@ vanilla Next.js; no Vercel-proprietary features.
 | File | Purpose |
 |---|---|
 | `scripts/stripe-seed.mjs` | Creates the Stripe catalog: product "Donation to SCKIN" + 6 prices with lookup keys (`monthly_10/20/50`, `once_25/50/100`). Idempotent. |
+| `scripts/stripe-webhook-setup.mjs` | Creates the webhook endpoint and pipes its signing secret straight into `vercel env add` (never displayed). Deletes + recreates if the endpoint exists. |
 | `src/app/[locale]/donate/page.tsx` | Donate page (server wrapper carrying metadata). |
 | `src/app/[locale]/donate/DonateForm.tsx` | Interactive donate form (client component). Monthly default with $20 pre-selected, one-time tiers, custom amount, monthly-upsell nudge. |
 | `src/app/[locale]/donate/donate.module.css` | Styles. All visual decisions are CSS variables at the top of `.wrap` — swap values during the design-token pass. |
@@ -27,10 +28,17 @@ vanilla Next.js; no Vercel-proprietary features.
 4. Webhook endpoint:
    - Local dev: `stripe listen --forward-to localhost:3000/api/webhooks/stripe`
      (prints a `whsec_...` — that's your local `STRIPE_WEBHOOK_SECRET`)
-   - Deployed: Stripe dashboard → Developers → Webhooks → Add endpoint →
-     `https://www.sckin.org/api/webhooks/stripe`, events:
-     `checkout.session.completed`, `invoice.paid`, `invoice.payment_failed`.
-     Copy the signing secret into Vercel as `STRIPE_WEBHOOK_SECRET`.
+   - Deployed (scripted; done 2026-07-17 for test mode):
+     ```
+     node --env-file=.env.local scripts/stripe-webhook-setup.mjs \
+       | vercel env add STRIPE_WEBHOOK_SECRET production --force
+     ```
+     Defaults to `https://sckin-website.vercel.app/api/webhooks/stripe`;
+     override with `WEBHOOK_URL=https://www.sckin.org/api/webhooks/stripe`
+     after the domain cutover. Events: `checkout.session.completed`,
+     `invoice.paid`, `invoice.payment_failed`. (Dashboard alternative:
+     Developers → Webhooks → Add endpoint, then copy the signing secret
+     into Vercel as `STRIPE_WEBHOOK_SECRET`.)
 5. Test mode end-to-end: card `4242 4242 4242 4242`, any future expiry, any
    CVC. Run one one-time and one monthly donation; confirm webhook logs.
 6. Customer portal (recurring donors self-serve): dashboard → Settings →
