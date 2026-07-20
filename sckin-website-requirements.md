@@ -131,13 +131,13 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 ### 3. SickleCellPedia — `/sicklecellpedia`
 *Mostly migration. Quick win.*
 
-- [ ] Intro *(have it)*
-- [ ] Web access copy + Voiceflow embed *(Project ID `684db2d2921b2a3ad5910594`)*
-- [ ] WhatsApp access copy *(have it)*
-- [ ] Facebook Messenger copy *(have it)*
-- [ ] QR code image → `public/images/`
+- [x] Intro *(have it)*
+- [x] Web access copy + Voiceflow embed *(Project ID `684db2d2921b2a3ad5910594`)*
+- [x] WhatsApp access copy *(have it)*
+- [x] Facebook Messenger copy *(have it)*
+- [x] QR code image → `public/images/`
 - [ ] EN/FR note *(have it)*
-- [ ] → Paste to Claude Code
+- [x] → Paste to Claude Code
 
 ### 4. About — `/about`
 *5 anchor sections. Partial migration.*
@@ -252,13 +252,13 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 ## Images
 
 Originals (full resolution) → `Products > website > Images`. Name by page and role.
-Destination: `public/images/` *(currently empty)*.
+Destination: `public/images/` *(currently holds `sicklecellpedia-whatsapp-qr.png`)*.
 
 - [ ] `home-hero.jpg`
 - [ ] `home-tool-pedia.jpg`
 - [ ] `home-tool-pro.jpg`
 - [ ] `home-tool-news.jpg`
-- [ ] `sicklecellpedia-qr.png`
+- [x] `sicklecellpedia-qr.png` *(shipped as `sicklecellpedia-whatsapp-qr.png`)*
 - [ ] Board photos (×9)
 - [ ] Founder photo
 - [ ] SCKIN logo *(pull from current site)*
@@ -290,6 +290,34 @@ Impact last on purpose — it depends on numbers you may still be gathering.
 ---
 
 ## History
+
+### Audit & checklist reconciliation (2026-07-18)
+
+Verified the checklist against actual repo, build, git, and Vercel state. Repo:
+production build and `tsc --noEmit` both pass (exit 0); `3ff1ca4` and `36fb373`
+are on `main`; working tree clean; `.vercel` and `.env*` (template excepted)
+gitignored; no secret material in history (only `.env.example` ever tracked).
+Confirmed i18n routing (`en` unprefixed via `middleware.ts`), dynamic News
+facets (`getNewsFacets` derives from post frontmatter, no hardcoded lists), the
+forms' graceful error path when `GOOGLE_SHEETS_WEBHOOK_URL` is unset
+(`sheets.ts` throws → `submission-handler.ts` catch returns JSON 500, never
+HTML), and the Stripe checkout/webhook shape (subscription-vs-payment mode, six
+lookup keys, `cancel_url` → `/donate`, renewal-only `invoice.paid` filter, custom
+amount bounded $1–$25,000 server-side; note `/api/checkout` is NOT rate-limited).
+Vercel: `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, and
+`STRIPE_WEBHOOK_SECRET` present in Preview + Production; `GOOGLE_SHEETS_WEBHOOK_URL`
+absent; latest Production deployment Ready; no custom domain attached.
+
+Corrected: ticked the SickleCellPedia page items — built and committed
+(`7e67d36`): copy in `content/sicklecellpedia.md`, Voiceflow shipped as a
+site-wide widget + auto-open (`src/lib/voiceflow.ts`, `VoiceflowWidget`/
+`VoiceflowAutoOpen`) rather than an inline embed, QR in `public/images/`. Ticked
+the SickleCellPedia QR image (shipped as `sicklecellpedia-whatsapp-qr.png`) and
+updated the images note. Left the EN/FR note unticked — deliberately omitted from
+the shipped page, pending a final call. Nothing was unticked: every remaining
+`[x]` was either verified present (env vars, `3ff1ca4`, build) or depends on Meta,
+the Google Sheet, Apps Script, or the Stripe dashboard and is unverifiable from
+here — left exactly as-is.
 
 ### Stripe donations integrated, test mode (2026-07-17)
 
