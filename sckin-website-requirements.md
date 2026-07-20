@@ -131,13 +131,13 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 ### 3. SickleCellPedia — `/sicklecellpedia`
 *Mostly migration. Quick win.*
 
-- [ ] Intro *(have it)*
-- [ ] Web access copy + Voiceflow embed *(Project ID `684db2d2921b2a3ad5910594`)*
-- [ ] WhatsApp access copy *(have it)*
-- [ ] Facebook Messenger copy *(have it)*
-- [ ] QR code image → `public/images/`
+- [x] Intro *(have it)*
+- [x] Web access copy + Voiceflow embed *(Project ID `684db2d2921b2a3ad5910594`)*
+- [x] WhatsApp access copy *(have it)*
+- [x] Facebook Messenger copy *(have it)*
+- [x] QR code image → `public/images/`
 - [ ] EN/FR note *(have it)*
-- [ ] → Paste to Claude Code
+- [x] → Paste to Claude Code
 
 ### 4. About — `/about`
 *5 anchor sections. Partial migration.*
@@ -232,33 +232,33 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 
 ### 12. Utility ♻️
 
-- [ ] `/whatsapp` — migrate from existing site *(the WhatsApp bot's welcome links here for terms — keep consistent with `/terms`; see WhatsApp integration)*
+- [x] `/whatsapp` — migrate from existing site *(the WhatsApp bot's welcome links here for terms — keep consistent with `/terms`; see WhatsApp integration)* *(shipped 2026-07-19 as an **unlisted** landing page: noindex,nofollow · no sitemap entry · removed from the footer nav · normal site chrome · links to `/privacy`, `/terms`, and the feedback Google Form)*
 - [ ] `/feedback` — migrate + add testimonial consent language
-- [ ] Footer — contact · socials · links · legal (`/privacy` · `/terms`)
-- [ ] → Paste to Claude Code
+- [x] Footer — contact · socials · links · legal (`/privacy` · `/terms`) *(legal links added 2026-07-19; contact/socials were already in the placeholder footer — social URLs still PLACEHOLDER)*
+- [ ] → Paste to Claude Code *(remaining: `/feedback`)*
 
 ### 13. Legal — `/privacy` · `/terms`
 *New pages. Blocking the WhatsApp/Meta app publish — see **WhatsApp integration** above.*
 
-- [ ] `/privacy` — Privacy Policy as a real hosted page on the SCKIN domain (e.g. `sckin.org/privacy`), **not** a Google Doc
-- [ ] `/terms` — Terms of Service as a real hosted page on the SCKIN domain (e.g. `sckin.org/terms`), **not** a Google Doc
-- [ ] Both: distinct, permanent URLs · publicly viewable without login · stable (no link rotation) — Meta stores and periodically re-validates them
-- [ ] ToS content consistent with what the WhatsApp bot tells users (welcome references `sckin.org/whatsapp` terms)
-- [ ] Link both from the footer
-- [ ] → Paste to Claude Code
+- [x] `/privacy` — Privacy Policy as a real hosted page on the SCKIN domain (e.g. `sckin.org/privacy`), **not** a Google Doc *(renders `content/legal/privacy.md` via the shared `LegalDocument` component)*
+- [x] `/terms` — Terms of Service as a real hosted page on the SCKIN domain (e.g. `sckin.org/terms`), **not** a Google Doc *(renders `content/legal/terms.md`, titled "User Agreement")*
+- [x] Both: distinct, permanent URLs · publicly viewable without login · stable (no link rotation) — Meta stores and periodically re-validates them *(static prerendered routes, indexable, no auth)*
+- [x] ToS content consistent with what the WhatsApp bot tells users (welcome references `sckin.org/whatsapp` terms) *(`/whatsapp` links straight to `/terms` and `/privacy`)*
+- [x] Link both from the footer *(Privacy · Terms, every page)*
+- [x] → Paste to Claude Code *(shipped 2026-07-19)*
 
 ---
 
 ## Images
 
 Originals (full resolution) → `Products > website > Images`. Name by page and role.
-Destination: `public/images/` *(currently empty)*.
+Destination: `public/images/` *(currently holds `sicklecellpedia-whatsapp-qr.png`)*.
 
 - [ ] `home-hero.jpg`
 - [ ] `home-tool-pedia.jpg`
 - [ ] `home-tool-pro.jpg`
 - [ ] `home-tool-news.jpg`
-- [ ] `sicklecellpedia-qr.png`
+- [x] `sicklecellpedia-qr.png` *(shipped as `sicklecellpedia-whatsapp-qr.png`)*
 - [ ] Board photos (×9)
 - [ ] Founder photo
 - [ ] SCKIN logo *(pull from current site)*
@@ -290,6 +290,51 @@ Impact last on purpose — it depends on numbers you may still be gathering.
 ---
 
 ## History
+
+### Legal pages + unlisted /whatsapp (2026-07-19)
+
+Built §13 and most of §12 on `feat/legal-pages`. Policy text lives as
+Decap-ready Markdown with frontmatter (`title`, `subtitle`, `lastUpdated`) in
+`content/legal/privacy.md` and `content/legal/terms.md`, rendered by one shared
+`src/components/LegalDocument.tsx` (title → subtitle → "Last updated:
+December 2, 2025" → prose body) through the existing gray-matter + marked
+pipeline — no new dependencies. `/privacy` and `/terms` are indexable static
+routes; `/whatsapp` was rebuilt as an unlisted landing page (noindex,nofollow
+metadata, absent from any sitemap — none exists yet — robots.txt untouched/
+nonexistent, no auth) with same-tab links to `/privacy` and `/terms` and a
+new-tab link to the feedback Google Form. Footer gained Privacy + Terms links
+on every page; the footer's `/whatsapp` nav link was **removed** so the page is
+genuinely unlisted (the external `wa.me` social placeholder stays). Verified:
+`npm run build` + `tsc --noEmit` clean, and 26 rendered-HTML checks against a
+local prod server (titles, subtitle, date line, noindex on `/whatsapp` only,
+link targets, footer links) all pass. Merge of the PR is the deliberate go-live
+action; after deploy, enter the URLs in Meta (see WhatsApp integration).
+
+Verified the checklist against actual repo, build, git, and Vercel state. Repo:
+production build and `tsc --noEmit` both pass (exit 0); `3ff1ca4` and `36fb373`
+are on `main`; working tree clean; `.vercel` and `.env*` (template excepted)
+gitignored; no secret material in history (only `.env.example` ever tracked).
+Confirmed i18n routing (`en` unprefixed via `middleware.ts`), dynamic News
+facets (`getNewsFacets` derives from post frontmatter, no hardcoded lists), the
+forms' graceful error path when `GOOGLE_SHEETS_WEBHOOK_URL` is unset
+(`sheets.ts` throws → `submission-handler.ts` catch returns JSON 500, never
+HTML), and the Stripe checkout/webhook shape (subscription-vs-payment mode, six
+lookup keys, `cancel_url` → `/donate`, renewal-only `invoice.paid` filter, custom
+amount bounded $1–$25,000 server-side; note `/api/checkout` is NOT rate-limited).
+Vercel: `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, and
+`STRIPE_WEBHOOK_SECRET` present in Preview + Production; `GOOGLE_SHEETS_WEBHOOK_URL`
+absent; latest Production deployment Ready; no custom domain attached.
+
+Corrected: ticked the SickleCellPedia page items — built and committed
+(`7e67d36`): copy in `content/sicklecellpedia.md`, Voiceflow shipped as a
+site-wide widget + auto-open (`src/lib/voiceflow.ts`, `VoiceflowWidget`/
+`VoiceflowAutoOpen`) rather than an inline embed, QR in `public/images/`. Ticked
+the SickleCellPedia QR image (shipped as `sicklecellpedia-whatsapp-qr.png`) and
+updated the images note. Left the EN/FR note unticked — deliberately omitted from
+the shipped page, pending a final call. Nothing was unticked: every remaining
+`[x]` was either verified present (env vars, `3ff1ca4`, build) or depends on Meta,
+the Google Sheet, Apps Script, or the Stripe dashboard and is unverifiable from
+here — left exactly as-is.
 
 ### Stripe donations integrated, test mode (2026-07-17)
 
@@ -329,3 +374,16 @@ product and the Amplify two-way-door goal — not at Next.js `middleware.ts`.
 
 **Status log**
 - 2026-07-14 — Deployed to Vercel (team: SCKIN, project: sckin-website, plan: Pro). Staging URL live, content rendering unstyled as expected pre-design. Vercel plugin installed in Claude Code.
+
+---
+
+## Future work
+
+- [ ] **Wire Decap CMS to the legal content files** (`content/legal/privacy.md`, `content/legal/terms.md`) so non-technical editors can update policy text without code. Deferred; needs a GitHub OAuth app + a token-exchange endpoint (no Netlify git-gateway on Vercel). The files are already Decap-ready: plain Markdown + frontmatter (`title`, `subtitle`, `lastUpdated`), one folder, one shared renderer.
+- [ ] **Rewrite the Privacy Policy and User Agreement to cover all surfaces** where SCKIN / SickleCellPedia is available. The current text (dated 2025-12-02) references only WhatsApp and Facebook Messenger; it needs to also account for the website RAG assistant on sckin.org, the newsletter, and the contact form.
+- [ ] **Stubs / TODOs left by the legal-pages task (2026-07-19):**
+  - No `sitemap.ts` / `robots.ts` exists site-wide yet. When one is added, `/whatsapp` must be **excluded** from the sitemap and must **not** be listed in robots.txt (a `Disallow` would advertise the URL and block crawlers from seeing its `noindex`).
+  - The footer's `/whatsapp` nav link was removed to keep the page unlisted — if it should be discoverable from the site after all, restore one `<li>` in `SiteFooter.tsx`.
+  - Legal page `<title>`s follow the site template (`Privacy Policy — SCKIN`), not the `| SCKIN` variant from the task spec — deliberate, to match the repo's existing pattern.
+  - Legal frontmatter is camelCase (`lastUpdated`) unlike the site's snake_case page frontmatter — deliberate, it's the contract for the future Decap collection; keep it stable.
+  - Pre-existing and untouched: placeholder social URLs in the footer, stub `/feedback` page.
