@@ -197,6 +197,18 @@ export interface NewsFrontmatter extends FrontmatterBase {
   image?: string;
 }
 
+/**
+ * Legal policies (Privacy Policy, User Agreement) live in `content/legal/` so
+ * a CMS collection can later be pointed at just that folder. Fields are
+ * camelCase (unlike the snake_case page frontmatter) because they are the
+ * contract for that planned Decap collection — keep them stable.
+ */
+export interface LegalFrontmatter extends FrontmatterBase {
+  subtitle: string;
+  /** ISO date (`YYYY-MM-DD`), rendered as "December 2, 2025". */
+  lastUpdated: string;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Loader                                                                     */
 /* -------------------------------------------------------------------------- */
@@ -270,6 +282,8 @@ export const getResponsibleAi = () =>
   getDoc<ResponsibleAiFrontmatter>("responsible-ai");
 export const getPublications = () =>
   getDoc<PublicationsFrontmatter>("publications");
+export const getPrivacy = () => getDoc<LegalFrontmatter>("legal/privacy");
+export const getTerms = () => getDoc<LegalFrontmatter>("legal/terms");
 
 /* -------------------------------------------------------------------------- */
 /* News collection                                                            */

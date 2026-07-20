@@ -46,10 +46,13 @@ export default function SiteFooter({
           <Link href={href("/donate")}>Donate</Link>
         </li>
         <li>
-          <Link href={href("/whatsapp")}>WhatsApp</Link>
+          <Link href={href("/feedback")}>Feedback</Link>
         </li>
         <li>
-          <Link href={href("/feedback")}>Feedback</Link>
+          <Link href={href("/privacy")}>Privacy</Link>
+        </li>
+        <li>
+          <Link href={href("/terms")}>Terms</Link>
         </li>
       </ul>
       <ul data-role="social">
