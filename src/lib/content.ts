@@ -287,6 +287,36 @@ export interface NewsFrontmatter extends FrontmatterBase {
   image?: string;
 }
 
+/** /news landing copy (content/news.md — sits beside the content/news/ posts). */
+export interface NewsLandingFrontmatter extends FrontmatterBase {
+  /** "In development — expected September 2026" badge. */
+  status?: string;
+  intro?: string;
+  /** Teaser linking the Blog subpage. */
+  blog?: { heading: string; body?: string; cta: Cta };
+  /** Empty-state line when no posts exist yet. */
+  empty?: string;
+}
+
+/** /news/blog landing copy (content/blog.md). */
+export interface BlogLandingFrontmatter extends FrontmatterBase {
+  intro?: string;
+  empty?: string;
+}
+
+/**
+ * A Blog post (content/blog/*.md) — SCKIN's own voice, authored later in the
+ * /admin CMS. Entry format per master doc v3.1: title · author · date · body ·
+ * optional image · optional tag (Announcement / Product / Impact).
+ */
+export interface BlogPostFrontmatter extends FrontmatterBase {
+  date: string;
+  author?: string;
+  summary?: string;
+  tag?: string;
+  image?: string;
+}
+
 /**
  * Legal policies (Privacy Policy, User Agreement) live in `content/legal/` so
  * a CMS collection can later be pointed at just that folder. Fields are
@@ -399,28 +429,35 @@ export const getResponsibleAi = () =>
   getDoc<ResponsibleAiFrontmatter>("responsible-ai");
 export const getPublications = () =>
   getDoc<PublicationsFrontmatter>("publications");
+export const getNewsLanding = () => getDoc<NewsLandingFrontmatter>("news");
+export const getBlogLanding = () => getDoc<BlogLandingFrontmatter>("blog");
 export const getPrivacy = () => getDoc<LegalFrontmatter>("legal/privacy");
 export const getTerms = () => getDoc<LegalFrontmatter>("legal/terms");
 
 /* -------------------------------------------------------------------------- */
-/* News collection                                                            */
+/* Post collections (News, Blog)                                              */
 /* -------------------------------------------------------------------------- */
 
-const NEWS_DIR = path.join(CONTENT_DIR, "news");
-
-/** All news posts, newest first. Ignores non-Markdown files (e.g. .gitkeep). */
-export function getAllNews(): Doc<NewsFrontmatter>[] {
-  if (!fs.existsSync(NEWS_DIR)) return [];
+/**
+ * All posts in a content subdirectory, newest first (by `date` frontmatter).
+ * Ignores non-Markdown files (e.g. .gitkeep); an absent directory is an empty
+ * collection, not an error.
+ */
+function getCollection<T extends FrontmatterBase & { date: string }>(
+  dirName: string
+): Doc<T>[] {
+  const dir = path.join(CONTENT_DIR, dirName);
+  if (!fs.existsSync(dir)) return [];
   return fs
-    .readdirSync(NEWS_DIR)
+    .readdirSync(dir)
     .filter((f) => f.endsWith(".md"))
     .map((f) => {
       const slug = f.replace(/\.md$/, "");
-      const raw = fs.readFileSync(path.join(NEWS_DIR, f), "utf8");
+      const raw = fs.readFileSync(path.join(dir, f), "utf8");
       const { data, content } = matter(raw);
       return {
         slug,
-        frontmatter: data as NewsFrontmatter,
+        frontmatter: data as T,
         body: content,
         html: render(content),
       };
@@ -428,6 +465,16 @@ export function getAllNews(): Doc<NewsFrontmatter>[] {
     .sort((a, b) =>
       (b.frontmatter.date ?? "").localeCompare(a.frontmatter.date ?? "")
     );
+}
+
+/** All news posts, newest first. */
+export function getAllNews(): Doc<NewsFrontmatter>[] {
+  return getCollection<NewsFrontmatter>("news");
+}
+
+/** All SCKIN blog posts, newest first. */
+export function getAllBlogPosts(): Doc<BlogPostFrontmatter>[] {
+  return getCollection<BlogPostFrontmatter>("blog");
 }
 
 /** Sorted, de-duplicated facet values across all news posts. */

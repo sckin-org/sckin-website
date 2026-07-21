@@ -16,6 +16,12 @@ interface NewsItem {
 /**
  * Client-side news browser: filters posts by topic and geography.
  * Unstyled placeholder controls — the design handoff restyles the filter UI.
+ *
+ * PARKED until the September 2026 News launch: the landing page renders a
+ * plain card list for now (master doc v3.1 says announce the feature without
+ * detailed taxonomy). Re-mount this from src/app/[locale]/news/page.tsx when
+ * the topic/geography lists are fixed — getNewsFacets() already derives the
+ * options dynamically.
  */
 export default function NewsBrowser({
   posts,
