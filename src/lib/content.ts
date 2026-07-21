@@ -164,8 +164,16 @@ export interface FormField {
 }
 
 export interface SicklecellpediaProFrontmatter extends FrontmatterBase {
+  /** One-line value prop for HCPs — empty until supplied (TODO in content). */
+  tagline?: string;
   intro?: string;
   status?: string;
+  features?: Array<{ name: string; description: string }>;
+  /** "Register your interest" — rendered at the #register anchor. */
+  register?: {
+    heading: string;
+    subtext?: string;
+  };
   form?: {
     submit_label?: string;
     confirmation?: string;

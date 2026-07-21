@@ -1,13 +1,35 @@
 ---
 title: SickleCellPedia Pro
 nav_label: SickleCellPedia Pro
-meta_description: Clinical decision support for healthcare professionals treating sickle cell disease in under-resourced settings.
+meta_description: Clinical decision support for healthcare professionals treating sickle cell disease in under-resourced settings. Register your interest.
 status: In development — expected Q4 2026
+# TODO: tagline [TO ADD — one-line value prop for healthcare professionals];
+# empty string renders nothing until Zacharie supplies it.
+tagline: ""
 intro: >-
-  [PLACEHOLDER] Describe SickleCellPedia Pro and invite professionals to register interest.
+  A clinical decision-support tool for healthcare professionals in
+  under-resourced settings (Sub-Saharan Africa, India, the Caribbean, and other
+  underserved communities).
+features:
+  - name: Mandatory citations
+    description: Every answer is grounded in and cites trusted medical resources.
+  - name: Chain-of-thought reasoning
+    description: Transparent, step-by-step clinical reasoning.
+  - name: Multi-agent architecture
+    description: Purpose-built agents for accurate, context-aware support.
+  - name: Credential-based access
+    description: Access restricted to verified healthcare professionals.
+  # TODO: [TO ADD any additional features] per master doc v3.1.
+register:
+  heading: Register your interest
+  # TODO: subtext [TO ADD] — the master doc's example line is used until
+  # Zacharie supplies final copy.
+  subtext: Be among the first to try SickleCellPedia Pro. Tell us a little about yourself and we'll be in touch.
 form:
   submit_label: Register your interest
-  confirmation: "[TO ADD — what the user sees after registering interest]"
+  # TODO: confirmation [TO ADD] — the master doc's example line is used until
+  # Zacharie supplies final copy.
+  confirmation: Thanks — you're on the list. We'll email you when SickleCellPedia Pro is ready for early access.
   # Field names match PRO_FIELDS in src/lib/form-specs.ts (server-side spec)
   # and the contacts-sheet columns in src/lib/sheets.ts.
   fields:
@@ -28,5 +50,3 @@ form:
       required: true
       link: { label: "Privacy Policy", href: /privacy }
 ---
-
-[PLACEHOLDER] Optional supporting prose for the SickleCellPedia Pro page goes here.
