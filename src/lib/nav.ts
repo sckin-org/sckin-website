@@ -37,10 +37,10 @@ export const NAV_ITEMS: NavItem[] = [
     label: "Responsible AI",
     href: "/responsible-ai",
     children: [
-      { label: "Overview", href: "/responsible-ai" },
+      { label: "Our approach", href: "/responsible-ai#approach" },
       {
         label: "Human-in-the-Loop Surveys",
-        href: "/responsible-ai#human-in-the-loop",
+        href: "/responsible-ai#surveys",
       },
     ],
   },
