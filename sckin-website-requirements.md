@@ -12,8 +12,8 @@
 |---|---|
 | **Stack** | Next.js · **Vercel (Pro)** · GitHub · markdown + frontmatter |
 | **Stripe** | SCKIN account → Chase nonprofit account. **Apply for 501(c)(3) rate** (2.2% + 30¢ vs 2.9% + 30¢ — not automatic) |
-| **Pro leads** | Native on-site form → Google Sheet via Apps Script |
-| **Contact** | Native on-site form → Google Sheet (same pattern) |
+| **Pro leads** | Native on-site form → Google Sheet via **service-account API route** *(supersedes Apps Script per master doc v3.1 — switched 2026-07-20, `9aa2577`)* |
+| **Contact** | Native on-site form → Google Sheet (same pattern; email notification needs a new home — see Technical setup) |
 | **Language** | English at launch; `/[locale]/` routing built in, `en` unprefixed |
 | **News taxonomy** | **Not a content decision.** DAG owns classification + normalization; site derives filters dynamically |
 | **Testimonial consent** | Handled personally, no tech guardrail |
@@ -44,9 +44,11 @@ i18n locale routing.
 
 - [x] **Run the i18n + News filters + Forms prompt in Claude Code** *(done — `middleware.ts` + `src/lib/i18n.ts`, `NewsBrowser` + `getNewsFacets`, `/api/contact` + `/api/pro-lead` → `src/lib/sheets.ts`)*
 - [x] **Connect Vercel to the repo → staging URL** *(done — see Step 1 record below)*
-- [ ] Create Google Sheet with two tabs: `pro-leads`, `contact`
-- [ ] Deploy Apps Script Web App → get endpoint URL
-- [ ] Add `GOOGLE_SHEETS_WEBHOOK_URL` to Vercel env vars *(never commit it — code reads it in `src/lib/sheets.ts`; unset ⇒ forms show the graceful error state)*
+- [ ] Create a Google Cloud project + **service account** *(forms backend switched from the Apps Script webhook to service-account Sheets writes 2026-07-20, `9aa2577` — no SDK, JWT via node:crypto)*
+- [ ] Enable the **Google Sheets API** on that project
+- [ ] Create the contacts Google Sheet — **one combined first tab**, header row `id · created_at · source · full_name · email · is_healthcare_professional · role · country · city_region · notes · consent · locale · status` — and **share it with the service-account email** *(sources: `pro_interest` · `newsletter` · `contact`; dedupe on email+source; schema is the AWS-migration superset from master doc v3.1)*
+- [ ] Add `GOOGLE_SERVICE_ACCOUNT_KEY` (the SA's JSON key, verbatim) + `SHEETS_SPREADSHEET_ID` to Vercel env vars *(never commit them — read in `src/lib/sheets.ts`; unset ⇒ routes log the miss and acknowledge without persisting, forms show success; `.env.example` couldn't be updated — `.env*` is permission-blocked)*
+- [ ] Re-home the contact-form email notification *(the retired Apps Script webhook emailed contact@sckin.org per message; TODO in `src/app/api/contact/route.ts` — e.g. a Sheets-driven Apps Script trigger or an email API)*
 - [ ] Create Stripe account + apply for nonprofit rate
 - [ ] Plan donation receipts *(US donors need written acknowledgment above $250)*
 
@@ -113,7 +115,7 @@ Integrated 2026-07-17 — see `docs/stripe-donations.md` for full setup and go-l
 ## Pages
 
 ### 1. Home — `/` ✅
-Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
+Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis section, secondary "Donate to support SCKIN" CTA, tools with WhatsApp link + QR + status badges, Tool 2 CTA → `#register`, Get involved (donate + embed-form CTAs), email signup wired to `/api/newsletter`.* Outstanding: hero + 3 tool images, alt text, 1 testimonial, {PENDING} "Sickle Cell News" name confirm.
 
 ### 2. Mission — `/mission` ✅
 *Committed `36fb373`, live on staging. Short page — done.*
@@ -128,30 +130,31 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 - [x] Closing statement + CTAs *(Try SickleCellPedia · Support our work)*
 - [x] → Paste to Claude Code
 
-### 3. SickleCellPedia — `/sicklecellpedia`
-*Mostly migration. Quick win.*
+### 3. SickleCellPedia — `/sicklecellpedia` ✅
+*Mostly migration. Quick win. Reworked 2026-07-20 (`fe63413`): the site-wide launcher + auto-open became an always-open INLINE embed on the page (Voiceflow `embedded` render mode, same web project ID — no corner launcher anywhere now, resolving the master doc's global-vs-page open item as page-only pending Zacharie's confirmation); v3.1 "trusted medical resources" intro.*
 
 - [x] Intro *(have it)*
 - [x] Web access copy + Voiceflow embed *(Project ID `684db2d2921b2a3ad5910594`)*
 - [x] WhatsApp access copy *(have it)*
 - [x] Facebook Messenger copy *(have it)*
-- [x] QR code image → `public/images/`
-- [ ] EN/FR note *(have it)*
+- [x] QR code image → `public/images/` *(regenerated crisp as `whatsapp-qr.png` via `scripts/generate-whatsapp-qr.mjs`, `c321570`)*
+- [x] EN/FR note *(shipped 2026-07-20 — bilingual line under the access channels)*
+- [x] → Paste to Claude Code
+- [ ] **Manual (Zacharie): publish the Voiceflow web agent (`684db2d2921b2a3ad5910594`) Dev → Production** *(embed renders; Dev was republished but not pushed to Prod, so the live pane serves a ~5-month-old build until then)*
+
+### 4. About — `/about` ✅
+*5 anchor sections. Built to master doc v3.1, committed `41bee26` — anchors shipped as `#sckin · #board · #founder · #collaborators · #friends`, matching the nav dropdown.*
+
+- [x] `#sckin` — org story + 501(c)(3) statement *(IRS determination letter linked, new tab; vision + mission included; EIN 33-1763512)*
+- [x] `#founder` — your story *(full bio)*
+- [x] `#board` — 9 members + bios *(responsive card grid; Zacharie's card links to Our Founder instead of repeating the bio; Maimouna + Bill intentionally bio-less, no placeholder text; Kyle + Kiari bios are {DRAFT — Zacharie to review})*
+- [x] `#collaborators` — RED (FR description + AI-translated EN) · ASH–SCDC · SC3 *(logo/link/description/status/collaboration per v3.1)*
+- [ ] `#friends` — *(blocked: define it; heading + anchor reserved, body intentionally empty)*
+- [ ] Board photos → `public/images/team/` *(placeholders rendering — initials blocks for people, name-only for org logos in `public/images/logos/`; pending real image files, which appear on drop-in with no code change)*
 - [x] → Paste to Claude Code
 
-### 4. About — `/about`
-*5 anchor sections. Partial migration.*
-
-- [ ] `#sckin` — org story + 501(c)(3) statement *(have partial)*
-- [ ] `#our-founder` — your story
-- [ ] `#our-board` — 9 members + bios *(have names/LinkedIn)*
-- [ ] `#our-collaborators` — Henri Mondor/RED, Dr. Hsu, Dr. Thomas, etc.
-- [ ] `#friends-of-sckin` — *(blocked: define it)*
-- [ ] Board photos → `public/images/`
-- [ ] → Paste to Claude Code
-
 ### 5. Donate — `/donate`
-*Prioritize — revenue page. Stripe checkout is live in test mode — see the Donations (Stripe) section above.*
+*Prioritize — revenue page. Stripe checkout is live in test mode — see the Donations (Stripe) section above. 2026-07-20 (`a261344`): eyebrow now the doc title "Support Our Work"; fine print carries the verbatim master-doc tax line ("…tax-deductible to the extent permitted by law").*
 
 - [x] Why donations matter / what they fund *(lede: sustains SickleCellPedia; expand later if desired)*
 - [x] Suggested amounts — $10/$20/$50 monthly, $25/$50/$100 one-time, custom
@@ -163,19 +166,19 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 - [x] → Paste to Claude Code
 
 ### 6. SickleCellPedia Pro — `/sicklecellpedia-pro`
-*Pre-launch page — credibility carries it. Lead-capture backend is wired; page copy is still stubbed.*
+*Pre-launch page — credibility carries it. Built to master doc v3.1 (`39ca799`); v3.1 field set + required consent checkbox → `/api/pro-lead` (`9aa2577`). **Form renders and validates but is inert pending the Google service account + Sheets env vars** — see Technical setup.*
 
-- [ ] Tagline — one-line value prop for HCPs
-- [ ] Intro *(have draft)*
-- [ ] 4 features *(have drafts: citations · chain-of-thought · multi-agent · credential access)*
-- [ ] Additional features?
-- [ ] Lead-capture subtext
-- [ ] Confirmation message
+- [ ] Tagline — one-line value prop for HCPs *(still [TO ADD]; renders nothing meanwhile)*
+- [x] Intro *(v3.1 wording — "…and other underserved communities")*
+- [x] 4 features *(mandatory citations · chain-of-thought · multi-agent · credential-based access)*
+- [ ] Additional features? *([TO ADD] in the doc)*
+- [ ] Lead-capture subtext *(doc's example line renders at `#register`; final copy [TO ADD])*
+- [ ] Confirmation message *(doc's example line renders on submit; final copy [TO ADD])*
 - [ ] Clinician testimonials
-- [ ] → Paste to Claude Code
+- [x] → Paste to Claude Code
 
 ### 7. Responsible AI — `/responsible-ai`
-*Heavy lift. Distinctive — few nonprofits have this.*
+*Heavy lift. Distinctive — few nonprofits have this. Structure + anchors shipped 2026-07-20 (`2fba37e`): `#approach` with the five sub-blocks and `#surveys`, matching the nav dropdown; every body is [TO ADD] in the doc, so clean "Content coming soon." placeholders render.*
 
 - [ ] Our approach
 - [ ] Guideline grounding & mandatory citations
@@ -183,8 +186,8 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 - [ ] Known limitations — **be candid; candor is what makes this page credible**
 - [ ] Evaluation & benchmarking
 - [ ] Data privacy
-- [ ] `#hitl-surveys` — intro · who can participate · what's involved · CTA · survey embed
-- [ ] → Paste to Claude Code
+- [ ] `#surveys` — intro · who can participate · what's involved · CTA · survey embed *(section + anchor built; all copy and the Google Form link pending)*
+- [x] → Paste to Claude Code *(scaffold only — the copy above still needs writing)*
 
 ### 8. Impact — `/impact`
 *Needs real numbers. Don't let it block the other pages.*
@@ -201,25 +204,26 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 - [ ] → Paste to Claude Code
 - [ ] ⚠️ **No placeholder figures — funders read this page**
 
-### 9. Publications — `/impact/publications`
-*Assembly, not writing. Pull from Zotero + abstract records.*
+### 9. Publications — `/publications`
+*Assembly, not writing. Pull from Zotero + abstract records. Moved top-level (was `/impact/publications`) and rebuilt to v3.1's four sections — Presentations · Publications · Abstracts · Other Contributions — committed `a294044`.*
 
-- [ ] Intro line
-- [ ] EHA Stockholm 2026
-- [ ] ASCAT London 2026
-- [ ] SCDAA 2026
-- [ ] Globinoscope essay
-- [ ] Others
-- [ ] *(Each: title · authors · venue · date · link/PDF)*
-- [ ] → Paste to Claude Code
+- [ ] Intro line *(doc's example line renders; final [TO ADD])*
+- [ ] EHA Stockholm 2026 *(no entry in master doc v3.1 yet)*
+- [x] ASCAT London 2026 *(Abstracts: paper #226, accepted as Oral, presenting author Mr Zacharie Liman-Tinguiri, SCKIN; {PENDING} exact 2026 dates + link)*
+- [ ] SCDAA 2026 *(no entry in master doc v3.1 yet)*
+- [ ] Globinoscope essay *(section + N°11 source link render; pending article titles/authors/pages — two clearly-marked TO-ADD entries)*
+- [x] Others *(Presentations: SCD Coalition webinar Apr 21 2026 with poster Drive link; Other Contributions: public ASCAT-2025 NotebookLM link — both new-tab)*
+- [x] *(Each: title · authors · venue · date · link/PDF)*
+- [x] → Paste to Claude Code
 
 ### 10. Sickle Cell News — `/news`
 *Page copy only — posts come from the DAG into `content/news/`. Filters are built and derive facets dynamically.*
 
-- [ ] Intro copy — explain the AI classifier
+- [x] Intro copy — explain the AI classifier *(v3.1 launch phase, `7a82af5`: "In development — expected September 2026" badge, social-distribution language, plain card list — no filters yet, `NewsBrowser` parked until the taxonomy ships)*
+- [x] Blog subpage — `/news/blog` *(SCKIN's own announcements, linked from the News landing + News ▾ nav; card scaffold + empty state; posts authored later in `/admin` into `content/blog/`)*
 - [ ] 3–5 seed posts so the page isn't empty at launch *(only `example-post.md` today)*
 - [ ] Confirm DAG emits the agreed frontmatter contract *(`title`, `date`, `summary`, `source_url`, `topics: []`, `geographies: []`, `image`)*
-- [ ] → Paste to Claude Code
+- [x] → Paste to Claude Code *(landing + blog shipped; seed posts + taxonomy later)*
 
 ### 11. Contact — `/contact`
 *Mostly stubbed. Form backend is wired; copy is not.*
@@ -234,7 +238,7 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 
 - [x] `/whatsapp` — migrate from existing site *(the WhatsApp bot's welcome links here for terms — keep consistent with `/terms`; see WhatsApp integration)* *(shipped 2026-07-19 as an **unlisted** landing page: noindex,nofollow · no sitemap entry · removed from the footer nav · normal site chrome · links to `/privacy`, `/terms`, and the feedback Google Form)*
 - [ ] `/feedback` — migrate + add testimonial consent language
-- [x] Footer — contact · socials · links · legal (`/privacy` · `/terms`) *(legal links added 2026-07-19; contact/socials were already in the placeholder footer — social URLs still PLACEHOLDER)*
+- [x] Footer — contact · socials · links · legal (`/privacy` · `/terms`) *(legal links added 2026-07-19; 2026-07-20 `226bb91`: real Facebook + LinkedIn URLs — confirm the LinkedIn slug spelling "knowlege" — wa.me placeholder social removed, footer links per doc = About · News · Feedback + legal; nav restructured to the locked v3.1 set with News ▾ (Latest News · Blog) + mobile hamburger — Contact and Impact are out of the nav per the locked spec, routes still reachable)*
 - [ ] → Paste to Claude Code *(remaining: `/feedback`)*
 
 ### 13. Legal — `/privacy` · `/terms`
@@ -252,17 +256,19 @@ Committed. Outstanding: hero + 3 tool images, alt text, 1 testimonial.
 ## Images
 
 Originals (full resolution) → `Products > website > Images`. Name by page and role.
-Destination: `public/images/` *(currently holds `sicklecellpedia-whatsapp-qr.png`)*.
+Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos → `public/images/team/`, org logos → `public/images/logos/` — the documented per-person/per-org filenames are already referenced in `content/about.md`, so files appear on drop-in with no code change)*.
 
 - [ ] `home-hero.jpg`
 - [ ] `home-tool-pedia.jpg`
 - [ ] `home-tool-pro.jpg`
 - [ ] `home-tool-news.jpg`
-- [x] `sicklecellpedia-qr.png` *(shipped as `sicklecellpedia-whatsapp-qr.png`)*
-- [ ] Board photos (×9)
+- [x] `sicklecellpedia-qr.png` *(regenerated crisp as `whatsapp-qr.png` via `scripts/generate-whatsapp-qr.mjs` (`c321570`), shown on Home Tool 1 + SickleCellPedia)*
+- [ ] Board photos (×9) → `public/images/team/` *(initials placeholders rendering meanwhile)*
 - [ ] Founder photo
+- [ ] Org logos (RED · ASH–SCDC · SC3) → `public/images/logos/` *(name-only rendering meanwhile)*
+- [ ] `publication-genai-safety-poster.jpg` *(poster thumbnail for the Presentations entry)*
 - [ ] SCKIN logo *(pull from current site)*
-- [ ] **Alt text for every image** — accessibility + SEO
+- [ ] **Alt text for every image** — accessibility + SEO *(QR + board/logo alts shipped; hero/tool alts [TO ADD] with TODOs in `content/home.md`)*
 
 ---
 
@@ -290,6 +296,34 @@ Impact last on purpose — it depends on numbers you may still be gathering.
 ---
 
 ## History
+
+### Content build to master doc v3.1 (2026-07-20)
+
+Built the remaining static pages from `sckin-master-doc-v3_1.md` (now committed
+at the repo root, `3c50dbe`), directly on `main` after fast-forwarding the
+legal-pages branch (no open PR existed). Eleven commits: crisp generated
+WhatsApp QR replacing the scraped one (`c321570`); always-open INLINE Voiceflow
+embed on /sicklecellpedia replacing the site-wide launcher (`fe63413`); Google
+**service-account** Sheets backend + `/api/newsletter` replacing the Apps
+Script webhook (`9aa2577` — one combined contacts tab, AWS-migration superset
+schema, dedupe on email+source, graceful acknowledge-without-persist when env
+is unset, Pro form gains HCP Yes/No + city/region + required consent →
+/privacy); Home v3.1 (`e8e3036`); Pro page + `#register` (`39ca799`); About
+with board grid + collaborators (`41bee26`); Responsible AI `#approach`/`#surveys`
+scaffold (`2fba37e`); Publications moved to `/publications` with four sections
+(`a294044`); News landing (Sept-2026 badge, filters parked) + `/news/blog`
+(`7a82af5`); locked v3.1 nav + mobile hamburger + doc footer with real socials
+(`226bb91`); Donate verbatim tax line (`a261344`).
+
+Verified: `npm run build` + `tsc --noEmit` clean; **52 rendered-HTML checks**
+against a local prod server all pass (anchor ids, new-tab external links, QR
+alt text, Pro form fields + consent, News badge, initials placeholders, old
+`/impact/publications` 404s, `/whatsapp` still unlisted, verbatim donate tax
+line). Notes: `.env.example` could not be updated (`.env*` permission-blocked)
+— the new env-var names live in `src/lib/sheets.ts` and Technical setup;
+`/contact` and `/impact` remain routable but left the nav per the locked v3.1
+spec (flag if Contact should be footer-linked); the retired Apps Script
+contact-email notification is tracked as a Technical-setup TODO.
 
 ### Legal pages + unlisted /whatsapp (2026-07-19)
 
