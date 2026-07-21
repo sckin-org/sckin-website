@@ -76,7 +76,28 @@ export default function SubmissionForm({
         />
       </div>
 
-      {fields.map((field) => (
+      {fields.map((field) =>
+        field.type === "checkbox" ? (
+          // Checkbox: control first, label inline after it (e.g. consent).
+          <p key={field.name}>
+            <input
+              id={field.name}
+              name={field.name}
+              type="checkbox"
+              required={field.required}
+            />{" "}
+            <label htmlFor={field.name}>
+              {field.label}
+              {field.required ? " *" : ""}
+            </label>
+            {field.link ? (
+              <>
+                {" "}
+                <a href={field.link.href}>{field.link.label}</a>
+              </>
+            ) : null}
+          </p>
+        ) : (
         <p key={field.name}>
           <label htmlFor={field.name}>
             {field.label}
@@ -112,7 +133,8 @@ export default function SubmissionForm({
             />
           )}
         </p>
-      ))}
+        )
+      )}
 
       <button
         type="submit"

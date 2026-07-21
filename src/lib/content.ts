@@ -136,6 +136,8 @@ export interface FormField {
   type: string;
   required?: boolean;
   options?: string[];
+  /** Optional link rendered after the label (e.g. consent → Privacy Policy). */
+  link?: { label: string; href: string };
 }
 
 export interface SicklecellpediaProFrontmatter extends FrontmatterBase {

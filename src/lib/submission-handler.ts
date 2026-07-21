@@ -1,22 +1,31 @@
 /**
- * Shared submission route-handler factory. Both the Contact and SickleCellPedia
- * Pro forms use this one pattern — do not fork a second approach.
+ * Shared submission route-handler factory. The SickleCellPedia Pro, newsletter,
+ * and Contact forms all use this one pattern — do not fork a second approach.
  *
  * Server-only (imports the Sheets bridge + reads request headers). The pipeline:
- *   rate limit → parse JSON → honeypot → server-side validation → append to
- *   the Google Sheet via the Apps Script webhook.
+ *   rate limit → parse JSON → honeypot → server-side validation → map to the
+ *   contacts row schema → append to the Google Sheet via the service account.
  *
- * ALWAYS returns JSON (never an HTML error page) so the client can render its
- * inline error state with a fallback email instead of a blank page.
+ * ALWAYS returns JSON (never an HTML error page). When the Sheets env vars are
+ * not configured yet, the route logs a clear error and still acknowledges the
+ * submission (ok:true, persisted:false) so the form shows its success state —
+ * graceful in dev/preview, and the miss is visible in server logs.
  */
 import { NextResponse } from "next/server";
 import { HONEYPOT_FIELD, validateSubmission, type FieldSpec } from "@/lib/forms";
-import { submitToSheet } from "@/lib/sheets";
+import {
+  appendContactRow,
+  SheetsConfigError,
+  type ContactRow,
+} from "@/lib/sheets";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { DEFAULT_LOCALE } from "@/lib/i18n";
 
 export function createSubmissionHandler(opts: {
   formType: string;
   fields: FieldSpec[];
+  /** Map validated, whitelisted values onto the contacts row schema. */
+  toRow: (clean: Record<string, string>) => ContactRow;
 }) {
   return async function POST(request: Request) {
     try {
@@ -61,12 +70,30 @@ export function createSubmissionHandler(opts: {
         clean[field.name] = String(values[field.name] ?? "").trim();
       }
 
-      await submitToSheet({ formType: opts.formType, fields: clean });
+      // Site is English-only today; when a locale switcher ships, thread the
+      // page locale through the form payload instead of assuming the default.
+      const row = { ...opts.toRow(clean), locale: DEFAULT_LOCALE };
 
-      return NextResponse.json({ ok: true });
-    } catch {
-      // Includes SheetsConfigError (webhook not configured). Never leak a stack
-      // trace or HTML page — the client shows the fallback email.
+      try {
+        const { duplicate } = await appendContactRow(row);
+        return NextResponse.json({ ok: true, duplicate });
+      } catch (error) {
+        if (error instanceof SheetsConfigError) {
+          console.error(
+            `[${opts.formType}] Sheets backend not configured — submission NOT persisted: ${error.message}`
+          );
+          return NextResponse.json({
+            ok: true,
+            persisted: false,
+            error: "not_configured",
+          });
+        }
+        throw error;
+      }
+    } catch (error) {
+      // Never leak a stack trace or HTML page — the client shows the fallback
+      // email. Log the cause so failures are diagnosable in Vercel logs.
+      console.error(`[${opts.formType}] submission failed`, error);
       return NextResponse.json(
         { error: "We couldn't send your message right now." },
         { status: 500 }
