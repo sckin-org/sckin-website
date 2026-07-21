@@ -123,7 +123,11 @@ export interface AccessChannel {
 
 export interface SicklecellpediaFrontmatter extends FrontmatterBase {
   intro?: string;
+  /** Heading over the non-web channels ("Other ways to reach SickleCellPedia"). */
+  access_heading?: string;
   access?: AccessChannel[];
+  /** Bilingual note — SickleCellPedia (English) / DrepanoPedia (French). */
+  note?: string;
 }
 
 export interface FormField {
