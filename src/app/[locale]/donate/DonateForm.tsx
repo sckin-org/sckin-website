@@ -86,7 +86,7 @@ export default function DonateForm() {
   return (
     <div className={styles.wrap} data-page="donate">
       <div className={styles.card}>
-        <p className={styles.eyebrow}>Support SCKIN</p>
+        <p className={styles.eyebrow}>Support Our Work</p>
         <h1 className={styles.title}>Keep reliable sickle cell information free for everyone.</h1>
         <p className={styles.lede}>
           Your gift sustains SickleCellPedia and everything it takes to build, improve, and share it
@@ -173,9 +173,13 @@ export default function DonateForm() {
         </button>
 
         <p className={styles.trust}>
-          SCKIN is a 501(c)(3) tax-exempt organization. EIN {SCKIN_EIN}.<br />
-          Donations are tax-deductible. Payments securely processed by Stripe.<br />
-          Monthly gifts can be changed or canceled anytime.
+          {/* Verbatim tax note from the master doc — keep the wording exact. */}
+          The Sickle Cell Knowledge and Information Network is a 501(c)(3)
+          not-for-profit organization (EIN {SCKIN_EIN}). Donations are
+          tax-deductible to the extent permitted by law.
+          <br />
+          Payments securely processed by Stripe. Monthly gifts can be changed
+          or canceled anytime.
         </p>
       </div>
     </div>
