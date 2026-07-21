@@ -49,15 +49,38 @@ export interface HomeFrontmatter extends FrontmatterBase {
     subhead: string;
     image?: string;
     cta?: Cta;
+    secondary_cta?: Cta;
   };
   stats?: Array<{ figure: string; caption: string }>;
   statement?: string;
-  tools?: Array<{
-    name: string;
-    description: string;
-    status?: string;
-    cta?: Cta;
-  }>;
+  hypothesis?: { heading: string; body: string };
+  tools?: {
+    heading: string;
+    intro?: string;
+    items: Array<{
+      name: string;
+      description: string;
+      /** Status badge, e.g. "In development — expected Q4 2026". */
+      status?: string;
+      cta?: Cta;
+      /** WhatsApp deep link (rendered new-tab) — SickleCellPedia only. */
+      whatsapp?: Cta;
+      /** WhatsApp QR code — SickleCellPedia only. */
+      qr?: { src: string; alt: string };
+      image?: string;
+    }>;
+  };
+  get_involved?: {
+    heading: string;
+    ctas: Array<Cta & { external?: boolean }>;
+  };
+  signup?: {
+    heading: string;
+    subtext?: string;
+    field_label: string;
+    submit_label: string;
+    confirmation?: string;
+  };
 }
 
 export interface Testimonial {
