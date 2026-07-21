@@ -1,0 +1,52 @@
+/*
+ * About page — board card grid + collaborator entries. Token-driven and
+ * deliberately modest: the Claude Design pass restyles this later; the grid
+ * only has to be an honest responsive scaffold until then.
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  margin: 1.5rem 0;
+  padding: 0;
+}
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.photo {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+/* Initials block shown while a member's photo file is still pending. */
+.photoPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  border: 1px solid rgba(22, 22, 26, 0.08);
+  background: var(--color-bg);
+  color: var(--color-muted);
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.collaborator {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.logo {
+  width: auto;
+  height: 64px;
+}

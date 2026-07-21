@@ -120,12 +120,47 @@ export interface MissionFrontmatter extends FrontmatterBase {
   };
 }
 
+/** A sub-block inside an anchor section (e.g. Our vision / Our mission). */
+export interface AboutSubsection {
+  heading: string;
+  /** Markdown — rendered via renderSectionBody. */
+  body?: string;
+}
+
+export interface BoardMember {
+  name: string;
+  role?: string;
+  linkedin?: string;
+  /** Path under public/, e.g. /images/team/team-….jpg. May not exist yet —
+   * pages fall back to an initials placeholder (see publicFileExists). */
+  photo?: string;
+  /** Markdown. Absent = intentionally blank — render nothing, no placeholder. */
+  bio?: string;
+  /** Extra external links (e.g. Google Scholar), rendered after LinkedIn. */
+  links?: Cta[];
+  /** Renders instead of a bio; points the card at the Our Founder section. */
+  founder_link?: Cta;
+}
+
+export interface Collaborator {
+  name: string;
+  url?: string;
+  /** Path under public/images/logos/ — may not exist yet (name-only fallback). */
+  logo?: string;
+  /** Markdown; RED carries FR then EN "(Translated by AI)" paragraphs. */
+  description?: string;
+  status?: string;
+  collaboration?: string;
+}
+
 export interface AboutSection {
   id: string;
   heading: string;
+  /** Markdown — rendered via renderSectionBody. */
   body?: string;
-  members?: Array<{ name: string; role?: string; bio?: string }>;
-  items?: Array<{ name: string; url?: string; note?: string }>;
+  subsections?: AboutSubsection[];
+  members?: BoardMember[];
+  collaborators?: Collaborator[];
 }
 
 export interface AboutFrontmatter extends FrontmatterBase {
@@ -268,6 +303,33 @@ export function renderAccessBody(md: string): string {
   return html.replace(
     /<a href="(https?:\/\/[^"]+)"/g,
     '<a href="$1" target="_blank" rel="noopener noreferrer"'
+  );
+}
+
+/**
+ * Render a frontmatter Markdown *block* (paragraphs allowed, unlike
+ * renderAccessBody's inline mode) with external links opening in a new tab.
+ * Used for About/Responsible AI section bodies, board bios, and collaborator
+ * descriptions — e.g. the 501(c)(3) → IRS-letter link.
+ */
+export function renderSectionBody(md: string): string {
+  const html = marked.parse(md, { async: false }) as string;
+  return html.replace(
+    /<a href="(https?:\/\/[^"]+)"/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer"'
+  );
+}
+
+/**
+ * Does a file exist under public/? Team photos and org logos are referenced by
+ * their documented paths before the files land — pages check here at render
+ * time (build time for static pages) and fall back to a neutral placeholder,
+ * so a missing image never breaks the build. Drop the file in and rebuild:
+ * the real image appears with no code change.
+ */
+export function publicFileExists(publicPath: string): boolean {
+  return fs.existsSync(
+    path.join(process.cwd(), "public", publicPath.replace(/^\//, ""))
   );
 }
 
