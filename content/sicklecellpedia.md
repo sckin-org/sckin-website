@@ -25,8 +25,8 @@ access:
       Start a chat at [wa.me/15557513738](https://wa.me/15557513738), or save
       +1 (555) 751-3738 to your contacts and search "Sickle Cell Knowledge and
       Information Network."
-    image: /images/sicklecellpedia-whatsapp-qr.png
-    image_alt: Try SickleCellPedia on WhatsApp
+    image: /images/whatsapp-qr.png
+    image_alt: QR code — chat with SickleCellPedia on WhatsApp
   - id: messenger
     heading: Facebook Messenger
     body: >-
