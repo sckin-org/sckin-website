@@ -250,13 +250,31 @@ export interface ResponsibleAiFrontmatter extends FrontmatterBase {
   sections: AboutSection[];
 }
 
+/** One entry: Title · Authors/Presenter · Venue · Date · Link (+ optionals). */
+export interface PublicationEntry {
+  title: string;
+  people?: string;
+  venue?: string;
+  date?: string;
+  description?: string;
+  /** e.g. "Accepted as Oral (forthcoming)". */
+  status?: string;
+  /** External link — rendered new-tab. */
+  link?: Cta;
+  /** Optional thumbnail under public/ — may not exist yet (skipped if so). */
+  image?: string;
+  image_alt?: string;
+}
+
 export interface PublicationsFrontmatter extends FrontmatterBase {
-  publications?: Array<{
-    title: string;
-    authors?: string;
-    venue?: string;
-    year?: number;
-    url?: string;
+  intro?: string;
+  /** Four sections: Presentations · Publications · Abstracts · Other Contributions. */
+  sections?: Array<{
+    id: string;
+    heading: string;
+    /** Markdown note under the heading (e.g. the Globinoscope source line). */
+    note?: string;
+    entries: PublicationEntry[];
   }>;
 }
 

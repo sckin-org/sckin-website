@@ -37,7 +37,7 @@ export default function SiteFooter({
           <Link href={href("/responsible-ai")}>Responsible AI</Link>
         </li>
         <li>
-          <Link href={href("/impact/publications")}>Publications</Link>
+          <Link href={href("/publications")}>Publications</Link>
         </li>
         <li>
           <Link href={href("/news")}>News</Link>

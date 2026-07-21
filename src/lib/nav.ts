@@ -44,14 +44,8 @@ export const NAV_ITEMS: NavItem[] = [
       },
     ],
   },
-  {
-    label: "Impact",
-    href: "/impact",
-    children: [
-      { label: "Overview", href: "/impact" },
-      { label: "Publications", href: "/impact/publications" },
-    ],
-  },
+  { label: "Publications", href: "/publications" },
+  { label: "Impact", href: "/impact" },
 ];
 
 export const DONATE_CTA: NavChild = { label: "Donate", href: "/donate" };
