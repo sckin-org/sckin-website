@@ -2,10 +2,15 @@ import Link from "next/link";
 import { DEFAULT_LOCALE, localizedHref, type Locale } from "@/lib/i18n";
 
 /**
- * Placeholder site footer. Structure only — no visual design yet.
+ * Site footer — structure only, visual design arrives with the Claude Design
+ * handoff. Per master doc v3.1: contact email, footer links (About · News ·
+ * Feedback, plus the legal pages required by the Meta app review), and the
+ * Facebook + LinkedIn socials.
  *
- * Internal links go through `localizedHref` so English stays unprefixed and a
- * future locale prefixes automatically; mailto/social links pass through.
+ * /whatsapp is deliberately NOT linked here — it is an unlisted landing page
+ * (see the requirements tracker, 2026-07-19). Internal links go through
+ * `localizedHref` so English stays unprefixed and a future locale prefixes
+ * automatically; mailto/social links pass through.
  */
 export default function SiteFooter({
   locale = DEFAULT_LOCALE,
@@ -25,25 +30,10 @@ export default function SiteFooter({
       </p>
       <ul>
         <li>
-          <Link href={href("/contact")}>Contact</Link>
-        </li>
-        <li>
-          <Link href={href("/mission")}>Mission</Link>
-        </li>
-        <li>
           <Link href={href("/about")}>About</Link>
         </li>
         <li>
-          <Link href={href("/responsible-ai")}>Responsible AI</Link>
-        </li>
-        <li>
-          <Link href={href("/publications")}>Publications</Link>
-        </li>
-        <li>
           <Link href={href("/news")}>News</Link>
-        </li>
-        <li>
-          <Link href={href("/donate")}>Donate</Link>
         </li>
         <li>
           <Link href={href("/feedback")}>Feedback</Link>
@@ -58,16 +48,7 @@ export default function SiteFooter({
       <ul data-role="social">
         <li>
           <a
-            href="https://www.linkedin.com/company/PLACEHOLDER"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.facebook.com/PLACEHOLDER"
+            href="https://www.facebook.com/profile.php?id=61561436170933"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -75,12 +56,14 @@ export default function SiteFooter({
           </a>
         </li>
         <li>
+          {/* TODO: confirm the company slug spelling — "knowlege" is as
+              written in the master doc; keep if that is the actual URL. */}
           <a
-            href="https://wa.me/PLACEHOLDER"
+            href="https://www.linkedin.com/company/sickle-cell-knowlege-and-information-network/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            WhatsApp
+            LinkedIn
           </a>
         </li>
       </ul>

@@ -1,9 +1,13 @@
 /**
- * Site navigation model.
+ * Site navigation model — the locked v3.1 nav:
+ *   Mission · About ▾ · SickleCellPedia · SickleCellPedia Pro ·
+ *   Responsible AI ▾ · Publications · News ▾ · [Donate]
  *
- * Logo links to Home. Items with `children` are dropdown menus (About ▾,
- * Responsible AI ▾). The Donate CTA is rendered separately on the right.
- * Kept as data so the design handoff can restyle without touching structure.
+ * Logo links to Home (Home is not a nav item). Items with `children` are
+ * dropdown menus. The Donate CTA is rendered separately on the right. Impact
+ * and Contact are deliberately NOT nav items — the routes stay reachable
+ * (contact email lives in the footer). Kept as data so the design handoff can
+ * restyle without touching structure.
  */
 
 export interface NavChild {
@@ -32,7 +36,6 @@ export const NAV_ITEMS: NavItem[] = [
   },
   { label: "SickleCellPedia", href: "/sicklecellpedia" },
   { label: "SickleCellPedia Pro", href: "/sicklecellpedia-pro" },
-  { label: "News", href: "/news" },
   {
     label: "Responsible AI",
     href: "/responsible-ai",
@@ -45,7 +48,14 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: "Publications", href: "/publications" },
-  { label: "Impact", href: "/impact" },
+  {
+    label: "News",
+    href: "/news",
+    children: [
+      { label: "Latest News", href: "/news" },
+      { label: "Blog", href: "/news/blog" },
+    ],
+  },
 ];
 
 export const DONATE_CTA: NavChild = { label: "Donate", href: "/donate" };
