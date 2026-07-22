@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF;font-family:'Inter',system-ui,sans-serif;color:#1B1B1E;}
+a{color:#5A0E19;text-decoration:none;} a:hover{color:#8A1626;}
+</style>
+</helmet>
+<div style="max-width: 980px; margin: 0 auto; padding: 64px 32px 96px; display: flex; flex-direction: column; gap: 64px;">
+
+  <header style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em; color: #8A1626;">SCKIN</div>
+    <h1 style="margin: 0; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15;">Design tokens — Phase 2</h1>
+    <p style="margin: 0; font-size: 17px; line-height: 1.55; color: #5A5A61; max-width: 640px;">Red Cross structure, Apple execution. One family (Inter, 400/600), a red ramp built around a deep hemoglobin red, <span style="font-family: ui-monospace, Menlo, monospace; font-size: 15px;">#8A1626</span> (darkened from the Phase 1 #C41E3A), cool near-mono neutrals. Components reference the semantic layer only. Ships as <span style="font-family: ui-monospace, Menlo, monospace; font-size: 15px;">tokens.css</span> + <span style="font-family: ui-monospace, Menlo, monospace; font-size: 15px;">tokens.json</span>.</p>
+  </header>
+
+  <section style="display: flex; flex-direction: column; gap: 16px;">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Red ramp</h2>
+    <div style="display: flex; border-radius: 12px; overflow: hidden;">
+      <div style="flex: 1; height: 104px; background: #F9EFF1; color: #1B1B1E; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">50</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.7;">F9EFF1</div></div>
+      <div style="flex: 1; height: 104px; background: #EED3D8; color: #1B1B1E; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">100</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.7;">EED3D8</div></div>
+      <div style="flex: 1; height: 104px; background: #DCA6AF; color: #1B1B1E; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">200</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.7;">DCA6AF</div></div>
+      <div style="flex: 1; height: 104px; background: #C4707E; color: #1B1B1E; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">300</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.7;">C4707E</div></div>
+      <div style="flex: 1; height: 104px; background: #A93B4C; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">400</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">A93B4C</div></div>
+      <div style="flex: 1.4; height: 104px; background: #8A1626; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">500 · brand</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">8A1626</div></div>
+      <div style="flex: 1; height: 104px; background: #71121F; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">600</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">71121F</div></div>
+      <div style="flex: 1; height: 104px; background: #5A0E19; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">700</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">5A0E19</div></div>
+      <div style="flex: 1; height: 104px; background: #430A12; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">800</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">430A12</div></div>
+      <div style="flex: 1; height: 104px; background: #2E060C; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">900</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">2E060C</div></div>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #5A5A61;"><strong style="font-weight: 600; color: #1B1B1E;">50</strong> tint backgrounds · <strong style="font-weight: 600; color: #1B1B1E;">500</strong> brand — CTAs, bands, headlines (AAA on white) · <strong style="font-weight: 600; color: #1B1B1E;">600</strong> hover · <strong style="font-weight: 600; color: #1B1B1E;">700</strong> body-size red text, pressed states</p>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px;">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Neutral ramp</h2>
+    <div style="display: flex; border-radius: 12px; overflow: hidden; border: 1px solid #E2E2E5;">
+      <div style="flex: 1; height: 104px; background: #FFFFFF; color: #1B1B1E; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">0</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.7;">FFFFFF</div></div>
+      <div style="flex: 1; height: 104px; background: #F7F7F8; color: #1B1B1E; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">50</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.7;">F7F7F8</div></div>
+      <div style="flex: 1; height: 104px; background: #EFEFF1; color: #1B1B1E; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">100</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.7;">EFEFF1</div></div>
+      <div style="flex: 1; height: 104px; background: #E2E2E5; color: #1B1B1E; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">200</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.7;">E2E2E5</div></div>
+      <div style="flex: 1; height: 104px; background: #C8C8CD; color: #1B1B1E; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">300</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.7;">C8C8CD</div></div>
+      <div style="flex: 1; height: 104px; background: #A3A3AA; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">400</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">A3A3AA</div></div>
+      <div style="flex: 1; height: 104px; background: #7D7D85; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">500</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">7D7D85</div></div>
+      <div style="flex: 1; height: 104px; background: #5A5A61; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">600</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">5A5A61</div></div>
+      <div style="flex: 1; height: 104px; background: #424248; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">700</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">424248</div></div>
+      <div style="flex: 1; height: 104px; background: #2A2A2E; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">800</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">2A2A2E</div></div>
+      <div style="flex: 1; height: 104px; background: #1B1B1E; color: #FFFFFF; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px;"><div style="font-size: 12px; font-weight: 600;">900</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: 0.8;">1B1B1E</div></div>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #5A5A61;"><strong style="font-weight: 600; color: #1B1B1E;">50</strong> subtle surfaces (cards) · <strong style="font-weight: 600; color: #1B1B1E;">200</strong> borders · <strong style="font-weight: 600; color: #1B1B1E;">500</strong> muted text · <strong style="font-weight: 600; color: #1B1B1E;">600</strong> body text · <strong style="font-weight: 600; color: #1B1B1E;">900</strong> headings, footer surface</p>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px;">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Semantic pairs — contrast-verified (WCAG 2.1 AA)</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+      <div style="border: 1px solid #E2E2E5; border-radius: 12px; padding: 20px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px;"><div style="font-size: 22px; font-weight: 600; color: #1B1B1E;">Aa Heading</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--text-heading / --surface-page</div><div style="font-size: 12px; font-weight: 600; color: #1B1B1E;">17.2:1 · AAA</div></div>
+      <div style="border: 1px solid #E2E2E5; border-radius: 12px; padding: 20px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px;"><div style="font-size: 17px; color: #5A5A61;">Aa Body text on white</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--text-body / --surface-page</div><div style="font-size: 12px; font-weight: 600; color: #1B1B1E;">6.8:1 · AA</div></div>
+      <div style="border: 1px solid #E2E2E5; border-radius: 12px; padding: 20px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px;"><div style="font-size: 24px; font-weight: 600; color: #8A1626;">Aa Red headline</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--text-heading-accent / --surface-page</div><div style="font-size: 12px; font-weight: 600; color: #1B1B1E;">9.5:1 · AAA — safe at any size</div></div>
+      <div style="border: 1px solid #E2E2E5; border-radius: 12px; padding: 20px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px;"><div style="font-size: 17px; color: #5A0E19;">Aa Body-size red text</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--text-body-accent / --surface-page</div><div style="font-size: 12px; font-weight: 600; color: #1B1B1E;">13.9:1 · AAA</div></div>
+      <div style="border-radius: 12px; padding: 20px; background: #8A1626; display: flex; flex-direction: column; gap: 10px;"><div style="font-size: 17px; font-weight: 600; color: #FFFFFF;">Aa White on the red band</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: rgba(255,255,255,0.72);">--text-on-band / --surface-band</div><div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">9.5:1 · AAA</div></div>
+      <div style="border-radius: 12px; padding: 20px; background: #1B1B1E; display: flex; flex-direction: column; gap: 10px;"><div style="font-size: 17px; color: rgba(255,255,255,0.75);">Aa Footer text</div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: rgba(255,255,255,0.5);">--text-on-footer / --surface-footer</div><div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">10.1:1 · AAA</div></div>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+      <a href="#" style="display: inline-block; background: #8A1626; color: #FFFFFF; font-size: 17px; font-weight: 600; padding: 12px 24px; border-radius: 980px;" style-hover="background: #71121F;">Primary CTA</a>
+      <a href="#" style="display: inline-block; color: #5A0E19; font-size: 17px; font-weight: 600;" style-hover="color: #8A1626;">Text link →</a>
+      <span style="font-size: 13px; color: #7D7D85;">--color-cta · hover red-600 · pressed red-700 · links red-700 → red-500</span>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 20px;">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Type scale — Inter 400 / 600 only</h2>
+    <div style="display: flex; flex-direction: column;">
+      <div style="display: flex; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid #EFEFF1;"><div style="width: 190px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">display · 44 → 72 · 600</div><div style="font-size: 44px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; color: #1B1B1E;">Knowledge saves lives</div></div>
+      <div style="display: flex; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid #EFEFF1;"><div style="width: 190px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">h1 · 36 → 56 · 600</div><div style="font-size: 36px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; color: #1B1B1E;">Knowledge saves lives</div></div>
+      <div style="display: flex; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid #EFEFF1;"><div style="width: 190px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">h2 · 28 → 40 · 600</div><div style="font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; color: #1B1B1E;">Knowledge saves lives</div></div>
+      <div style="display: flex; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid #EFEFF1;"><div style="width: 190px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">h3 · 22 → 28 · 600</div><div style="font-size: 22px; font-weight: 600; line-height: 1.3; color: #1B1B1E;">Knowledge saves lives</div></div>
+      <div style="display: flex; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid #EFEFF1;"><div style="width: 190px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">body-lg · 19 · 400</div><div style="font-size: 19px; line-height: 1.55; color: #5A5A61;">Free, multilingual AI tools that put trusted information in every pocket.</div></div>
+      <div style="display: flex; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid #EFEFF1;"><div style="width: 190px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">body · 17 · 400</div><div style="font-size: 17px; line-height: 1.55; color: #5A5A61;">Free, multilingual AI tools that put trusted information in every pocket.</div></div>
+      <div style="display: flex; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid #EFEFF1;"><div style="width: 190px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">small · 15 · 400</div><div style="font-size: 15px; line-height: 1.55; color: #5A5A61;">Free, multilingual AI tools that put trusted information in every pocket.</div></div>
+      <div style="display: flex; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid #EFEFF1;"><div style="width: 190px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">caption · 13 · 400</div><div style="font-size: 13px; line-height: 1.55; color: #7D7D85;">Source: Global Burden of Disease 2021, The Lancet Haematology</div></div>
+      <div style="display: flex; align-items: baseline; gap: 24px; padding: 14px 0;"><div style="width: 190px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">overline · 13 · 600 · caps</div><div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Our mission</div></div>
+    </div>
+    <p style="margin: 0; font-size: 14px; color: #5A5A61;">Mobile sizes shown; arrows note the ≥768px desktop step. Tracking −0.02em on ≥28px. Two weight files max (400, 600) for the low-bandwidth budget.</p>
+  </section>
+
+  <section style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Space — 4px base</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-1 · 4</div><div style="height: 14px; width: 4px; background: #8A1626; border-radius: 2px;"></div></div>
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-2 · 8</div><div style="height: 14px; width: 8px; background: #8A1626; border-radius: 2px;"></div></div>
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-3 · 12</div><div style="height: 14px; width: 12px; background: #8A1626; border-radius: 2px;"></div></div>
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-4 · 16</div><div style="height: 14px; width: 16px; background: #8A1626; border-radius: 2px;"></div></div>
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-5 · 24</div><div style="height: 14px; width: 24px; background: #8A1626; border-radius: 2px;"></div></div>
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-6 · 32</div><div style="height: 14px; width: 32px; background: #8A1626; border-radius: 2px;"></div></div>
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-7 · 48</div><div style="height: 14px; width: 48px; background: #8A1626; border-radius: 2px;"></div></div>
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-8 · 64</div><div style="height: 14px; width: 64px; background: #8A1626; border-radius: 2px;"></div></div>
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-9 · 96</div><div style="height: 14px; width: 96px; background: #8A1626; border-radius: 2px;"></div></div>
+        <div style="display: flex; align-items: center; gap: 16px;"><div style="width: 110px; flex: none; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">--space-10 · 128</div><div style="height: 14px; width: 128px; background: #8A1626; border-radius: 2px;"></div></div>
+      </div>
+      <p style="margin: 0; font-size: 14px; color: #5A5A61;">Section rhythm: 96–128 between homepage sections, 48–64 inside them, 16–24 within components.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 32px;">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Radius</h2>
+        <div style="display: flex; align-items: flex-end; gap: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;"><div style="width: 64px; height: 64px; border: 1px solid #C8C8CD; border-radius: 8px; background: #F7F7F8;"></div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">sm · 8</div></div>
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;"><div style="width: 64px; height: 64px; border: 1px solid #C8C8CD; border-radius: 12px; background: #F7F7F8;"></div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">md · 12</div></div>
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;"><div style="width: 64px; height: 64px; border: 1px solid #C8C8CD; border-radius: 20px; background: #F7F7F8;"></div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">lg · 20 · cards</div></div>
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;"><div style="width: 96px; height: 40px; border-radius: 980px; background: #8A1626;"></div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #7D7D85;">pill · buttons</div></div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Shadow — minimal chrome</h2>
+        <div style="background: #F7F7F8; border-radius: 12px; padding: 24px; display: flex; gap: 24px; align-items: center;">
+          <div style="background: #FFFFFF; border-radius: 20px; box-shadow: 0 4px 24px rgba(27,27,30,0.08); padding: 20px 24px; font-size: 14px; color: #5A5A61;">--shadow-card<br>flat by default; one level only</div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Motion</h2>
+        <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #5A5A61;">Scroll reveal: fade + 24px rise · 400ms · cubic-bezier(0.4, 0, 0.2, 1) · IntersectionObserver + CSS only.<br><span style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;">prefers-reduced-motion</span> → duration 0, rise 0 (static).</p>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top: 1px solid #E2E2E5; padding-top: 24px; font-size: 13px; color: #7D7D85;">SCKIN — Sickle Cell Knowledge and Information Network · Phase 2 tokens · files: tokens/tokens.css, tokens/tokens.json</footer>
+</div>
+</x-dc>
+</body>
+</html>

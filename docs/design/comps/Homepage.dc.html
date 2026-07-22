@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0eee9;font-family:'Inter',system-ui,sans-serif;}
+a{color:#5A0E19;text-decoration:none;} a:hover{color:#8A1626;}
+input{font-family:'Inter',system-ui,sans-serif;}
+.dv-turn{padding:40px 44px 32px;scroll-margin-top:16px;}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px;}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none;}
+.dv-tname{font:600 13px/1.2 'Inter',sans-serif;color:#1a1a1a;}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px;}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none;}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 'Inter',sans-serif;color:rgba(0,0,0,.55);}
+.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;}
+.dv-opt:target .dv-oid{background:#2a78d6;color:#fff;}
+.dv-next{margin:22px 0 0;font:12px/1.5 'Inter',sans-serif;color:rgba(0,0,0,.5);}
+</style>
+</helmet>
+<section class="dv-turn" id="t4">
+<div class="dv-thd"><a class="dv-tid" href="#t4">4</a><span class="dv-tname">Remaining components — publications, news card, Pro lead form, content page</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="4a" data-screen-label="4a Publications entry group">
+<div class="dv-olabel"><a class="dv-oid" href="#4a">4a</a>Publications — grouped entries (one populated group shown)</div>
+<div class="dv-card" style="width: 720px; background: #FFFFFF; padding: 48px;">
+  <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Impact — Publications</div>
+  <div style="display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap;">
+    <span style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #1B1B1E; border-radius: 980px; padding: 6px 14px;">Presentations</span>
+    <span style="font-size: 14px; font-weight: 600; color: #5A5A61; border: 1px solid #C8C8CD; border-radius: 980px; padding: 6px 14px;">Publications</span>
+    <span style="font-size: 14px; font-weight: 600; color: #5A5A61; border: 1px solid #C8C8CD; border-radius: 980px; padding: 6px 14px;">Abstracts</span>
+    <span style="font-size: 14px; font-weight: 600; color: #5A5A61; border: 1px solid #C8C8CD; border-radius: 980px; padding: 6px 14px;">Other Contributions</span>
+  </div>
+  <h3 style="margin: 32px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #1B1B1E; border-bottom: 1px solid #E2E2E5; padding-bottom: 12px;">Presentations</h3>
+  <div style="display: flex; flex-direction: column;">
+    <div style="padding: 20px 0; border-bottom: 1px solid #EFEFF1;">
+      <div style="font-size: 17px; font-weight: 600; line-height: 1.4; color: #1B1B1E; text-wrap: pretty;">Benchmarking SickleCellPedia against general-purpose LLMs on clinical sickle cell questions</div>
+      <div style="margin-top: 6px; font-size: 15px; line-height: 1.5; color: #5A5A61;">Adeyemi O., Nkemelu D., Carter J., et al.</div>
+      <div style="margin-top: 4px; font-size: 13px; color: #7D7D85;">European Hematology Association Congress (EHA 2026) · Milan · June 2026</div>
+      <a href="#4a" style="display: inline-block; margin-top: 10px; font-size: 15px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">View abstract →</a>
+    </div>
+    <div style="padding: 20px 0;">
+      <div style="font-size: 17px; font-weight: 600; line-height: 1.4; color: #1B1B1E; text-wrap: pretty;">SickleCellPedia: free multilingual AI answers for the sickle cell community</div>
+      <div style="margin-top: 6px; font-size: 15px; line-height: 1.5; color: #5A5A61;">Carter J., Adeyemi O.</div>
+      <div style="margin-top: 4px; font-size: 13px; color: #7D7D85;">Warrior Con 2026 · Atlanta · April 2026</div>
+      <a href="#4a" style="display: inline-block; margin-top: 10px; font-size: 15px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">View slides →</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="4b" data-screen-label="4b News listing card">
+<div class="dv-olabel"><a class="dv-oid" href="#4b">4b</a>News card — /news listing</div>
+<div class="dv-card" style="width: 400px; background: #FFFFFF; padding: 32px;">
+  <div style="background: #F7F7F8; border-radius: 20px; padding: 28px 24px;">
+    <div style="font-size: 13px; color: #7D7D85;">18 July 2026</div>
+    <h3 style="margin: 10px 0 0; font-size: 19px; font-weight: 600; line-height: 1.35; color: #1B1B1E; text-wrap: pretty;">Gene therapy access program expands to three West African treatment centers</h3>
+    <p style="margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: #5A5A61; text-wrap: pretty;">A consortium of health ministries and manufacturers announced subsidized access pathways, the first structured program of its kind in the region.</p>
+    <a href="#4b" style="display: inline-block; margin-top: 14px; font-size: 15px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">Read at source ↗</a>
+    <div style="display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap;">
+      <span style="font-size: 12px; font-weight: 600; color: #5A5A61; background: #EFEFF1; border-radius: 980px; padding: 4px 12px;">Treatment</span>
+      <span style="font-size: 12px; font-weight: 600; color: #5A5A61; background: #EFEFF1; border-radius: 980px; padding: 4px 12px;">Access</span>
+      <span style="font-size: 12px; font-weight: 600; color: #5A5A61; background: #EFEFF1; border-radius: 980px; padding: 4px 12px;">West Africa</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="4c" data-screen-label="4c Pro lead form — default, error, success">
+<div class="dv-olabel"><a class="dv-oid" href="#4c">4c</a>SickleCellPedia Pro "Register interest" form — default · error · success</div>
+<div class="dv-card" style="width: 1300px; background: #FFFFFF; padding: 40px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; align-items: start;">
+  <div>
+    <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Default</div>
+    <h3 style="margin: 16px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #1B1B1E;">Register interest</h3>
+    <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: #5A5A61;">Be first to know when SickleCellPedia Pro opens for clinical use.</p>
+    <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
+      <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Full name</div><input style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF;"></div>
+      <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Email</div><input style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF;"></div>
+      <div>
+        <div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Are you a healthcare professional?</div>
+        <div style="display: flex; gap: 8px;">
+          <span style="flex: 1; text-align: center; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #1B1B1E; border-radius: 980px; padding: 10px 0;">Yes</span>
+          <span style="flex: 1; text-align: center; font-size: 15px; font-weight: 600; color: #5A5A61; border: 1px solid #C8C8CD; border-radius: 980px; padding: 10px 0;">No</span>
+        </div>
+      </div>
+      <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Role</div><input placeholder="e.g. Hematologist, Nurse, Community health worker" style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF;"></div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Country</div><input style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF;"></div>
+        <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">City / region</div><input style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF;"></div>
+      </div>
+      <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Notes <span style="font-weight: 400; color: #7D7D85;">(optional)</span></div><textarea rows="3" style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF; font-family: 'Inter', sans-serif; resize: vertical;"></textarea></div>
+      <label style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: #5A5A61; cursor: pointer;"><input type="checkbox" style="margin-top: 3px; accent-color: #8A1626;"><span>I consent to SCKIN storing this information to contact me about SickleCellPedia Pro, per the <a href="#4c" style="font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">privacy policy</a>. <span style="color: #8A1626;">*</span></span></label>
+      <div style="background: #8A1626; color: #FFFFFF; font-size: 17px; font-weight: 600; text-align: center; padding: 14px 0; border-radius: 980px; cursor: pointer;" style-hover="background: #71121F;">Register interest</div>
+    </div>
+  </div>
+  <div>
+    <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Error state</div>
+    <h3 style="margin: 16px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #1B1B1E;">Register interest</h3>
+    <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: #5A5A61;">Be first to know when SickleCellPedia Pro opens for clinical use.</p>
+    <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
+      <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Full name</div><input value="Dr. Amara Diallo" style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF;"></div>
+      <div>
+        <div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Email</div>
+        <input value="amara.diallo@" style="width: 100%; box-sizing: border-box; border: 2px solid #8A1626; border-radius: 12px; padding: 11px 15px; font-size: 16px; color: #1B1B1E; outline: none; background: #F9EFF1;">
+        <div style="margin-top: 6px; font-size: 14px; font-weight: 600; color: #71121F;">Enter a valid email address.</div>
+      </div>
+      <div>
+        <div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Are you a healthcare professional?</div>
+        <div style="display: flex; gap: 8px;">
+          <span style="flex: 1; text-align: center; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #1B1B1E; border-radius: 980px; padding: 10px 0;">Yes</span>
+          <span style="flex: 1; text-align: center; font-size: 15px; font-weight: 600; color: #5A5A61; border: 1px solid #C8C8CD; border-radius: 980px; padding: 10px 0;">No</span>
+        </div>
+      </div>
+      <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Role</div><input value="Hematologist" style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF;"></div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Country</div><input value="Senegal" style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF;"></div>
+        <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">City / region</div><input value="Dakar" style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF;"></div>
+      </div>
+      <div><div style="font-size: 14px; font-weight: 600; color: #1B1B1E; margin-bottom: 6px;">Notes <span style="font-weight: 400; color: #7D7D85;">(optional)</span></div><textarea rows="3" style="width: 100%; box-sizing: border-box; border: 1px solid #C8C8CD; border-radius: 12px; padding: 12px 16px; font-size: 16px; color: #1B1B1E; outline: none; background: #FFFFFF; font-family: 'Inter', sans-serif; resize: vertical;"></textarea></div>
+      <div>
+        <label style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: #5A5A61; cursor: pointer;"><input type="checkbox" style="margin-top: 3px; accent-color: #8A1626;"><span>I consent to SCKIN storing this information to contact me about SickleCellPedia Pro, per the <a href="#4c" style="font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">privacy policy</a>. <span style="color: #8A1626;">*</span></span></label>
+        <div style="margin-top: 6px; font-size: 14px; font-weight: 600; color: #71121F;">Consent is required to register.</div>
+      </div>
+      <div style="background: #8A1626; color: #FFFFFF; font-size: 17px; font-weight: 600; text-align: center; padding: 14px 0; border-radius: 980px; cursor: pointer;" style-hover="background: #71121F;">Register interest</div>
+      <div style="font-size: 14px; font-weight: 600; color: #71121F; text-align: center;">Please fix the 2 highlighted fields.</div>
+    </div>
+  </div>
+  <div>
+    <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Success state</div>
+    <div style="margin-top: 16px; background: #F7F7F8; border-radius: 20px; padding: 40px 32px; text-align: center;">
+      <div style="width: 56px; height: 56px; border-radius: 980px; background: #F9EFF1; color: #8A1626; font-size: 26px; font-weight: 600; display: flex; align-items: center; justify-content: center; margin: 0 auto;">✓</div>
+      <h3 style="margin: 20px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #1B1B1E;">You're on the list.</h3>
+      <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.55; color: #5A5A61; text-wrap: pretty;">Thanks for registering interest in SickleCellPedia Pro. We'll email you when clinical access opens — no other mail, ever.</p>
+      <a href="#4c" style="display: inline-block; margin-top: 20px; font-size: 15px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">Back to SickleCellPedia →</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="4d" data-screen-label="4d Generic content page template">
+<div class="dv-olabel"><a class="dv-oid" href="#4d">4d</a>Content page template — /privacy, /terms, Responsible AI (prose styles)</div>
+<div class="dv-card" style="width: 720px; background: #FFFFFF; padding: 64px 72px;">
+  <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">SCKIN</div>
+  <h1 style="margin: 16px 0 0; font-size: 36px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; color: #1B1B1E;">Privacy policy</h1>
+  <p style="margin: 12px 0 0; font-size: 19px; line-height: 1.5; color: #5A5A61; text-wrap: pretty;">How SCKIN collects, uses, and protects your information.</p>
+  <div style="margin: 16px 0 0; font-size: 13px; color: #7D7D85;">Last updated: 22 July 2026</div>
+  <div style="border-top: 1px solid #EFEFF1; margin-top: 32px; padding-top: 32px;">
+    <h2 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #1B1B1E;">What we collect</h2>
+    <p style="margin: 12px 0 0; font-size: 17px; line-height: 1.6; color: #5A5A61; text-wrap: pretty;">SCKIN collects only what is needed to operate SickleCellPedia and keep you informed when you ask us to. Questions you ask SickleCellPedia are processed to generate an answer and are not linked to your identity. See our <a href="#4d" style="font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">Responsible AI commitments</a> for how model inputs are handled.</p>
+    <h3 style="margin: 28px 0 0; font-size: 17px; font-weight: 600; color: #1B1B1E;">Information you provide</h3>
+    <ul style="margin: 12px 0 0; padding-left: 22px; font-size: 17px; line-height: 1.6; color: #5A5A61; display: flex; flex-direction: column; gap: 8px;">
+      <li>Email address, when you subscribe to the newsletter</li>
+      <li>Name, role, and location, when you register interest in SickleCellPedia Pro</li>
+      <li>Payment details, processed by Stripe — never stored by SCKIN</li>
+    </ul>
+    <h3 style="margin: 28px 0 0; font-size: 17px; font-weight: 600; color: #1B1B1E;">Information we never collect</h3>
+    <p style="margin: 12px 0 0; font-size: 17px; line-height: 1.6; color: #5A5A61; text-wrap: pretty;">We do not collect medical records, and we do not sell or share personal information with advertisers — full stop.</p>
+  </div>
+</div>
+</div>
+
+</div>
+</section>
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Final homepage @ 1440px — desktop, derived from locked 390px</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="3a" data-screen-label="3a Final homepage — 1440px desktop">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Desktop — hero capped at 72px, full-bleed red bands, full nav with reserved language-toggle slot</div>
+<div class="dv-card" style="width: 1440px;">
+
+  <nav style="display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 48px; background: rgba(255,255,255,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid #EFEFF1;">
+    <div style="font-size: 19px; font-weight: 600; letter-spacing: -0.02em; color: #8A1626;">SCKIN</div>
+    <div style="display: flex; align-items: center; gap: 26px;">
+      <a href="#3a" style="font-size: 15px; color: #1B1B1E;" style-hover="color: #5A0E19;">About us <span style="font-size: 11px; color: #7D7D85;">⌄</span></a>
+      <a href="#3a" style="font-size: 15px; color: #1B1B1E;" style-hover="color: #5A0E19;">SickleCellPedia</a>
+      <a href="#3a" style="font-size: 15px; color: #1B1B1E;" style-hover="color: #5A0E19;">For Clinicians</a>
+      <a href="#3a" style="font-size: 15px; color: #1B1B1E;" style-hover="color: #5A0E19;">Responsible AI</a>
+      <a href="#3a" style="font-size: 15px; color: #1B1B1E;" style-hover="color: #5A0E19;">Impact <span style="font-size: 11px; color: #7D7D85;">⌄</span></a>
+      <a href="#3a" style="font-size: 15px; color: #1B1B1E;" style-hover="color: #5A0E19;">News <span style="font-size: 11px; color: #7D7D85;">⌄</span></a>
+      <div style="width: 24px;" title="reserved: language toggle"></div>
+      <a href="#3a" style="background: #8A1626; color: #FFFFFF; font-size: 15px; font-weight: 600; padding: 8px 18px; border-radius: 980px;" style-hover="background: #71121F;">Donate</a>
+    </div>
+  </nav>
+
+  <section data-screen-label="Hero" style="padding: 128px 48px 128px; background: #FFFFFF;">
+    <div style="max-width: 980px; margin: 0 auto;">
+      <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">SCKIN — a 501(c)(3) nonprofit</div>
+      <h1 style="margin: 24px 0 0; font-size: 72px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.02; color: #1B1B1E; text-wrap: pretty;">Reliable sickle cell knowledge,<br><span style="color: #8A1626;">universally accessible.</span></h1>
+      <p style="margin: 32px 0 0; font-size: 19px; line-height: 1.55; color: #5A5A61; max-width: 560px; text-wrap: pretty;">Free, multilingual AI tools that put trusted information in the hands of patients, caregivers, and clinicians — everywhere.</p>
+      <div style="display: flex; align-items: center; gap: 28px; margin-top: 48px;">
+        <a href="#3a" style="background: #8A1626; color: #FFFFFF; font-size: 19px; font-weight: 600; padding: 16px 32px; border-radius: 980px;" style-hover="background: #71121F;">Try SickleCellPedia</a>
+        <a href="#3a" style="font-size: 17px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">Our mission →</a>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Mission" style="padding: 0 48px 128px; background: #FFFFFF;">
+    <div style="max-width: 980px; margin: 0 auto; display: grid; grid-template-columns: 200px 1fr; gap: 48px;">
+      <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85; padding-top: 8px;">Our mission</div>
+      <div>
+        <h2 style="margin: 0; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; color: #1B1B1E; text-wrap: pretty;">Our mission is to make useful and reliable information about sickle cell disease universally accessible.</h2>
+        <p style="margin: 24px 0 0; font-size: 19px; line-height: 1.55; color: #5A5A61; max-width: 640px; text-wrap: pretty;">Sickle cell disease is the world's most common inherited blood disorder — and the knowledge to manage it is hardest to find where it is needed most. SCKIN closes that gap with accurate, multilingual tools, free for everyone.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 48px;">
+          <div style="border-top: 1px solid #EFEFF1; padding-top: 16px;"><div style="font-size: 17px; font-weight: 600; color: #1B1B1E;">Free, always</div><div style="font-size: 15px; line-height: 1.5; color: #5A5A61; margin-top: 4px;">No paywalls, no accounts required.</div></div>
+          <div style="border-top: 1px solid #EFEFF1; padding-top: 16px;"><div style="font-size: 17px; font-weight: 600; color: #1B1B1E;">Multilingual by default</div><div style="font-size: 15px; line-height: 1.5; color: #5A5A61; margin-top: 4px;">Built for the languages patients actually speak.</div></div>
+          <div style="border-top: 1px solid #EFEFF1; padding-top: 16px;"><div style="font-size: 17px; font-weight: 600; color: #1B1B1E;">Evidence-based</div><div style="font-size: 15px; line-height: 1.5; color: #5A5A61; margin-top: 4px;">Grounded in current clinical guidance.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Products" style="padding: 0 48px 128px; background: #FFFFFF;">
+    <div style="max-width: 980px; margin: 0 auto;">
+      <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Products</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px;">
+        <div style="background: #F7F7F8; border-radius: 20px; padding: 40px 36px; display: flex; flex-direction: column; align-items: flex-start;">
+          <h3 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.01em; color: #1B1B1E;">SickleCellPedia</h3>
+          <p style="margin: 14px 0 0; font-size: 17px; line-height: 1.55; color: #5A5A61; text-wrap: pretty;">Free, instant answers about sickle cell disease — for patients, caregivers, and clinicians, on the web or WhatsApp, in your language.</p>
+          <a href="#3a" style="display: inline-block; margin-top: auto; padding-top: 24px; font-size: 17px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">Try SickleCellPedia →</a>
+        </div>
+        <div style="background: #F7F7F8; border-radius: 20px; padding: 40px 36px; display: flex; flex-direction: column; align-items: flex-start;">
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <h3 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.01em; color: #1B1B1E;">SickleCellPedia Pro</h3>
+            <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5A5A61; border: 1px solid #C8C8CD; border-radius: 980px; padding: 3px 10px;">In development</span>
+          </div>
+          <p style="margin: 14px 0 0; font-size: 17px; line-height: 1.55; color: #5A5A61; text-wrap: pretty;">Clinical decision support for health professionals treating sickle cell disease in under-resourced settings.</p>
+          <a href="#3a" style="display: inline-block; margin-top: auto; padding-top: 24px; font-size: 17px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">Register interest →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Impact stats" style="padding: 96px 48px; background: #8A1626;">
+    <div style="max-width: 980px; margin: 0 auto;">
+      <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.72);">Why it matters</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; margin-top: 48px;">
+        <div><div style="font-size: 64px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: #FFFFFF;">7.7M</div><div style="margin-top: 12px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.72);">people living with sickle cell disease worldwide</div></div>
+        <div><div style="font-size: 64px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: #FFFFFF;">500K+</div><div style="margin-top: 12px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.72);">babies born with SCD every year</div></div>
+        <div><div style="font-size: 64px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: #FFFFFF;">~80%</div><div style="margin-top: 12px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.72);">of those births are in Sub-Saharan Africa</div></div>
+      </div>
+      <div style="display: grid; grid-template-columns: auto 1fr; gap: 48px; align-items: center; border-top: 1px solid rgba(255,255,255,0.28); margin-top: 64px; padding-top: 56px;">
+        <div>
+          <span style="display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #FFFFFF; background: rgba(255,255,255,0.16); border-radius: 980px; padding: 5px 12px;">Our goal</span>
+          <div style="margin-top: 16px; font-size: 96px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; color: #FFFFFF; white-space: nowrap;">+5 yrs</div>
+        </div>
+        <div style="font-size: 22px; line-height: 1.45; color: #FFFFFF; max-width: 520px; text-wrap: pretty;">Five more years of life expectancy in the most affected countries, within five years.</div>
+      </div>
+      <div style="margin-top: 48px; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.6);">Source: Global Burden of Disease 2021, The Lancet Haematology.</div>
+    </div>
+  </section>
+
+  <section data-screen-label="News" style="padding: 112px 48px 128px; background: #FFFFFF;">
+    <div style="max-width: 980px; margin: 0 auto;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">News</div>
+        <a href="#3a" style="font-size: 17px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">All news →</a>
+      </div>
+      <div style="margin-top: 12px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+        <p style="margin: 0; font-size: 19px; line-height: 1.5; color: #5A5A61; text-wrap: pretty;"><span style="font-weight: 600; color: #1B1B1E;">Sickle Cell News</span> — AI-curated research and community updates from around the world</p>
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5A5A61; border: 1px solid #C8C8CD; border-radius: 980px; padding: 3px 10px;">In development — expected September 2026</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 32px;">
+        <div style="border-top: 1px solid #EFEFF1; padding-top: 20px;"><div style="font-size: 13px; color: #7D7D85;">June 2026</div><div style="margin-top: 8px; font-size: 19px; font-weight: 600; line-height: 1.35; color: #1B1B1E; text-wrap: pretty;">SCKIN abstract accepted at EHA 2026: benchmarking SickleCellPedia against general-purpose LLMs on clinical questions</div></div>
+        <div style="border-top: 1px solid #EFEFF1; padding-top: 20px;"><div style="font-size: 13px; color: #7D7D85;">May 2026</div><div style="margin-top: 8px; font-size: 19px; font-weight: 600; line-height: 1.35; color: #1B1B1E; text-wrap: pretty;">SickleCellPedia is now on WhatsApp — free sickle cell answers, no app required</div></div>
+        <div style="border-top: 1px solid #EFEFF1; padding-top: 20px;"><div style="font-size: 13px; color: #7D7D85;">April 2026</div><div style="margin-top: 8px; font-size: 19px; font-weight: 600; line-height: 1.35; color: #1B1B1E; text-wrap: pretty;">SCKIN presents at Warrior Con 2026</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Donate" style="padding: 96px 48px; background: #8A1626;">
+    <div style="max-width: 980px; margin: 0 auto; display: grid; grid-template-columns: 1fr 400px; gap: 96px; align-items: start;">
+      <div>
+        <h2 style="margin: 0; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; color: #FFFFFF; text-wrap: pretty;">In parts of Sub-Saharan Africa, most children born with sickle cell disease die before age five.</h2>
+        <p style="margin: 24px 0 0; font-size: 19px; line-height: 1.55; color: rgba(255,255,255,0.85); text-wrap: pretty;">Largely for lack of diagnosis and basic knowledge. Knowledge saves lives — and SCKIN puts it in every pocket, free.</p>
+        <p style="margin: 20px 0 0; font-size: 19px; line-height: 1.55; color: #FFFFFF; text-wrap: pretty;">Your gift keeps SickleCellPedia free for every patient, caregiver, and clinician who needs it.</p>
+      </div>
+      <div>
+        <div style="display: flex; gap: 6px; border: 1px solid rgba(255,255,255,0.45); border-radius: 980px; padding: 4px;">
+          <div onClick="{{ setOneTime }}" style="{{ oneTimeStyle }}">One-time</div>
+          <div onClick="{{ setMonthly }}" style="{{ monthlyStyle }}">Monthly <span style="font-weight: 400; opacity: 0.75; font-size: 12px;">· most impactful</span></div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px;">
+          <sc-for list="{{ presetChips }}" as="p" hint-placeholder-count="3">
+            <div onClick="{{ p.onClick }}" style="{{ p.style }}">{{ p.label }}</div>
+          </sc-for>
+        </div>
+        <input value="{{ customVal }}" onInput="{{ onCustom }}" placeholder="Custom amount ($)" style="width: 100%; box-sizing: border-box; margin-top: 8px; background: transparent; border: 1px solid rgba(255,255,255,0.45); border-radius: 980px; padding: 12px 20px; font-size: 16px; color: #FFFFFF; outline: none;">
+        <sc-if value="{{ noteClosed }}" hint-placeholder-val="{{ true }}">
+          <div onClick="{{ toggleNote }}" style="margin-top: 12px; font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); cursor: pointer; user-select: none;">+ Add a note (optional)</div>
+        </sc-if>
+        <sc-if value="{{ noteOpen }}" hint-placeholder-val="{{ false }}">
+          <input value="{{ noteVal }}" onInput="{{ onNote }}" placeholder="Add a note (optional)" style="width: 100%; box-sizing: border-box; margin-top: 8px; background: transparent; border: 1px solid rgba(255,255,255,0.45); border-radius: 980px; padding: 12px 20px; font-size: 16px; color: #FFFFFF; outline: none;">
+        </sc-if>
+        <div style="margin-top: 12px; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: rgba(255,255,255,0.55);">[ per-amount impact equivalences — pending unit costs ]</div>
+        <div onClick="{{ noop }}" style="margin-top: 24px; background: #FFFFFF; color: #8A1626; font-size: 17px; font-weight: 600; text-align: center; padding: 14px 0; border-radius: 980px; cursor: pointer;" style-hover="background: #EED3D8;">{{ donateLabel }}</div>
+        <div style="margin-top: 14px; font-size: 13px; text-align: center; color: rgba(255,255,255,0.6);">Secure payment via Stripe · SCKIN is a 501(c)(3) nonprofit</div>
+      </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="padding: 80px 48px 40px; background: #1B1B1E;">
+    <div style="max-width: 980px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: 1fr 180px 180px; gap: 64px;">
+        <div>
+          <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: #FFFFFF;">SCKIN</div>
+          <div style="margin-top: 6px; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.5);">Sickle Cell Knowledge and Information Network</div>
+          <div style="margin-top: 32px; font-size: 15px; font-weight: 600; color: #FFFFFF;">Get sickle cell news in your inbox</div>
+          <div style="display: flex; gap: 8px; margin-top: 12px; max-width: 420px;">
+            <input placeholder="Email address" style="flex: 1; min-width: 0; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 980px; padding: 11px 18px; font-size: 15px; color: #FFFFFF; outline: none;">
+            <div style="background: #FFFFFF; color: #1B1B1E; font-size: 15px; font-weight: 600; padding: 11px 20px; border-radius: 980px; cursor: pointer;" style-hover="background: #E2E2E5;">Sign up</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Explore</div>
+          <a href="#3a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">About us</a>
+          <a href="#3a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">SickleCellPedia</a>
+          <a href="#3a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">For clinicians</a>
+          <a href="#3a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Responsible AI</a>
+          <a href="#3a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Impact</a>
+          <a href="#3a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">News and blog</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Support</div>
+          <a href="#3a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Donate</a>
+          <a href="#3a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Contact</a>
+          <a href="#3a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Partner with us</a>
+        </div>
+      </div>
+      <div style="margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; color: rgba(255,255,255,0.5);">
+        <div>© 2026 SCKIN · 501(c)(3) · EIN 33-1763512</div>
+        <div style="display: flex; gap: 16px;"><a href="#3a" style="color: rgba(255,255,255,0.5);" style-hover="color: #FFFFFF;">Privacy</a><a href="#3a" style="color: rgba(255,255,255,0.5);" style-hover="color: #FFFFFF;">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+</div>
+</div>
+
+</div>
+</section>
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Final homepage @ 390px — merged hero (1c stack + product-first CTAs)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a" data-screen-label="2a Final homepage — merged hero">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Final — hero merged from 1c (stack, overline) + 1b (text link), primary CTA now "Try SickleCellPedia"</div>
+<div class="dv-card" style="width: 390px;">
+
+  <nav style="display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 16px; background: rgba(255,255,255,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid #EFEFF1;">
+    <div style="font-size: 18px; font-weight: 600; letter-spacing: -0.02em; color: #8A1626;">SCKIN</div>
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <a href="#2a" style="background: #8A1626; color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 7px 15px; border-radius: 980px;" style-hover="background: #71121F;">Donate</a>
+      <div style="display: flex; flex-direction: column; gap: 5px; padding: 6px 0; cursor: pointer;"><div style="width: 20px; height: 1.5px; background: #1B1B1E;"></div><div style="width: 20px; height: 1.5px; background: #1B1B1E;"></div></div>
+    </div>
+  </nav>
+
+  <section data-screen-label="Hero" style="padding: 72px 24px 88px; background: #FFFFFF;">
+    <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">SCKIN — a 501(c)(3) nonprofit</div>
+    <h1 style="margin: 20px 0 0; font-size: 54px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.02; color: #1B1B1E; text-wrap: pretty;">Reliable sickle cell knowledge,<br><span style="color: #8A1626;">universally accessible.</span></h1>
+    <p style="margin: 24px 0 0; font-size: 17px; line-height: 1.55; color: #5A5A61; max-width: 320px; text-wrap: pretty;">Free, multilingual AI tools that put trusted information in the hands of patients, caregivers, and clinicians — everywhere.</p>
+    <div style="display: flex; align-items: center; gap: 22px; margin-top: 36px; flex-wrap: wrap;">
+      <a href="#2a" style="background: #8A1626; color: #FFFFFF; font-size: 19px; font-weight: 600; padding: 16px 30px; border-radius: 980px;" style-hover="background: #71121F;">Try SickleCellPedia</a>
+      <a href="#2a" style="font-size: 17px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">Our mission →</a>
+    </div>
+  </section>
+
+  <section data-screen-label="Mission" style="padding: 0 24px 88px; background: #FFFFFF;">
+    <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Our mission</div>
+    <h2 style="margin: 12px 0 0; font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; color: #1B1B1E; text-wrap: pretty;">Our mission is to make useful and reliable information about sickle cell disease universally accessible.</h2>
+    <p style="margin: 16px 0 0; font-size: 17px; line-height: 1.55; color: #5A5A61; text-wrap: pretty;">Sickle cell disease is the world's most common inherited blood disorder — and the knowledge to manage it is hardest to find where it is needed most. SCKIN closes that gap with accurate, multilingual tools, free for everyone.</p>
+    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 28px;">
+      <div style="border-top: 1px solid #EFEFF1; padding-top: 16px;"><div style="font-size: 17px; font-weight: 600; color: #1B1B1E;">Free, always</div><div style="font-size: 15px; line-height: 1.5; color: #5A5A61; margin-top: 2px;">No paywalls, no accounts required.</div></div>
+      <div style="border-top: 1px solid #EFEFF1; padding-top: 16px;"><div style="font-size: 17px; font-weight: 600; color: #1B1B1E;">Multilingual by default</div><div style="font-size: 15px; line-height: 1.5; color: #5A5A61; margin-top: 2px;">Built for the languages patients actually speak.</div></div>
+      <div style="border-top: 1px solid #EFEFF1; padding-top: 16px;"><div style="font-size: 17px; font-weight: 600; color: #1B1B1E;">Evidence-based</div><div style="font-size: 15px; line-height: 1.5; color: #5A5A61; margin-top: 2px;">Grounded in current clinical guidance.</div></div>
+    </div>
+  </section>
+
+  <section data-screen-label="Products" style="padding: 0 24px 88px; background: #FFFFFF;">
+    <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">Products</div>
+    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+      <div style="background: #F7F7F8; border-radius: 20px; padding: 28px 24px;">
+        <h3 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #1B1B1E;">SickleCellPedia</h3>
+        <p style="margin: 10px 0 0; font-size: 17px; line-height: 1.55; color: #5A5A61; text-wrap: pretty;">Free, instant answers about sickle cell disease — for patients, caregivers, and clinicians, on the web or WhatsApp, in your language.</p>
+        <a href="#2a" style="display: inline-block; margin-top: 16px; font-size: 17px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">Try SickleCellPedia →</a>
+      </div>
+      <div style="background: #F7F7F8; border-radius: 20px; padding: 28px 24px;">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <h3 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #1B1B1E;">SickleCellPedia Pro</h3>
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5A5A61; border: 1px solid #C8C8CD; border-radius: 980px; padding: 3px 10px;">In development</span>
+        </div>
+        <p style="margin: 10px 0 0; font-size: 17px; line-height: 1.55; color: #5A5A61; text-wrap: pretty;">Clinical decision support for health professionals treating sickle cell disease in under-resourced settings.</p>
+        <a href="#2a" style="display: inline-block; margin-top: 16px; font-size: 17px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">Register interest →</a>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Impact stats" style="padding: 72px 24px; background: #8A1626;">
+    <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.72);">Why it matters</div>
+    <div style="display: flex; flex-direction: column; gap: 32px; margin-top: 32px;">
+      <div><div style="font-size: 48px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: #FFFFFF;">7.7M</div><div style="margin-top: 8px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.72);">people living with sickle cell disease worldwide</div></div>
+      <div><div style="font-size: 48px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: #FFFFFF;">500K+</div><div style="margin-top: 8px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.72);">babies born with SCD every year</div></div>
+      <div><div style="font-size: 48px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: #FFFFFF;">~80%</div><div style="margin-top: 8px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.72);">of those births are in Sub-Saharan Africa</div></div>
+    </div>
+    <div style="border-top: 1px solid rgba(255,255,255,0.28); margin-top: 40px; padding-top: 36px;">
+      <span style="display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #FFFFFF; background: rgba(255,255,255,0.16); border-radius: 980px; padding: 5px 12px;">Our goal</span>
+      <div style="margin-top: 16px; font-size: 68px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; color: #FFFFFF;">+5 yrs</div>
+      <div style="margin-top: 12px; font-size: 17px; line-height: 1.5; color: #FFFFFF; text-wrap: pretty;">Five more years of life expectancy in the most affected countries, within five years.</div>
+    </div>
+    <div style="margin-top: 36px; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.6);">Source: Global Burden of Disease 2021, The Lancet Haematology.</div>
+  </section>
+
+  <section data-screen-label="News" style="padding: 80px 24px 88px; background: #FFFFFF;">
+    <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7D7D85;">News</div>
+    <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #5A5A61; text-wrap: pretty;"><span style="font-weight: 600; color: #1B1B1E;">Sickle Cell News</span> — AI-curated research and community updates from around the world</p>
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5A5A61; border: 1px solid #C8C8CD; border-radius: 980px; padding: 3px 10px;">In development — expected September 2026</span>
+    </div>
+    <div style="display: flex; flex-direction: column; margin-top: 16px;">
+      <div style="padding: 20px 0; border-bottom: 1px solid #EFEFF1;"><div style="font-size: 13px; color: #7D7D85;">June 2026</div><div style="margin-top: 6px; font-size: 19px; font-weight: 600; line-height: 1.35; color: #1B1B1E; text-wrap: pretty;">SCKIN abstract accepted at EHA 2026: benchmarking SickleCellPedia against general-purpose LLMs on clinical questions</div></div>
+      <div style="padding: 20px 0; border-bottom: 1px solid #EFEFF1;"><div style="font-size: 13px; color: #7D7D85;">May 2026</div><div style="margin-top: 6px; font-size: 19px; font-weight: 600; line-height: 1.35; color: #1B1B1E; text-wrap: pretty;">SickleCellPedia is now on WhatsApp — free sickle cell answers, no app required</div></div>
+      <div style="padding: 20px 0;"><div style="font-size: 13px; color: #7D7D85;">April 2026</div><div style="margin-top: 6px; font-size: 19px; font-weight: 600; line-height: 1.35; color: #1B1B1E; text-wrap: pretty;">SCKIN presents at Warrior Con 2026</div></div>
+    </div>
+    <a href="#2a" style="display: inline-block; margin-top: 8px; font-size: 17px; font-weight: 600; color: #5A0E19;" style-hover="color: #8A1626;">All news →</a>
+  </section>
+
+  <section data-screen-label="Donate" style="padding: 72px 24px 80px; background: #8A1626;">
+    <h2 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; color: #FFFFFF; text-wrap: pretty;">In parts of Sub-Saharan Africa, most children born with sickle cell disease die before age five.</h2>
+    <p style="margin: 16px 0 0; font-size: 17px; line-height: 1.55; color: rgba(255,255,255,0.85); text-wrap: pretty;">Largely for lack of diagnosis and basic knowledge. Knowledge saves lives — and SCKIN puts it in every pocket, free.</p>
+    <p style="margin: 16px 0 0; font-size: 17px; line-height: 1.55; color: #FFFFFF; text-wrap: pretty;">Your gift keeps SickleCellPedia free for every patient, caregiver, and clinician who needs it.</p>
+    <div style="display: flex; gap: 6px; margin-top: 32px; border: 1px solid rgba(255,255,255,0.45); border-radius: 980px; padding: 4px;">
+      <div onClick="{{ setOneTime }}" style="{{ oneTimeStyle }}">One-time</div>
+      <div onClick="{{ setMonthly }}" style="{{ monthlyStyle }}">Monthly <span style="font-weight: 400; opacity: 0.75; font-size: 12px;">· most impactful</span></div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px;">
+      <sc-for list="{{ presetChips }}" as="p" hint-placeholder-count="3">
+        <div onClick="{{ p.onClick }}" style="{{ p.style }}">{{ p.label }}</div>
+      </sc-for>
+    </div>
+    <input value="{{ customVal }}" onInput="{{ onCustom }}" placeholder="Custom amount ($)" style="width: 100%; box-sizing: border-box; margin-top: 8px; background: transparent; border: 1px solid rgba(255,255,255,0.45); border-radius: 980px; padding: 12px 20px; font-size: 16px; color: #FFFFFF; outline: none;">
+    <sc-if value="{{ noteClosed }}" hint-placeholder-val="{{ true }}">
+      <div onClick="{{ toggleNote }}" style="margin-top: 12px; font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); cursor: pointer; user-select: none;">+ Add a note (optional)</div>
+    </sc-if>
+    <sc-if value="{{ noteOpen }}" hint-placeholder-val="{{ false }}">
+      <input value="{{ noteVal }}" onInput="{{ onNote }}" placeholder="Add a note (optional)" style="width: 100%; box-sizing: border-box; margin-top: 8px; background: transparent; border: 1px solid rgba(255,255,255,0.45); border-radius: 980px; padding: 12px 20px; font-size: 16px; color: #FFFFFF; outline: none;">
+    </sc-if>
+    <div style="margin-top: 12px; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: rgba(255,255,255,0.55);">[ per-amount impact equivalences — pending unit costs ]</div>
+    <div onClick="{{ noop }}" style="margin-top: 24px; background: #FFFFFF; color: #8A1626; font-size: 17px; font-weight: 600; text-align: center; padding: 14px 0; border-radius: 980px; cursor: pointer;" style-hover="background: #EED3D8;">{{ donateLabel }}</div>
+    <div style="margin-top: 14px; font-size: 13px; text-align: center; color: rgba(255,255,255,0.6);">Secure payment via Stripe · SCKIN is a 501(c)(3) nonprofit</div>
+  </section>
+
+  <footer data-screen-label="Footer" style="padding: 56px 24px 32px; background: #1B1B1E;">
+    <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: #FFFFFF;">SCKIN</div>
+    <div style="margin-top: 6px; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.5);">Sickle Cell Knowledge and Information Network</div>
+    <div style="margin-top: 28px;">
+      <div style="font-size: 15px; font-weight: 600; color: #FFFFFF;">Get sickle cell news in your inbox</div>
+      <div style="display: flex; gap: 8px; margin-top: 12px;">
+        <input placeholder="Email address" style="flex: 1; min-width: 0; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 980px; padding: 11px 18px; font-size: 15px; color: #FFFFFF; outline: none;">
+        <div style="background: #FFFFFF; color: #1B1B1E; font-size: 15px; font-weight: 600; padding: 11px 20px; border-radius: 980px; cursor: pointer;" style-hover="background: #E2E2E5;">Sign up</div>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px;">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Explore</div>
+        <a href="#2a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">About us</a>
+        <a href="#2a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">SickleCellPedia</a>
+        <a href="#2a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">For clinicians</a>
+        <a href="#2a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Responsible AI</a>
+        <a href="#2a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Impact</a>
+        <a href="#2a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">News and blog</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Support</div>
+        <a href="#2a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Donate</a>
+        <a href="#2a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Contact</a>
+        <a href="#2a" style="font-size: 15px; color: rgba(255,255,255,0.75);" style-hover="color: #FFFFFF;">Partner with us</a>
+      </div>
+    </div>
+    <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; color: rgba(255,255,255,0.5);">
+      <div>© 2026 SCKIN · 501(c)(3) · EIN 33-1763512</div>
+      <div style="display: flex; gap: 16px;"><a href="#2a" style="color: rgba(255,255,255,0.5);" style-hover="color: #FFFFFF;">Privacy</a><a href="#2a" style="color: rgba(255,255,255,0.5);" style-hover="color: #FFFFFF;">Terms</a></div>
+    </div>
+  </footer>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "show the desktop (1440px) version" · "riff on the impact band composition" · "open the mobile menu state"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;donateDefaultFrequency&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;one-time&quot;,&quot;monthly&quot;],&quot;default&quot;:&quot;one-time&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Donate band&quot;}}">
+class Component extends DCLogic {
+  state = { amount: null, freq: null, custom: '', noteOpen: false, note: '' };
+  renderVals() {
+    const freq = this.state.freq ?? (this.props.donateDefaultFrequency ?? 'one-time');
+    const cfg = freq === 'monthly' ? { presets: ['10', '20', '50'], def: '20' } : { presets: ['25', '50', '100'], def: '25' };
+    const amount = this.state.amount ?? cfg.def;
+    const chip = { padding: '12px 0', textAlign: 'center', borderRadius: 980, fontSize: 16, fontWeight: 600, cursor: 'pointer', border: '1px solid rgba(255,255,255,0.45)', color: '#fff', background: 'transparent', userSelect: 'none' };
+    const chipSel = { ...chip, background: '#fff', color: '#8A1626', border: '1px solid #fff' };
+    const presetChips = cfg.presets.map(v => ({
+      label: '$' + v,
+      style: (amount === v && !this.state.custom) ? chipSel : chip,
+      onClick: () => this.setState({ amount: v, custom: '' }),
+    }));
+    const seg = { flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 980, fontSize: 15, fontWeight: 600, cursor: 'pointer', color: '#fff', userSelect: 'none' };
+    const segSel = { ...seg, background: '#fff', color: '#8A1626' };
+    const shown = this.state.custom || amount;
+    return {
+      presetChips,
+      oneTimeStyle: freq === 'one-time' ? segSel : seg,
+      monthlyStyle: freq === 'monthly' ? segSel : seg,
+      setOneTime: () => this.setState({ freq: 'one-time', amount: null, custom: '' }),
+      setMonthly: () => this.setState({ freq: 'monthly', amount: null, custom: '' }),
+      onCustom: (e) => this.setState({ custom: e.target.value.replace(/[^0-9]/g, '') }),
+      customVal: this.state.custom,
+      donateLabel: 'Donate $' + shown + (freq === 'monthly' ? ' monthly' : ''),
+      noteOpen: this.state.noteOpen,
+      noteClosed: !this.state.noteOpen,
+      toggleNote: () => this.setState({ noteOpen: true }),
+      noteVal: this.state.note,
+      onNote: (e) => this.setState({ note: e.target.value }),
+      noop: () => {},
+    };
+  }
+}
+</script>
+</body>
+</html>
+
