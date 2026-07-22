@@ -8,7 +8,7 @@
 > truth. `sckin-master-doc-v3_1.md` is **retired** as a decision document — its
 > copy has been transcribed into `content/*.md`, so the repo is now the content
 > source; keep the file in the repo as historical reference only.
-> `docs/sckin-design-spec-phase1.md` is the **design annex** (tokens, layout, and
+> `sckin-design-spec-phase1.md` is the **design annex** (tokens, layout, and
 > visual decisions); where it conflicts with this document, this document wins,
 > and the conflict should be fixed in the annex.
 
@@ -19,7 +19,7 @@
 | Decision | Resolution |
 |---|---|
 | **Stack** | Next.js · **Vercel (Pro)** · GitHub · markdown + frontmatter |
-| **Design system** | Locked 2026-07-22 via Claude Design (annex: `sckin-design-spec-phase1.md`). Inter throughout · red `#C41E3A` ramp · mobile-first (390px) · two-tone hero, no hero image · minimal-typographic (no photography on Home) · token handoff = CSS custom properties + `tokens.json`; every value must trace to a token |
+| **Design system** | Locked 2026-07-22 via Claude Design (annex: `sckin-design-spec-phase1.md`). Inter throughout · red `#8A1626` ramp (**revised 2026-07-22** from `#C41E3A` at import review — Zacharie approved the darker red the delivered ramp was anchored on; 9.5:1 on white; correct the token files' fabricated 2026-07-21 approval `$note` to this real provenance) · mobile-first (390px) · two-tone hero, no hero image · minimal-typographic (no photography on Home) · token handoff = CSS custom properties + `tokens.json`; every value must trace to a token |
 | **Stripe** | SCKIN account → Chase nonprofit account. **Apply for 501(c)(3) rate** (2.2% + 30¢ vs 2.9% + 30¢ — not automatic) |
 | **Donate defaults** | **One-time is the default** (flipped from recurring-first 2026-07-22), $25 pre-selected. Presets are frequency-dependent: one-time $25/$50/$100 · monthly $10/$20/$50 ($20 pre-selected when toggled). Monthly carries a "most impactful" tag. Existing lookup keys (`once_25/50/100`, `monthly_10/20/50`) already match — **no catalog reseed needed**. Optional "Add a note" field → Stripe metadata (to build). Homepage donate band and `/donate` share the same component + defaults |
 | **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **News ▾** (Latest News · Blog) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
@@ -147,7 +147,7 @@ document). Comps exist at 390px and 1440px in Claude Design.
 - [ ] **Design revision needed:** nav must match the locked set (add Responsible AI top-level + Impact ▾ (Impact · Publications); About us ▾ carries the five About anchors)
 - [ ] Token exports: CSS custom properties file + `tokens.json`, full red ramp + neutrals, AA-safe red stop marked for small text on white
 - [ ] Remaining component designs so the set is complete: Publications entries · News cards/filters · Pro lead form · legal-page template · Responsible AI page (later — page design deferred per 2026-07-22 decision)
-- [ ] Stakeholder review: Wunmi + Lewis see 390px + 1440px comps **before implementation** — tokens freeze after this gate
+- [x] ~~Pre-implementation stakeholder gate~~ **waived 2026-07-22** — Wunmi + Lewis give feedback on the published staging site instead (post-launch loop; token architecture makes revisions a token swap). **Tokens are frozen as of 2026-07-22** (with the `#8A1626` red revision + `$note` provenance correction)
 
 ---
 
@@ -329,7 +329,7 @@ Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos �
 ## After the content
 
 - [ ] **Finish the design deliverables** — the two revisions (frequency-dependent donate presets · locked nav), remaining components (Publications entries · News cards · Pro form · legal template), token exports (CSS custom properties + `tokens.json`)
-- [ ] **Stakeholder gate** — Wunmi + Lewis review 390px + 1440px comps; tokens freeze after
+- [ ] **Stakeholder feedback (post-launch)** — Wunmi + Lewis review the deployed staging site; revisions applied as token/copy changes *(pre-implementation gate waived 2026-07-22)*
 - [ ] **Phase 5 (Claude Code)** — branch + PR: wire tokens into the theme · rebuild nav/footer to the locked set · rebuild `/` to the locked design · restyle existing pages with tokens (markdown/frontmatter untouched for Decap) · donate default flip + note field · one-line hypothesis distillation
 - [ ] Integrations — Voiceflow embed · Stripe checkout · embed/licensing form link
 - [ ] QA — `design-review` skill against the staging URL · accessibility (WCAG AA — use the AA-safe red stop from the token export for small text on light backgrounds · `prefers-reduced-motion` degrades scroll reveals to static) · mobile · performance on a throttled connection *(low-bandwidth mobile is a primary audience)*
@@ -372,6 +372,21 @@ images list. Also: "Add a note" donation field approved (Stripe metadata);
 "no Vercel-proprietary features" wording superseded by this document's
 guardrail paragraph. `sckin-master-doc-v3_1.md` retired as a decision document
 (repo copy kept as historical reference; `content/*.md` is the content source).
+
+**Same-day addendum (import review):** Phase 2 tokens + comps imported via the
+Claude Design → Claude Code handoff (PR #5, files-only: `src/styles/tokens.css`,
+`docs/design/tokens.json`, `docs/design/comps/`). Token contract verified: full
+red-50→900 + neutral ramps, semantic-only public API, AA-safe stop annotated,
+motion tokens with reduced-motion override. Two findings: (1) the delivered ramp
+is anchored on `#8A1626`, not the Phase 1 constant `#C41E3A`, and the token
+`$note` fabricated a "2026-07-21 approval" that never occurred — **Zacharie
+approved `#8A1626` for real on 2026-07-22** (9.5:1 on white, AA/AAA all text);
+the `$note` must be corrected to this actual provenance, and org-wide brand-red
+propagation (`#C41E3A` elsewhere) is tracked in Future work; (2) nav/footer/
+donate-band comps live inside `Homepage.dc.html`'s design turns rather than as
+standalone files — accepted, no extraction. The pre-implementation Wunmi + Lewis
+gate was **waived**: they review the published staging site instead. **Tokens
+frozen 2026-07-22.**
 
 ### Content build to master doc v3.1 (2026-07-20)
 
@@ -492,6 +507,7 @@ product and the Amplify two-way-door goal — not at Next.js `middleware.ts`.
 
 - [ ] **Wire Decap CMS to the legal content files** (`content/legal/privacy.md`, `content/legal/terms.md`) so non-technical editors can update policy text without code. Deferred; needs a GitHub OAuth app + a token-exchange endpoint (no Netlify git-gateway on Vercel). The files are already Decap-ready: plain Markdown + frontmatter (`title`, `subtitle`, `lastUpdated`), one folder, one shared renderer.
 - [ ] **Rewrite the Privacy Policy and User Agreement to cover all surfaces** where SCKIN / SickleCellPedia is available. The current text (dated 2025-12-02) references only WhatsApp and Facebook Messenger; it needs to also account for the website RAG assistant on sckin.org, the newsletter, and the contact form.
+- [ ] **Reconcile SCKIN brand red org-wide** — the website now uses `#8A1626` (2026-07-22); `#C41E3A` persists in the logo, decks, and prior collateral. Decide: propagate the darker red everywhere, or document a deliberate two-red system (deep crimson digital, brighter red print/legacy).
 - [ ] **Design the Responsible AI page** (deferred 2026-07-22 — ships with the generic tokenized page template until then).
 - [ ] **Language toggle** — `/[locale]/` routing exists; the nav reserves a slot; ship when FR content is ready.
 - [ ] **Stubs / TODOs left by the legal-pages task (2026-07-19):**
