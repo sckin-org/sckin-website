@@ -1,8 +1,16 @@
 # SCKIN Website — Requirements & Content Checklist
 
-> Living document and single source of truth for status. Work page by page.
-> **Loop per page:** draft in the Master Doc → paste into Claude Code → it writes
+> Living document and **single source of truth for status**. Work page by page.
+> **Loop per page:** draft content → paste into Claude Code → it writes
 > `content/<page>.md` → commit → tick it off → check on `localhost:3000`.
+>
+> **Document hierarchy (settled 2026-07-22):** this Checklist is the source of
+> truth. `sckin-master-doc-v3_1.md` is **retired** as a decision document — its
+> copy has been transcribed into `content/*.md`, so the repo is now the content
+> source; keep the file in the repo as historical reference only.
+> `docs/sckin-design-spec-phase1.md` is the **design annex** (tokens, layout, and
+> visual decisions); where it conflicts with this document, this document wins,
+> and the conflict should be fixed in the annex.
 
 ---
 
@@ -11,7 +19,12 @@
 | Decision | Resolution |
 |---|---|
 | **Stack** | Next.js · **Vercel (Pro)** · GitHub · markdown + frontmatter |
+| **Design system** | Locked 2026-07-22 via Claude Design (annex: `sckin-design-spec-phase1.md`). Inter throughout · red `#C41E3A` ramp · mobile-first (390px) · two-tone hero, no hero image · minimal-typographic (no photography on Home) · token handoff = CSS custom properties + `tokens.json`; every value must trace to a token |
 | **Stripe** | SCKIN account → Chase nonprofit account. **Apply for 501(c)(3) rate** (2.2% + 30¢ vs 2.9% + 30¢ — not automatic) |
+| **Donate defaults** | **One-time is the default** (flipped from recurring-first 2026-07-22), $25 pre-selected. Presets are frequency-dependent: one-time $25/$50/$100 · monthly $10/$20/$50 ($20 pre-selected when toggled). Monthly carries a "most impactful" tag. Existing lookup keys (`once_25/50/100`, `monthly_10/20/50`) already match — **no catalog reseed needed**. Optional "Add a note" field → Stripe metadata (to build). Homepage donate band and `/donate` share the same component + defaults |
+| **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **News ▾** (Latest News · Blog) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
+| **Publications placement** | Nav: under **Impact ▾**. Route stays **`/publications`** (no URL move — avoids redirect churn; reverses only the nav placement, not commit `a294044`) |
+| **Hypothesis** | Full text lives on **`/mission` only**; Home's Mission section carries a one-line distillation + "Our mission →" link (no duplicated full copy) |
 | **Pro leads** | Native on-site form → Google Sheet via **service-account API route** *(supersedes Apps Script per master doc v3.1 — switched 2026-07-20, `9aa2577`)* |
 | **Contact** | Native on-site form → Google Sheet (same pattern; email notification needs a new home — see Technical setup) |
 | **Language** | English at launch; `/[locale]/` routing built in, `en` unprefixed |
@@ -24,7 +37,9 @@
 avoid Vercel-*proprietary* primitives (e.g. Vercel-managed storage/KV, Vercel Cron)
 where a standard Next.js equivalent exists. Standard Next.js `middleware.ts` is a
 framework feature, not a Vercel product, and is explicitly allowed — it powers the
-i18n locale routing.
+i18n locale routing. *(The design annex's stricter "no Vercel-proprietary features"
+wording is superseded by this paragraph — relaxed per the 2026-07-16 hosting
+decision; design tokens ship vendor-neutral regardless.)*
 
 ---
 
@@ -33,7 +48,8 @@ i18n locale routing.
 - [ ] **Testimonials** — start the asks NOW (longest lead time; depends on other people replying)
   - [ ] Community: patients / caregivers / parents
   - [ ] Clinical: Dr. Hsu · Prof. Bartolucci · Dr. Thomas
-- [ ] **Impact numbers** — conversations · countries reached · questions answered · channel split
+- [ ] **Impact numbers** — conversations · countries reached · questions answered · channel split *(gates the Impact ▾ nav item going live)*
+- [ ] **GBD figure verification** — confirm the homepage impact-band stats (7.7M · 500K+ · ~80%) against Global Burden of Disease 2021, The Lancet Haematology, before ship
 - [ ] **France / 54 years** — confirm source (54 traces to a 2019 *US* study in available sources)
 - [ ] **"Friends of SCKIN"** — define what this section actually is
 - [ ] **Board bios** — Maimouna Phelan, Bill Phelan (no bio links on current site)
@@ -90,20 +106,23 @@ i18n locale routing.
 ## Donations (Stripe)
 
 Integrated 2026-07-17 — see `docs/stripe-donations.md` for full setup and go-live steps.
+**Defaults revised 2026-07-22** (design reconciliation): one-time-first replaces recurring-first.
 
-- **Recurring-first donate page** — `/donate` defaults to Monthly with $20 pre-selected; one-time tiers ($25/$50/$100) show a monthly-upsell nudge; custom amounts supported ($1–$25,000).
+- **One-time-first donate flow** — default frequency is **One-time with $25 pre-selected**; toggling to Monthly shows $10/$20/$50 with $20 pre-selected and a "most impactful" tag; presets are frequency-dependent (one-time thresholds deliberately higher); custom amounts supported ($1–$25,000). Homepage donate band and `/donate` share the same component and defaults.
 - **Stripe Checkout integration** — `POST /api/checkout` creates a Checkout Session (`subscription` mode for monthly, `payment` for one-time) and redirects to Stripe-hosted checkout; success returns to `/donate/success` with tax-receipt language (EIN 33-1763512).
 - **Webhook receipts** — signature-verified `/api/webhooks/stripe` handles `checkout.session.completed`, `invoice.paid` (renewals only, no double receipts), and `invoice.payment_failed`; IRS-compliant acknowledgment text is ready in `src/lib/donations.ts`, Kit email send still TODO.
-- **Lookup-key price resolution** — suggested tiers resolve catalog prices by lookup key (`monthly_10/20/50`, `once_25/50/100`), seeded idempotently by `scripts/stripe-seed.mjs`.
+- **Lookup-key price resolution** — suggested tiers resolve catalog prices by lookup key (`monthly_10/20/50`, `once_25/50/100`), seeded idempotently by `scripts/stripe-seed.mjs`. **Unchanged by the 2026-07-22 default flip — no reseed needed.**
 - **Test/live parity** — same code and env-var names in both modes; go-live is re-running the seed script with the live key and swapping key values in Vercel.
 
-**Status (2026-07-17)** — live in TEST MODE end to end:
+**Status (2026-07-17, revised 2026-07-22)** — live in TEST MODE end to end:
 - [x] Code integrated, typecheck + production build passing, committed (`3ff1ca4`) and deployed to Vercel production
 - [x] Test catalog seeded (product + 6 lookup-key prices)
 - [x] Local e2e verified: all three checkout shapes return Checkout URLs; webhook signature verification passed via `stripe listen` + `stripe trigger`
 - [x] All three env vars in Vercel (Preview + Production): `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`
 - [x] Test-mode webhook endpoint created (`we_1TuMqKBzu5I6XlHdtYgUqbaH` → `https://sckin-website.vercel.app/api/webhooks/stripe`) via `scripts/stripe-webhook-setup.mjs`, which pipes the signing secret straight into `vercel env add` without displaying it — reuse it at go-live
 - [x] Production smoke test: `/api/checkout` returns Checkout URLs; webhook rejects forged signatures (400)
+- [ ] **Flip the default frequency to one-time ($25 pre-selected) in the donate component** — decision 2026-07-22; monthly keeps $20 pre-selected when toggled
+- [ ] **"Add a note (optional)" field** — collapsed single-line input; value → Checkout Session `metadata` (or a Checkout custom field); surfaces in the Stripe dashboard for Matt
 - [ ] One full test-card donation on production (`4242 4242 4242 4242`) + confirm `[donation] checkout completed` in Vercel function logs
 - [ ] After domain cutover: update the webhook endpoint URL to `www.sckin.org` (Stripe dashboard, secret unchanged) or rerun the setup script with `WEBHOOK_URL=...`
 - [ ] Enable Customer portal (Stripe dashboard → Settings → Billing) for recurring-donor self-serve
@@ -112,15 +131,51 @@ Integrated 2026-07-17 — see `docs/stripe-donations.md` for full setup and go-l
 
 ---
 
+## Design (Phase 2) — locked 2026-07-22
+
+Annex: `sckin-design-spec-phase1.md` (amended to match the resolutions in this
+document). Comps exist at 390px and 1440px in Claude Design.
+
+- [x] Reference decomposition (Red Cross structure · Apple execution) + 4-round preference elicitation
+- [x] Hero: two-tone stacked headline (black + red "universally accessible."), 501(c)(3) overline, primary CTA **Try SickleCellPedia**, text link **Our mission →**; no hero image; capped at 72px on desktop
+- [x] Homepage flow: Hero → Mission → Products (2 cards) → Impact band (red) → News → Donate band (red) → Footer
+- [x] Impact band content: 7.7M · 500K+ · ~80% · **+5 yrs (OUR GOAL treatment)**, GBD 2021 citation *(figures pending verification — see Remaining blockers)*
+- [x] Donate band copy (child-mortality lead) + Stripe trust line; impact-equivalence placeholders clearly marked pending unit costs
+- [x] Footer: brand + Kit newsletter signup · Explore + Support link groups · legal bar (© · 501(c)(3) · EIN · Privacy · Terms)
+- [x] Product cards: SickleCellPedia one-liner · Pro one-liner with IN DEVELOPMENT tag + Register interest → `#register`
+- [ ] **Design revision needed:** donate band presets must be frequency-dependent (one-time $25/$50/$100 default · monthly $10/$20/$50) — the current comp shows a single $10–$100 row
+- [ ] **Design revision needed:** nav must match the locked set (add Responsible AI top-level + Impact ▾ (Impact · Publications); About us ▾ carries the five About anchors)
+- [ ] Token exports: CSS custom properties file + `tokens.json`, full red ramp + neutrals, AA-safe red stop marked for small text on white
+- [ ] Remaining component designs so the set is complete: Publications entries · News cards/filters · Pro lead form · legal-page template · Responsible AI page (later — page design deferred per 2026-07-22 decision)
+- [ ] Stakeholder review: Wunmi + Lewis see 390px + 1440px comps **before implementation** — tokens freeze after this gate
+
+---
+
 ## Pages
 
-### 1. Home — `/` ✅
-Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis section, secondary "Donate to support SCKIN" CTA, tools with WhatsApp link + QR + status badges, Tool 2 CTA → `#register`, Get involved (donate + embed-form CTAs), email signup wired to `/api/newsletter`.* Outstanding: hero + 3 tool images, alt text, 1 testimonial, {PENDING} "Sickle Cell News" name confirm.
+### 1. Home — `/` ◐ *(redesign supersedes the v3.1 build)*
+v3.1 build committed `e8e3036` is **superseded by the locked design** (see Design
+section). To carry over deliberately, not silently drop: hypothesis → one-line
+distillation in the Mission section (full text on `/mission`) · Sickle Cell News
+tool card → **News section intro carries the product framing** (2026-07-22:
+Products stays two cards; News is introduced as the AI-curated service — e.g.
+"AI-curated research and community updates from around the world" — with the
+Sept 2026 badge where relevant, linking to `/news` for the full classifier
+explanation) · WhatsApp QR → lives on
+`/sicklecellpedia` · email signup → footer (already wired to `/api/newsletter`).
+Dropped by design: hero image, tool images, three-tool layout.
+
+- [x] Copy exists (hero, mission, product one-liners, impact stats, donate band, news headlines)
+- [ ] Rebuild `/` to the locked design once tokens freeze (Phase 5)
+- [ ] One-line hypothesis distillation for the Mission section (derive from `/mission`)
+- [ ] 1 testimonial *(slot in Mission or Donate band — blocked on testimonial asks)*
+- [ ] {PENDING} "Sickle Cell News" name confirm
 
 ### 2. Mission — `/mission` ✅
 *Committed `36fb373`, live on staging. Short page — done.*
+**2026-07-22:** full hypothesis text lives here (Home carries only a one-line distillation).
 
-- [x] Mission statement
+- [x] Mission statement *(verbatim: "Our mission is to make useful and reliable information about sickle cell disease universally accessible." — Home's Mission section headline uses the same verbatim statement)*
 - [x] Vision — the future state SCKIN is working toward
 - [x] Hypothesis
 - [x] Use case — Patient *(Danielle, Houston — hydroxyurea prep)*
@@ -153,12 +208,12 @@ Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis sectio
 - [ ] Board photos → `public/images/team/` *(placeholders rendering — initials blocks for people, name-only for org logos in `public/images/logos/`; pending real image files, which appear on drop-in with no code change)*
 - [x] → Paste to Claude Code
 
-### 5. Donate — `/donate`
-*Prioritize — revenue page. Stripe checkout is live in test mode — see the Donations (Stripe) section above. 2026-07-20 (`a261344`): eyebrow now the doc title "Support Our Work"; fine print carries the verbatim master-doc tax line ("…tax-deductible to the extent permitted by law").*
+### 5. Donate — `/donate` ◐
+*Prioritize — revenue page. Stripe checkout is live in test mode — see the Donations (Stripe) section above. 2026-07-20 (`a261344`): eyebrow now the doc title "Support Our Work"; fine print carries the verbatim master-doc tax line ("…tax-deductible to the extent permitted by law"). **2026-07-22: defaults flip to one-time-first — see Donations section.***
 
-- [x] Why donations matter / what they fund *(lede: sustains SickleCellPedia; expand later if desired)*
-- [x] Suggested amounts — $10/$20/$50 monthly, $25/$50/$100 one-time, custom
-- [x] Recurring giving — yes; monthly is the default with $20 pre-selected
+- [x] Why donations matter / what they fund *(lede: sustains SickleCellPedia; expand later if desired — designed donate-band copy with child-mortality lead can be reused here)*
+- [x] Suggested amounts — one-time $25/$50/$100 · monthly $10/$20/$50 · custom
+- [ ] ~~Recurring giving default~~ → **One-time is the default** ($25 pre-selected); Monthly keeps the "most impactful" tag *(component change pending)*
 - [x] Tax note — EIN 33-1763512, 501(c)(3) language on donate + success pages
 - [ ] 2–3 condensed impact stats + link to `/impact`
 - [ ] 1 patient testimonial
@@ -166,9 +221,9 @@ Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis sectio
 - [x] → Paste to Claude Code
 
 ### 6. SickleCellPedia Pro — `/sicklecellpedia-pro`
-*Pre-launch page — credibility carries it. Built to master doc v3.1 (`39ca799`); v3.1 field set + required consent checkbox → `/api/pro-lead` (`9aa2577`). **Form renders and validates but is inert pending the Google service account + Sheets env vars** — see Technical setup.*
+*Pre-launch page — credibility carries it. Built to master doc v3.1 (`39ca799`); v3.1 field set + required consent checkbox → `/api/pro-lead` (`9aa2577`). **Form renders and validates but is inert pending the Google service account + Sheets env vars** — see Technical setup. **Nav label is "For Clinicians"** (2026-07-22); the page carries the full product name.*
 
-- [ ] Tagline — one-line value prop for HCPs *(still [TO ADD]; renders nothing meanwhile)*
+- [x] Tagline — one-line value prop for HCPs *(2026-07-22: "Clinical decision support for health professionals treating sickle cell disease in under-resourced settings.")*
 - [x] Intro *(v3.1 wording — "…and other underserved communities")*
 - [x] 4 features *(mandatory citations · chain-of-thought · multi-agent · credential-based access)*
 - [ ] Additional features? *([TO ADD] in the doc)*
@@ -178,7 +233,7 @@ Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis sectio
 - [x] → Paste to Claude Code
 
 ### 7. Responsible AI — `/responsible-ai`
-*Heavy lift. Distinctive — few nonprofits have this. Structure + anchors shipped 2026-07-20 (`2fba37e`): `#approach` with the five sub-blocks and `#surveys`, matching the nav dropdown; every body is [TO ADD] in the doc, so clean "Content coming soon." placeholders render.*
+*Heavy lift. Distinctive — few nonprofits have this. **Top-level nav item (2026-07-22); page design deferred — ships with the token system's generic page template until designed.** Structure + anchors shipped 2026-07-20 (`2fba37e`): `#approach` with the five sub-blocks and `#surveys`, matching the nav dropdown; every body is [TO ADD] in the doc, so clean "Content coming soon." placeholders render.*
 
 - [ ] Our approach
 - [ ] Guideline grounding & mandatory citations
@@ -190,7 +245,7 @@ Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis sectio
 - [x] → Paste to Claude Code *(scaffold only — the copy above still needs writing)*
 
 ### 8. Impact — `/impact`
-*Needs real numbers. Don't let it block the other pages.*
+*Needs real numbers. Don't let it block the other pages. **Gates the Impact ▾ nav item going live (2026-07-22).***
 
 - [ ] Hero headline + subhead
 - [ ] Stat: total conversations
@@ -202,13 +257,13 @@ Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis sectio
 - [ ] Clinically evaluated — brief summary, link to Responsible AI
 - [ ] Clinician testimonials
 - [ ] → Paste to Claude Code
-- [ ] ⚠️ **No placeholder figures — funders read this page**
+- [ ] ⚠️ **No placeholder figures — funders read this page** *(this rule is why the homepage impact band deliberately uses epidemiology + the +5 yrs goal, not SCKIN traction numbers — the two are complementary, not duplicative)*
 
 ### 9. Publications — `/publications`
-*Assembly, not writing. Pull from Zotero + abstract records. Moved top-level (was `/impact/publications`) and rebuilt to v3.1's four sections — Presentations · Publications · Abstracts · Other Contributions — committed `a294044`.*
+*Assembly, not writing. Pull from Zotero + abstract records. Route stays top-level `/publications` (commit `a294044`); **nav placement moved under Impact ▾ 2026-07-22**. Four sections — Presentations · Publications · Abstracts · Other Contributions.*
 
 - [ ] Intro line *(doc's example line renders; final [TO ADD])*
-- [ ] EHA Stockholm 2026 *(no entry in master doc v3.1 yet)*
+- [ ] EHA Stockholm 2026 *(add: Submission ID EHA-4931, Abstract Code PB3135 — accepted; presented June 11–14 2026)*
 - [x] ASCAT London 2026 *(Abstracts: paper #226, accepted as Oral, presenting author Mr Zacharie Liman-Tinguiri, SCKIN; {PENDING} exact 2026 dates + link)*
 - [ ] SCDAA 2026 *(no entry in master doc v3.1 yet)*
 - [ ] Globinoscope essay *(section + N°11 source link render; pending article titles/authors/pages — two clearly-marked TO-ADD entries)*
@@ -221,12 +276,12 @@ Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis sectio
 
 - [x] Intro copy — explain the AI classifier *(v3.1 launch phase, `7a82af5`: "In development — expected September 2026" badge, social-distribution language, plain card list — no filters yet, `NewsBrowser` parked until the taxonomy ships)*
 - [x] Blog subpage — `/news/blog` *(SCKIN's own announcements, linked from the News landing + News ▾ nav; card scaffold + empty state; posts authored later in `/admin` into `content/blog/`)*
-- [ ] 3–5 seed posts so the page isn't empty at launch *(only `example-post.md` today)*
+- [ ] 3–5 seed posts so the page isn't empty at launch *(only `example-post.md` today; the three headlines used in the homepage design — EHA abstract accepted · WhatsApp launch · Warrior Con — are natural seeds)*
 - [ ] Confirm DAG emits the agreed frontmatter contract *(`title`, `date`, `summary`, `source_url`, `topics: []`, `geographies: []`, `image`)*
 - [x] → Paste to Claude Code *(landing + blog shipped; seed posts + taxonomy later)*
 
 ### 11. Contact — `/contact`
-*Mostly stubbed. Form backend is wired; copy is not.*
+*Mostly stubbed. Form backend is wired; copy is not. Out of nav; footer-linked.*
 
 - [ ] Hero subhead
 - [ ] Google Calendar scheduling link
@@ -236,10 +291,11 @@ Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis sectio
 
 ### 12. Utility ♻️
 
-- [x] `/whatsapp` — migrate from existing site *(the WhatsApp bot's welcome links here for terms — keep consistent with `/terms`; see WhatsApp integration)* *(shipped 2026-07-19 as an **unlisted** landing page: noindex,nofollow · no sitemap entry · removed from the footer nav · normal site chrome · links to `/privacy`, `/terms`, and the feedback Google Form)*
+- [x] `/whatsapp` — migrate from existing site *(the WhatsApp bot's welcome links here for terms — keep consistent with `/terms`; see WhatsApp integration)* *(shipped 2026-07-19 as an **unlisted** landing page: noindex,nofollow · no sitemap entry · removed from the footer nav · normal site chrome · links to `/privacy`, `/terms`, and the feedback Google Form)* ⚠️ **must stay unlisted through the redesign — do not re-link it in the new footer**
 - [ ] `/feedback` — migrate + add testimonial consent language
-- [x] Footer — contact · socials · links · legal (`/privacy` · `/terms`) *(legal links added 2026-07-19; 2026-07-20 `226bb91`: real Facebook + LinkedIn URLs — confirm the LinkedIn slug spelling "knowlege" — wa.me placeholder social removed, footer links per doc = About · News · Feedback + legal; nav restructured to the locked v3.1 set with News ▾ (Latest News · Blog) + mobile hamburger — Contact and Impact are out of the nav per the locked spec, routes still reachable)*
-- [ ] → Paste to Claude Code *(remaining: `/feedback`)*
+- [x] Footer — contact · socials · links · legal (`/privacy` · `/terms`) *(legal links added 2026-07-19; 2026-07-20 `226bb91`: real Facebook + LinkedIn URLs — confirm the LinkedIn slug spelling "knowlege" — wa.me placeholder social removed)* **2026-07-22: footer to be rebuilt to the locked design** (brand + Kit newsletter signup · Explore + Support groups · legal bar) — carry over the real social URLs and keep `/whatsapp` out
+- [ ] Rebuild nav to the locked 2026-07-22 set *(replaces the v3.1 nav from `226bb91`; mobile hamburger retained; reserved language-toggle slot)*
+- [ ] → Paste to Claude Code *(remaining: `/feedback` · nav + footer rebuild in Phase 5)*
 
 ### 13. Legal — `/privacy` · `/terms`
 *New pages. Blocking the WhatsApp/Meta app publish — see **WhatsApp integration** above.*
@@ -258,44 +314,64 @@ Committed. *Rebuilt to master doc v3.1 2026-07-20 (`e8e3036`): hypothesis sectio
 Originals (full resolution) → `Products > website > Images`. Name by page and role.
 Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos → `public/images/team/`, org logos → `public/images/logos/` — the documented per-person/per-org filenames are already referenced in `content/about.md`, so files appear on drop-in with no code change)*.
 
-- [ ] `home-hero.jpg`
-- [ ] `home-tool-pedia.jpg`
-- [ ] `home-tool-pro.jpg`
-- [ ] `home-tool-news.jpg`
-- [x] `sicklecellpedia-qr.png` *(regenerated crisp as `whatsapp-qr.png` via `scripts/generate-whatsapp-qr.mjs` (`c321570`), shown on Home Tool 1 + SickleCellPedia)*
+- ~~`home-hero.jpg`~~ *(dropped 2026-07-22 — locked design is minimal-typographic, no hero image)*
+- ~~`home-tool-pedia.jpg` · `home-tool-pro.jpg` · `home-tool-news.jpg`~~ *(dropped 2026-07-22 — product cards are text-only in the locked design)*
+- [x] `sicklecellpedia-qr.png` *(regenerated crisp as `whatsapp-qr.png` via `scripts/generate-whatsapp-qr.mjs` (`c321570`), shown on SickleCellPedia)*
 - [ ] Board photos (×9) → `public/images/team/` *(initials placeholders rendering meanwhile)*
 - [ ] Founder photo
 - [ ] Org logos (RED · ASH–SCDC · SC3) → `public/images/logos/` *(name-only rendering meanwhile)*
 - [ ] `publication-genai-safety-poster.jpg` *(poster thumbnail for the Presentations entry)*
 - [ ] SCKIN logo *(pull from current site)*
-- [ ] **Alt text for every image** — accessibility + SEO *(QR + board/logo alts shipped; hero/tool alts [TO ADD] with TODOs in `content/home.md`)*
+- [ ] **Alt text for every image** — accessibility + SEO *(QR + board/logo alts shipped; hero/tool alt TODOs in `content/home.md` become obsolete with the redesign — remove them in Phase 5)*
 
 ---
 
 ## After the content
 
-- [ ] Design in Claude Design — Home first, plus Publications entries and News cards/filters so the component set is complete. Export the handoff bundle.
-- [ ] Claude Code builds the components from the bundle and wires them to the content files
+- [ ] **Finish the design deliverables** — the two revisions (frequency-dependent donate presets · locked nav), remaining components (Publications entries · News cards · Pro form · legal template), token exports (CSS custom properties + `tokens.json`)
+- [ ] **Stakeholder gate** — Wunmi + Lewis review 390px + 1440px comps; tokens freeze after
+- [ ] **Phase 5 (Claude Code)** — branch + PR: wire tokens into the theme · rebuild nav/footer to the locked set · rebuild `/` to the locked design · restyle existing pages with tokens (markdown/frontmatter untouched for Decap) · donate default flip + note field · one-line hypothesis distillation
 - [ ] Integrations — Voiceflow embed · Stripe checkout · embed/licensing form link
-- [ ] QA — `design-review` skill against the staging URL · accessibility (WCAG AA — `#C41E3A` red needs contrast checks against light backgrounds) · mobile · performance
-- [ ] Domain cutover — lower TTL a few days ahead · point sckin.org DNS at Vercel · keep Squarespace live until it resolves *(Vercel provisions SSL automatically once DNS verifies)*
+- [ ] QA — `design-review` skill against the staging URL · accessibility (WCAG AA — use the AA-safe red stop from the token export for small text on light backgrounds · `prefers-reduced-motion` degrades scroll reveals to static) · mobile · performance on a throttled connection *(low-bandwidth mobile is a primary audience)*
+- [ ] Domain cutover — lower TTL a few days ahead · point sckin.org DNS at Vercel · keep Squarespace live until it resolves *(Vercel provisions SSL automatically once DNS verifies)* · update the Stripe webhook URL after cutover
 - [ ] *(Post-launch: Decap CMS at `/admin` — needs a GitHub OAuth app + one-file OAuth handler API route · news auto-repost to FB/LinkedIn · registrar move to Cloudflare · then the MCP server on AWS)*
 
 ---
 
 ## Suggested order
 
-**Warm-ups (mostly migration):** Mission → SickleCellPedia → About
-**Revenue:** Donate
-**Product:** Pro
-**Heavy lifts:** Responsible AI → Impact
-**Assembly:** Publications → News → Contact → Utility
+**Design close-out:** revisions + token export + stakeholder gate
+**Implementation:** nav/footer + Home rebuild + donate changes (one PR or a short series)
+**Content in parallel:** Responsible AI copy → Impact numbers → Contact → Utility
+**Warm-ups already done:** Mission · SickleCellPedia · About · Publications structure
 
-Impact last on purpose — it depends on numbers you may still be gathering.
+Impact last on purpose — it depends on numbers you may still be gathering, and it gates its own nav item, nothing else.
 
 ---
 
 ## History
+
+### Design reconciliation + master doc retirement (2026-07-22)
+
+Phase 2 design locked in Claude Design (390px + 1440px comps; annex
+`sckin-design-spec-phase1.md`). Reconciled the design against this checklist
+and resolved six conflicts: (1) donate default flips to **one-time-first**,
+$25 pre-selected — reverses the 2026-07-17 recurring-first decision;
+(2) presets stay frequency-dependent (one-time $25/$50/$100 · monthly
+$10/$20/$50), so the existing lookup keys hold and no reseed is needed — the
+design's single $10–$100 row is flagged for revision; (3) nav rebuilt to the
+locked 2026-07-22 set (About us ▾ · SickleCellPedia · For Clinicians ·
+Responsible AI · Impact ▾ (Impact · Publications) · News ▾ · Donate), replacing
+the v3.1 nav; Responsible AI stays top-level, its page design deferred;
+(4) Publications: nav under Impact ▾, route unchanged at `/publications`;
+Impact ▾ gated on real `/impact` numbers; (5) hypothesis: full text on
+`/mission` only, one-line distillation on Home; (6) redesigned homepage fully
+replaces the v3.1 home (`e8e3036`); hero + three tool images dropped from the
+images list. Also: "Add a note" donation field approved (Stripe metadata);
+"For Clinicians" adopted as the Pro nav label; the design annex's strict
+"no Vercel-proprietary features" wording superseded by this document's
+guardrail paragraph. `sckin-master-doc-v3_1.md` retired as a decision document
+(repo copy kept as historical reference; `content/*.md` is the content source).
 
 ### Content build to master doc v3.1 (2026-07-20)
 
@@ -378,7 +454,8 @@ Catalog seeded, all three Stripe env vars set in Vercel (Preview + Production),
 test-mode webhook endpoint pointed at the `.vercel.app` production URL pending
 domain cutover. Vercel CLI installed and repo linked (`.vercel/` gitignored).
 Full status checklist in the Donations (Stripe) section; setup/go-live runbook
-in `docs/stripe-donations.md`.
+in `docs/stripe-donations.md`. *(Defaults revised 2026-07-22 — see the
+Donations section and the 2026-07-22 History entry.)*
 
 ### Hosting: Amplify → Vercel (2026-07-16)
 
@@ -415,6 +492,8 @@ product and the Amplify two-way-door goal — not at Next.js `middleware.ts`.
 
 - [ ] **Wire Decap CMS to the legal content files** (`content/legal/privacy.md`, `content/legal/terms.md`) so non-technical editors can update policy text without code. Deferred; needs a GitHub OAuth app + a token-exchange endpoint (no Netlify git-gateway on Vercel). The files are already Decap-ready: plain Markdown + frontmatter (`title`, `subtitle`, `lastUpdated`), one folder, one shared renderer.
 - [ ] **Rewrite the Privacy Policy and User Agreement to cover all surfaces** where SCKIN / SickleCellPedia is available. The current text (dated 2025-12-02) references only WhatsApp and Facebook Messenger; it needs to also account for the website RAG assistant on sckin.org, the newsletter, and the contact form.
+- [ ] **Design the Responsible AI page** (deferred 2026-07-22 — ships with the generic tokenized page template until then).
+- [ ] **Language toggle** — `/[locale]/` routing exists; the nav reserves a slot; ship when FR content is ready.
 - [ ] **Stubs / TODOs left by the legal-pages task (2026-07-19):**
   - No `sitemap.ts` / `robots.ts` exists site-wide yet. When one is added, `/whatsapp` must be **excluded** from the sitemap and must **not** be listed in robots.txt (a `Disallow` would advertise the URL and block crawlers from seeing its `noindex`).
   - The footer's `/whatsapp` nav link was removed to keep the page unlisted — if it should be discoverable from the site after all, restore one `<li>` in `SiteFooter.tsx`.
