@@ -1,17 +1,26 @@
 /**
  * Server-only Google Sheets bridge: appends form submissions as rows to the
- * combined "contacts" Sheet using a Google **service account** (JWT → OAuth2
- * access token → Sheets REST API). No SDK dependency — the token exchange is
- * ~30 lines of node:crypto, keeping the stack vanilla and portable.
+ * combined "contacts" Sheet. Auth is Workload Identity Federation — no
+ * long-lived service-account key ever exists. Vercel's own OIDC token is
+ * exchanged for short-lived credentials that impersonate a keyless GCP
+ * service account:
+ *   Vercel OIDC token (audience-scoped) → GCP STS token exchange
+ *     → IAM generateAccessToken (impersonation) → Sheets REST API
+ * The GCP legs are two plain `fetch` calls, no Google SDK. `@vercel/oidc` is
+ * the one dependency this pulls in — it performs Vercel's own token exchange
+ * to mint an OIDC token with the audience GCP requires, which isn't a public
+ * endpoint we can hand-roll.
  *
- * DO NOT import this from a client component. It reads process.env and signs
- * with the service-account private key, which must never reach client JS.
- * Forms post to our own `/api/*` route; the route calls this.
+ * DO NOT import this from a client component. Forms post to our own `/api/*`
+ * route; the route calls this.
  *
- * Env (server-side only, set in Vercel):
- *   GOOGLE_SERVICE_ACCOUNT_KEY   — the service account's JSON key, verbatim
- *                                  (GOOGLE_SERVICE_ACCOUNT_KEY_JSON also read)
- *   SHEETS_SPREADSHEET_ID        — the target spreadsheet's ID
+ * Env (server-side only, set in Vercel — none of these are secret; there is
+ * no private key anywhere in this flow):
+ *   GCP_PROJECT_NUMBER                     — numeric GCP project number
+ *   GCP_WORKLOAD_IDENTITY_POOL_ID          — WIF pool ID
+ *   GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID — WIF provider ID (trusts Vercel's OIDC issuer)
+ *   GCP_SERVICE_ACCOUNT_EMAIL              — keyless SA the pool may impersonate
+ *   SHEETS_SPREADSHEET_ID                  — the target spreadsheet's ID
  *
  * The FIRST tab of that spreadsheet is the combined contacts tab, one row per
  * submission, header row matching SHEET_COLUMNS below. The schema is a
@@ -22,8 +31,9 @@
  * acknowledges the submission without persisting (graceful, never a crash).
  */
 import crypto from "node:crypto";
+import { getVercelOidcToken } from "@vercel/oidc";
 
-/** Thrown when the service-account key or spreadsheet ID is not configured. */
+/** Thrown when WIF config or the spreadsheet ID is not configured. */
 export class SheetsConfigError extends Error {
   constructor(message: string) {
     super(message);
@@ -67,90 +77,97 @@ export const SHEET_COLUMNS = [
 ] as const;
 
 const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
-const TOKEN_URL = "https://oauth2.googleapis.com/token";
+const CLOUD_PLATFORM_SCOPE = "https://www.googleapis.com/auth/cloud-platform";
+const STS_URL = "https://sts.googleapis.com/v1/token";
 
-interface ServiceAccount {
-  client_email: string;
-  private_key: string;
+interface WifConfig {
+  /** Full resource name of the GCP workload identity provider. */
+  audience: string;
+  serviceAccountEmail: string;
+  spreadsheetId: string;
 }
 
-function readConfig(): { account: ServiceAccount; spreadsheetId: string } {
-  const rawKey =
-    process.env.GOOGLE_SERVICE_ACCOUNT_KEY ??
-    process.env.GOOGLE_SERVICE_ACCOUNT_KEY_JSON;
+function readConfig(): WifConfig {
+  const projectNumber = process.env.GCP_PROJECT_NUMBER;
+  const poolId = process.env.GCP_WORKLOAD_IDENTITY_POOL_ID;
+  const providerId = process.env.GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID;
+  const serviceAccountEmail = process.env.GCP_SERVICE_ACCOUNT_EMAIL;
   const spreadsheetId = process.env.SHEETS_SPREADSHEET_ID;
-  if (!rawKey || !spreadsheetId) {
+  if (
+    !projectNumber ||
+    !poolId ||
+    !providerId ||
+    !serviceAccountEmail ||
+    !spreadsheetId
+  ) {
     throw new SheetsConfigError(
-      "GOOGLE_SERVICE_ACCOUNT_KEY and SHEETS_SPREADSHEET_ID must be set"
+      "GCP_PROJECT_NUMBER, GCP_WORKLOAD_IDENTITY_POOL_ID, " +
+        "GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID, GCP_SERVICE_ACCOUNT_EMAIL, " +
+        "and SHEETS_SPREADSHEET_ID must be set"
     );
   }
-
-  let parsed: Partial<ServiceAccount>;
-  try {
-    parsed = JSON.parse(rawKey);
-  } catch {
-    throw new SheetsConfigError("GOOGLE_SERVICE_ACCOUNT_KEY is not valid JSON");
-  }
-  if (!parsed.client_email || !parsed.private_key) {
-    throw new SheetsConfigError(
-      "service-account key JSON must include client_email and private_key"
-    );
-  }
-  return {
-    account: { client_email: parsed.client_email, private_key: parsed.private_key },
-    spreadsheetId,
-  };
+  const audience = `//iam.googleapis.com/projects/${projectNumber}/locations/global/workloadIdentityPools/${poolId}/providers/${providerId}`;
+  return { audience, serviceAccountEmail, spreadsheetId };
 }
 
-/* ----------------------- OAuth2 (JWT bearer grant) ------------------------ */
+/* ---------------- Workload Identity Federation (OIDC, keyless) ------------ */
 
 let cachedToken: { token: string; expiresAt: number } | null = null;
 
-async function getAccessToken(account: ServiceAccount): Promise<string> {
+async function getAccessToken(config: WifConfig): Promise<string> {
   // Instance-local cache; a cold start just fetches a fresh token.
   if (cachedToken && Date.now() < cachedToken.expiresAt - 60_000) {
     return cachedToken.token;
   }
 
-  const now = Math.floor(Date.now() / 1000);
-  const header = Buffer.from(
-    JSON.stringify({ alg: "RS256", typ: "JWT" })
-  ).toString("base64url");
-  const claims = Buffer.from(
-    JSON.stringify({
-      iss: account.client_email,
-      scope: SHEETS_SCOPE,
-      aud: TOKEN_URL,
-      iat: now,
-      exp: now + 3600,
-    })
-  ).toString("base64url");
-  const unsigned = `${header}.${claims}`;
-  // Env vars often store the PEM with literal "\n" — restore real newlines.
-  const privateKey = account.private_key.replace(/\\n/g, "\n");
-  const signature = crypto
-    .createSign("RSA-SHA256")
-    .update(unsigned)
-    .sign(privateKey)
-    .toString("base64url");
+  // 1. Vercel's own OIDC token, minted with the audience GCP's workload
+  //    identity provider expects (GCP requires an exact `aud` match).
+  const subjectToken = await getVercelOidcToken({ audience: config.audience });
 
-  const res = await fetch(TOKEN_URL, {
+  // 2. Exchange it for a short-lived *federated* GCP access token (STS).
+  //    This token identifies as the WIF principal, not the service account.
+  const stsRes = await fetch(STS_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion: `${unsigned}.${signature}`,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      audience: config.audience,
+      grantType: "urn:ietf:params:oauth:grant-type:token-exchange",
+      requestedTokenType: "urn:ietf:params:oauth:token-type:access_token",
+      subjectToken,
+      subjectTokenType: "urn:ietf:params:oauth:token-type:jwt",
+      scope: CLOUD_PLATFORM_SCOPE,
     }),
   });
-  if (!res.ok) {
-    throw new Error(`Google token endpoint responded ${res.status}`);
+  if (!stsRes.ok) {
+    throw new Error(`GCP STS token exchange responded ${stsRes.status}`);
   }
-  const data = (await res.json()) as { access_token: string; expires_in: number };
-  cachedToken = {
-    token: data.access_token,
-    expiresAt: Date.now() + data.expires_in * 1000,
+  const federated = (await stsRes.json()) as { access_token: string };
+
+  // 3. Impersonate the keyless service account for a Sheets-scoped token.
+  //    The pool must be granted roles/iam.workloadIdentityUser on this SA.
+  const impersonateRes = await fetch(
+    `https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${config.serviceAccountEmail}:generateAccessToken`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${federated.access_token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ scope: [SHEETS_SCOPE] }),
+    }
+  );
+  if (!impersonateRes.ok) {
+    throw new Error(`IAM generateAccessToken responded ${impersonateRes.status}`);
+  }
+  const impersonated = (await impersonateRes.json()) as {
+    accessToken: string;
+    expireTime: string;
   };
-  return data.access_token;
+  cachedToken = {
+    token: impersonated.accessToken,
+    expiresAt: new Date(impersonated.expireTime).getTime(),
+  };
+  return impersonated.accessToken;
 }
 
 /* ------------------------------ Sheet writes ------------------------------ */
@@ -164,9 +181,9 @@ async function getAccessToken(account: ServiceAccount): Promise<string> {
 export async function appendContactRow(
   row: ContactRow
 ): Promise<{ duplicate: boolean }> {
-  const { account, spreadsheetId } = readConfig();
-  const token = await getAccessToken(account);
-  const base = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values`;
+  const config = readConfig();
+  const token = await getAccessToken(config);
+  const base = `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values`;
   const auth = { Authorization: `Bearer ${token}` };
 
   // Unqualified ranges ("C:E", "A1") resolve against the FIRST sheet tab —
