@@ -25,7 +25,7 @@
 | **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **News ▾** (Latest News · Blog) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
 | **Publications placement** | Nav: under **Impact ▾**. Route stays **`/publications`** (no URL move — avoids redirect churn; reverses only the nav placement, not commit `a294044`) |
 | **Hypothesis** | Full text lives on **`/mission` only**; Home's Mission section carries a one-line distillation + "Our mission →" link (no duplicated full copy) |
-| **Pro leads** | Native on-site form → Google Sheet via **service-account API route** *(supersedes Apps Script per master doc v3.1 — switched 2026-07-20, `9aa2577`)* |
+| **Pro leads** | Native on-site form → Google Sheet via **Workload Identity Federation API route** *(supersedes Apps Script per master doc v3.1 — switched to a service-account key 2026-07-20, `9aa2577`; switched again to keyless WIF 2026-07-23 — no service-account JSON key ever exists, see Technical setup)* |
 | **Contact** | Native on-site form → Google Sheet (same pattern; email notification needs a new home — see Technical setup) |
 | **Language** | English at launch; `/[locale]/` routing built in, `en` unprefixed |
 | **News taxonomy** | **Not a content decision.** DAG owns classification + normalization; site derives filters dynamically |
@@ -60,10 +60,13 @@ decision; design tokens ship vendor-neutral regardless.)*
 
 - [x] **Run the i18n + News filters + Forms prompt in Claude Code** *(done — `middleware.ts` + `src/lib/i18n.ts`, `NewsBrowser` + `getNewsFacets`, `/api/contact` + `/api/pro-lead` → `src/lib/sheets.ts`)*
 - [x] **Connect Vercel to the repo → staging URL** *(done — see Step 1 record below)*
-- [ ] Create a Google Cloud project + **service account** *(forms backend switched from the Apps Script webhook to service-account Sheets writes 2026-07-20, `9aa2577` — no SDK, JWT via node:crypto)*
-- [ ] Enable the **Google Sheets API** on that project
+- [ ] Create a Google Cloud project + **service account with NO key downloaded** *(forms backend switched from a service-account JSON key to keyless Workload Identity Federation 2026-07-23 — the SA still exists, only for the email that the Sheet gets shared with; it's impersonated at request time via short-lived tokens, never a stored private key)*
+- [ ] Enable the **Google Sheets API**, **IAM Service Account Credentials API**, and **IAM Credentials API** on that project
+- [ ] Enable **OIDC Federation** for the Vercel project *(Project → Settings → Security; this makes Vercel issue `VERCEL_OIDC_TOKEN` / serve tokens via `@vercel/oidc`)*
+- [ ] Create a **Workload Identity Pool + OIDC provider** trusting Vercel's issuer (`https://oidc.vercel.com/[team-slug]`), with an **attribute condition scoped to this exact Vercel project + environment** *(critical — without it, any project in the Vercel team could impersonate the SA; subject claim shape is `owner:[team]:project:[name]:environment:[env]`)*
+- [ ] Grant the pool's principal `roles/iam.workloadIdentityUser` on the service account *(this is what lets the WIF exchange impersonate the SA — no other IAM role needed on the SA or project)*
 - [ ] Create the contacts Google Sheet — **one combined first tab**, header row `id · created_at · source · full_name · email · is_healthcare_professional · role · country · city_region · notes · consent · locale · status` — and **share it with the service-account email** *(sources: `pro_interest` · `newsletter` · `contact`; dedupe on email+source; schema is the AWS-migration superset from master doc v3.1)*
-- [ ] Add `GOOGLE_SERVICE_ACCOUNT_KEY` (the SA's JSON key, verbatim) + `SHEETS_SPREADSHEET_ID` to Vercel env vars *(never commit them — read in `src/lib/sheets.ts`; unset ⇒ routes log the miss and acknowledge without persisting, forms show success; `.env.example` couldn't be updated — `.env*` is permission-blocked)*
+- [ ] Add `GCP_PROJECT_NUMBER`, `GCP_WORKLOAD_IDENTITY_POOL_ID`, `GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID`, `GCP_SERVICE_ACCOUNT_EMAIL`, `SHEETS_SPREADSHEET_ID` to Vercel env vars *(read in `src/lib/sheets.ts`; **none of these are secret** — there's no private key in this flow, unlike the retired `GOOGLE_SERVICE_ACCOUNT_KEY`; unset ⇒ routes log the miss and acknowledge without persisting, forms show success; `.env.example` couldn't be updated — `.env*` is permission-blocked)*
 - [ ] Re-home the contact-form email notification *(the retired Apps Script webhook emailed contact@sckin.org per message; TODO in `src/app/api/contact/route.ts` — e.g. a Sheets-driven Apps Script trigger or an email API)*
 - [ ] Create Stripe account + apply for nonprofit rate
 - [ ] Plan donation receipts *(US donors need written acknowledgment above $250)*
