@@ -149,7 +149,8 @@ document). Comps exist at 390px and 1440px in Claude Design.
 - [x] ~~Design revision needed: donate band presets must be frequency-dependent~~ **resolved in the imported comps** — verified 2026-07-26: `Homepage.dc.html` (`685c4b4`) swaps the preset row with the toggle (one-time $25/$50/$100, $25 default · monthly $10/$20/$50, $20 when toggled), Monthly carries the "most impactful" tag, plus custom amount + collapsed note field
 - [x] ~~Design revision needed: nav must match the locked set~~ **resolved in the imported comps** — verified 2026-07-26: the 1440px comp (`685c4b4`) shows About us ▾ · SickleCellPedia · For Clinicians · Responsible AI · Impact ▾ · News ▾ · reserved language-toggle slot · red Donate; 390px keeps hamburger + Donate. *Dropdown contents aren't modeled in the static comp — implement them from the locked set (About anchors · Impact/Publications · Latest News/Blog)*
 - [x] Token exports: CSS custom properties file + `tokens.json`, full red ramp + neutrals, AA-safe red stop marked for small text on white *(verified 2026-07-26: `src/styles/tokens.css` + `docs/design/tokens.json` in-repo since `685c4b4` — red-50→900 + gray-0→900 ramps, `--red-500` `#8A1626` annotated 9.5:1 on white, AA/AAA-safe for all text sizes; not yet wired into the app — that's Phase 5)*
-- [ ] Remaining component designs so the set is complete: Publications entries · News cards/filters · Pro lead form · legal-page template · Responsible AI page (later — page design deferred per 2026-07-22 decision)
+- [x] ~~Remaining component designs so the set is complete: Publications entries · News cards/filters · Pro lead form · legal-page template~~ **descoped as Phase 5 blockers 2026-07-26** — resolved per component: **legal-page template** needs no design task (the generic tokenized page template *is* the design; realized when Phase 5 restyles `LegalDocument.tsx`) · **Publications entries** fold into Phase 5 (typographic list item — title · authors · venue · date · link — fully determined by the frozen tokens) · **Pro lead form** derives during Phase 5 from the donate-band comp's form patterns + the token file's form vocabulary (`--border-input*` · error states · chips · segments); optional single Claude Design turn in the existing project if a comp is wanted first · **Responsible AI page** unchanged (deferred per 2026-07-22) — all reviewed on staging per the waived-gate loop
+- [ ] News cards/filters design — the one standalone design task left; **deferred until the DAG taxonomy (`topics`/`geographies` frontmatter) + seed posts exist** (~Sept 2026 classifier launch), so the filter UI is designed against real data rather than a speculative taxonomy
 - [x] ~~Pre-implementation stakeholder gate~~ **waived 2026-07-22** — Wunmi + Lewis give feedback on the published staging site instead (post-launch loop; token architecture makes revisions a token swap). **Tokens are frozen as of 2026-07-22** (with the `#8A1626` red revision + `$note` provenance correction)
 
 ---
@@ -331,7 +332,7 @@ Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos �
 
 ## After the content
 
-- [ ] **Finish the design deliverables** — ~~the two revisions (frequency-dependent donate presets · locked nav)~~ *(resolved in the imported comps — verified 2026-07-26, see Design section)*, remaining components (Publications entries · News cards · Pro form · legal template), token exports (CSS custom properties + `tokens.json`)
+- [x] ~~**Finish the design deliverables**~~ **closed 2026-07-26** — the two comp revisions resolved in the imported comps · token exports verified in-repo · component designs descoped as Phase 5 blockers (see Design section); the only standalone design task left is News cards/filters, deferred on the taxonomy
 - [ ] **Stakeholder feedback (post-launch)** — Wunmi + Lewis review the deployed staging site; revisions applied as token/copy changes *(pre-implementation gate waived 2026-07-22)*
 - [ ] **Phase 5 (Claude Code)** — branch + PR: wire tokens into the theme · rebuild nav/footer to the locked set · rebuild `/` to the locked design · restyle existing pages with tokens (markdown/frontmatter untouched for Decap) · donate default flip + note field · one-line hypothesis distillation
 - [ ] Integrations — Voiceflow embed · Stripe checkout · embed/licensing form link
@@ -343,7 +344,7 @@ Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos �
 
 ## Suggested order
 
-**Design close-out:** ~~revisions + token export + stakeholder gate~~ ✅ *(closed 2026-07-26 — revisions resolved in the comps, tokens exported + frozen, gate waived; remaining design work is the component set: Publications entries · News cards/filters · Pro form · legal template)*
+**Design close-out:** ~~revisions + token export + stakeholder gate~~ ✅ *(closed 2026-07-26 — revisions resolved in the comps, tokens exported + frozen, gate waived; component designs descoped as blockers same day — only News cards/filters remains, deferred on the taxonomy)*
 **Implementation:** nav/footer + Home rebuild + donate changes (one PR or a short series)
 **Content in parallel:** Responsible AI copy → Impact numbers → Contact → Utility
 **Warm-ups already done:** Mission · SickleCellPedia · About · Publications structure
@@ -380,6 +381,26 @@ are still not wired into the app, which remains Phase 5 work. The "Suggested
 order" design-close-out line updated to match. Design section now fully
 closed except the remaining component designs (Publications entries · News
 cards/filters · Pro lead form · legal-page template).
+
+**Same-day addendum (component-design descope):** the remaining-components
+item resolved as a scoping decision — none of the four gates Phase 5, so
+implementation starts with nothing on the design critical path.
+Legal-page template: no design task; the generic tokenized page template is
+the design, realized when Phase 5 restyles `LegalDocument.tsx`. Publications
+entries: folded into Phase 5 — a typographic list item (title · authors ·
+venue · date · link) fully determined by the frozen token system in a design
+language where "type is the imagery." Pro lead form: derived during Phase 5
+from the donate-band comp's demonstrated form patterns (inputs · pills ·
+segmented controls) plus the token file's form vocabulary (`--border-input`,
+error states, chips, selected segments); an optional single Claude Design
+turn in the existing project (inherits the tokens) stays available if a comp
+is wanted first. News cards/filters: the one standalone design task, kept as
+its own checklist item and deferred until the DAG taxonomy
+(`topics`/`geographies` frontmatter) and seed posts exist (~Sept 2026
+classifier launch) — filter UI designed against real data, not a speculative
+taxonomy. Responsible AI page design unchanged (2026-07-22 deferral). All
+shipped states reviewed on staging per the waived-gate loop. The Design
+deliverables line under "After the content" closed accordingly.
 
 ### Design reconciliation + master doc retirement (2026-07-22)
 
