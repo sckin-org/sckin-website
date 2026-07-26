@@ -43,43 +43,56 @@ export interface Doc<T extends FrontmatterBase> {
 /* Page-specific frontmatter shapes                                           */
 /* -------------------------------------------------------------------------- */
 
+/** Home — the locked 2026-07-22 design: Hero → Mission → Products → Impact
+ * band → News → Donate band. The newsletter signup lives in the footer. */
 export interface HomeFrontmatter extends FrontmatterBase {
   hero: {
+    overline: string;
     headline: string;
+    /** Second headline line, rendered in brand red. */
+    headline_accent: string;
     subhead: string;
-    image?: string;
-    cta?: Cta;
-    secondary_cta?: Cta;
+    cta: Cta;
+    secondary_cta: Cta;
   };
-  stats?: Array<{ figure: string; caption: string }>;
-  statement?: string;
-  hypothesis?: { heading: string; body: string };
-  tools?: {
-    heading: string;
-    intro?: string;
+  mission: {
+    eyebrow: string;
+    /** Verbatim mission statement — must match /mission. */
+    statement: string;
+    body: string;
+    /** One-line hypothesis distillation (full text lives on /mission). */
+    hypothesis: string;
+    pillars: Array<{ title: string; body: string }>;
+    cta: Cta;
+  };
+  products: {
+    eyebrow: string;
     items: Array<{
       name: string;
+      /** Status pill, e.g. "In development" — Pro only. */
+      tag?: string;
       description: string;
-      /** Status badge, e.g. "In development — expected Q4 2026". */
-      status?: string;
-      cta?: Cta;
-      /** WhatsApp deep link (rendered new-tab) — SickleCellPedia only. */
-      whatsapp?: Cta;
-      /** WhatsApp QR code — SickleCellPedia only. */
-      qr?: { src: string; alt: string };
-      image?: string;
+      cta: Cta;
     }>;
   };
-  get_involved?: {
-    heading: string;
-    ctas: Array<Cta & { external?: boolean }>;
+  impact: {
+    eyebrow: string;
+    stats: Array<{ figure: string; caption: string }>;
+    goal: { tag: string; figure: string; caption: string };
+    source: string;
   };
-  signup?: {
-    heading: string;
-    subtext?: string;
-    field_label: string;
-    submit_label: string;
-    confirmation?: string;
+  news: {
+    eyebrow: string;
+    name: string;
+    intro: string;
+    badge?: string;
+    items: Array<{ date: string; headline: string }>;
+    all: Cta;
+  };
+  donate: {
+    headline: string;
+    body: string;
+    closing: string;
   };
 }
 

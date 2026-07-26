@@ -3,67 +3,65 @@ title: Sickle Cell Knowledge and Information Network (SCKIN)
 nav_label: Home
 meta_description: SCKIN is a 501(c)(3) nonprofit making useful, reliable information about sickle cell disease universally accessible — through free AI tools for patients, families, and healthcare professionals.
 hero:
-  headline: Useful, reliable information about sickle cell disease — for everyone, everywhere.
-  subhead: SCKIN is a 501(c)(3) nonprofit working to improve the lives of people, families, and communities affected by sickle cell disease — by making useful, reliable information about it universally accessible.
-  # TODO: home-hero.jpg not in public/images/ yet (alt text also TO ADD) — the
-  # page skips rendering it until the file lands.
-  image: /images/home-hero.jpg
+  overline: SCKIN — a 501(c)(3) nonprofit
+  headline: "Reliable sickle cell knowledge,"
+  headline_accent: universally accessible.
+  subhead: Free, multilingual AI tools that put trusted information in the hands of patients, caregivers, and clinicians — everywhere.
   cta: { label: Try SickleCellPedia, href: /sicklecellpedia }
-  secondary_cta: { label: Donate to support SCKIN, href: /donate }
-stats:
-  - figure: "7.7 million"
-    caption: people live with sickle cell disease worldwide — the most common inherited genetic disorder. At least 100,000 are in the United States.
-  - figure: "90%"
-    caption: live in the Global South — Nigeria (~4M, 2% of the population), India (~1.2M), and the DRC (~900K, ~1%).
-# TODO: confirm source for "54 years / France" (54 traces to a 2019 US study in
-# available sources) — open item in the master doc.
-statement: A patient in Nigeria can expect to live 21 years. In France, 54 — still nearly three decades short of a life without the disease.
-hypothesis:
-  heading: Our hypothesis
-  body: >-
-    Sickle cell care is under-resourced everywhere. But the deepest gap isn't
-    material — it's knowledge. We believe that making useful, reliable
-    information universally accessible can close the information gap, narrow
-    the life-expectancy gap, and improve patients' lives. We use artificial
-    intelligence to put that information within reach of anyone who needs it.
-tools:
-  heading: Our tools
-  intro: The tools we use to fulfill our mission.
+  secondary_cta: { label: Our mission, href: /mission }
+mission:
+  eyebrow: Our mission
+  # Verbatim mission statement — must match /mission (design annex, Hero/Mission).
+  statement: Our mission is to make useful and reliable information about sickle cell disease universally accessible.
+  body: Sickle cell disease is the world's most common inherited blood disorder — and the knowledge to manage it is hardest to find where it is needed most. SCKIN closes that gap with accurate, multilingual tools, free for everyone.
+  # One-line hypothesis distillation — derived from content/mission.md; the
+  # full hypothesis text lives on /mission only (2026-07-22 reconciliation).
+  hypothesis: We believe the information gap drives the life-expectancy gap. Close the first, and the second begins to close.
+  pillars:
+    - { title: "Free, always", body: "No paywalls, no accounts required." }
+    - { title: Multilingual by default, body: Built for the languages patients actually speak. }
+    - { title: Evidence-based, body: Grounded in current clinical guidance. }
+  cta: { label: Our mission, href: /mission }
+products:
+  eyebrow: Products
   items:
-    - name: SickleCellPedia (EN) / DrepanoPedia (FR)
-      description: A free AI assistant that answers questions about sickle cell disease, grounded in trusted medical resources. Available on the web, WhatsApp, and Facebook.
+    - name: SickleCellPedia
+      description: Free, instant answers about sickle cell disease — for patients, caregivers, and clinicians, on the web or WhatsApp, in your language.
       cta: { label: Try SickleCellPedia, href: /sicklecellpedia }
-      whatsapp: { label: Chat on WhatsApp, href: "https://wa.me/15557513738" }
-      qr:
-        src: /images/whatsapp-qr.png
-        alt: QR code — chat with SickleCellPedia on WhatsApp
-      # TODO: home-tool-pedia.jpg pending in public/images/ (alt TO ADD).
-      image: /images/home-tool-pedia.jpg
     - name: SickleCellPedia Pro
-      description: Clinical decision support for healthcare professionals in under-resourced settings.
-      status: In development — expected Q4 2026
-      cta: { label: Register your interest, href: "/sicklecellpedia-pro#register" }
-      # TODO: home-tool-pro.jpg pending in public/images/ (alt TO ADD).
-      image: /images/home-tool-pro.jpg
-    # TODO: {PENDING} confirm product name — "Sickle Cell News" vs
-    # "Sickle Cell News Network".
-    - name: Sickle Cell News
-      description: An AI-powered news service that scans sickle cell coverage from around the world, checks it for reliability and usefulness, and publishes summaries — on this site and on our social media channels — always linked to the original source.
-      status: In development — expected September 2026
-      cta: { label: Read the latest, href: /news }
-      # TODO: home-tool-news.jpg pending in public/images/ (alt TO ADD).
-      image: /images/home-tool-news.jpg
-get_involved:
-  heading: Get involved
-  ctas:
-    - { label: Donate to support SCKIN, href: /donate }
-    - label: Embed SickleCellPedia in your organization
-      href: "https://docs.google.com/forms/d/1jsZ5iG6P6Kou4ysZPi9VO30FyKx10d0jjfwe2lhT-nE/viewform"
-      external: true
-signup:
-  heading: Leave us your email to stay informed
-  subtext: Sign up with your email address to receive news and updates. We value and respect your privacy.
-  field_label: Email address
-  submit_label: Sign up
-  confirmation: Thanks — you're signed up. We'll keep you posted.
+      tag: In development
+      description: Clinical decision support for health professionals treating sickle cell disease in under-resourced settings.
+      cta: { label: Register interest, href: "/sicklecellpedia-pro#register" }
+impact:
+  eyebrow: Why it matters
+  # Figures pending verification — see the requirements checklist, Remaining
+  # blockers. Epidemiology + the +5 yrs goal by design; SCKIN traction numbers
+  # live on /impact.
+  stats:
+    - { figure: 7.7M, caption: people living with sickle cell disease worldwide }
+    - { figure: 500K+, caption: babies born with SCD every year }
+    - { figure: "~80%", caption: of those births are in Sub-Saharan Africa }
+  goal:
+    tag: Our goal
+    figure: +5 yrs
+    caption: Five more years of life expectancy in the most affected countries, within five years.
+  source: "Source: Global Burden of Disease 2021, The Lancet Haematology."
+news:
+  eyebrow: News
+  # {PENDING} "Sickle Cell News" name confirm (requirements checklist).
+  name: Sickle Cell News
+  intro: AI-curated research and community updates from around the world
+  badge: In development — expected September 2026
+  items:
+    - date: June 2026
+      headline: "SCKIN abstract accepted at EHA 2026: benchmarking SickleCellPedia against general-purpose LLMs on clinical questions"
+    - date: May 2026
+      headline: SickleCellPedia is now on WhatsApp — free sickle cell answers, no app required
+    - date: April 2026
+      headline: SCKIN presents at Warrior Con 2026
+  all: { label: All news, href: /news }
+donate:
+  headline: In parts of Sub-Saharan Africa, most children born with sickle cell disease die before age five.
+  body: Largely for lack of diagnosis and basic knowledge. Knowledge saves lives — and SCKIN puts it in every pocket, free.
+  closing: Your gift keeps SickleCellPedia free for every patient, caregiver, and clinician who needs it.
 ---
