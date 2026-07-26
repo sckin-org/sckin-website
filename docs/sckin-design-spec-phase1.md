@@ -126,4 +126,4 @@ Mechanics (must match `/donate` — one shared component):
 - Monthly carries a "most impactful" tag but is never pre-selected
 - "Add a note (optional)" — collapsed single-line field; value → Stripe metadata
 - Impact-equivalence copy ("$25 provides…") stays as clearly-marked placeholders until real unit costs exist
-- ⚠️ Design revision outstanding: the current comp shows a single $10–$100 preset row — replace with the frequency-dependent rows above
+- ~~Design revision outstanding: the current comp shows a single $10–$100 preset row~~ **Resolved** — verified 2026-07-26: the imported comp (`docs/design/comps/Homepage.dc.html`) implements the frequency-dependent rows above, with $25 pre-selected on one-time and $20 when toggled to monthly
