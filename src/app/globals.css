@@ -97,6 +97,54 @@ a {
 }
 
 /*
+ * Prose — rendered Markdown bodies (content pages, legal pages, section
+ * bodies). Styles from the content-page template comp (Homepage.dc.html §4d).
+ * Tailwind's preflight strips list styles; restore them here.
+ */
+.prose-sckin {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-body);
+}
+.prose-sckin > * + * {
+  margin-top: 12px;
+}
+.prose-sckin h2 {
+  margin-top: 28px;
+  font-size: 22px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.01em;
+  color: var(--text-heading);
+}
+.prose-sckin h3 {
+  margin-top: 28px;
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-heading);
+}
+.prose-sckin ul {
+  list-style: disc;
+  padding-left: 22px;
+}
+.prose-sckin ol {
+  list-style: decimal;
+  padding-left: 22px;
+}
+.prose-sckin li + li {
+  margin-top: 8px;
+}
+.prose-sckin a {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-link);
+}
+.prose-sckin a:hover {
+  color: var(--color-link-hover);
+}
+.prose-sckin strong {
+  color: var(--text-heading);
+}
+
+/*
  * Scroll reveal (Apple-style fade + rise). The Reveal component adds
  * data-reveal; is-visible is set by IntersectionObserver. tokens.css zeroes
  * --motion-duration and --motion-rise under prefers-reduced-motion, so the

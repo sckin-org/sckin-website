@@ -124,8 +124,8 @@ Integrated 2026-07-17 — see `docs/stripe-donations.md` for full setup and go-l
 - [x] All three env vars in Vercel (Preview + Production): `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`
 - [x] Test-mode webhook endpoint created (`we_1TuMqKBzu5I6XlHdtYgUqbaH` → `https://sckin-website.vercel.app/api/webhooks/stripe`) via `scripts/stripe-webhook-setup.mjs`, which pipes the signing secret straight into `vercel env add` without displaying it — reuse it at go-live
 - [x] Production smoke test: `/api/checkout` returns Checkout URLs; webhook rejects forged signatures (400)
-- [ ] **Flip the default frequency to one-time ($25 pre-selected) in the donate component** — decision 2026-07-22; monthly keeps $20 pre-selected when toggled
-- [ ] **"Add a note (optional)" field** — collapsed single-line input; value → Checkout Session `metadata` (or a Checkout custom field); surfaces in the Stripe dashboard for Matt
+- [x] **Flip the default frequency to one-time ($25 pre-selected) in the donate component** — decision 2026-07-22; monthly keeps $20 pre-selected when toggled *(shipped 2026-07-26 in the shared `DonateWidget`, Phase 5 PR 2)*
+- [x] **"Add a note (optional)" field** — collapsed single-line input; value → Checkout Session `metadata`; surfaces in the Stripe dashboard for Matt *(shipped 2026-07-26 — also stamped onto payment-intent/subscription metadata so it shows on the payment itself)*
 - [ ] One full test-card donation on production (`4242 4242 4242 4242`) + confirm `[donation] checkout completed` in Vercel function logs
 - [ ] After domain cutover: update the webhook endpoint URL to `www.sckin.org` (Stripe dashboard, secret unchanged) or rerun the setup script with `WEBHOOK_URL=...`
 - [ ] Enable Customer portal (Stripe dashboard → Settings → Billing) for recurring-donor self-serve
@@ -170,8 +170,8 @@ explanation) · WhatsApp QR → lives on
 Dropped by design: hero image, tool images, three-tool layout.
 
 - [x] Copy exists (hero, mission, product one-liners, impact stats, donate band, news headlines)
-- [ ] Rebuild `/` to the locked design once tokens freeze (Phase 5)
-- [ ] One-line hypothesis distillation for the Mission section (derive from `/mission`)
+- [x] Rebuild `/` to the locked design once tokens freeze (Phase 5) *(shipped 2026-07-26, PR #12 — content/home.md rewritten to the locked section shape)*
+- [x] One-line hypothesis distillation for the Mission section (derive from `/mission`) *(shipped 2026-07-26 — "We believe the information gap drives the life-expectancy gap. Close the first, and the second begins to close.")*
 - [ ] 1 testimonial *(slot in Mission or Donate band — blocked on testimonial asks)*
 - [ ] {PENDING} "Sickle Cell News" name confirm
 
@@ -217,7 +217,7 @@ Dropped by design: hero image, tool images, three-tool layout.
 
 - [x] Why donations matter / what they fund *(lede: sustains SickleCellPedia; expand later if desired — designed donate-band copy with child-mortality lead can be reused here)*
 - [x] Suggested amounts — one-time $25/$50/$100 · monthly $10/$20/$50 · custom
-- [ ] ~~Recurring giving default~~ → **One-time is the default** ($25 pre-selected); Monthly keeps the "most impactful" tag *(component change pending)*
+- [x] ~~Recurring giving default~~ → **One-time is the default** ($25 pre-selected); Monthly keeps the "most impactful" tag *(shipped 2026-07-26, Phase 5 PR 2)*
 - [x] Tax note — EIN 33-1763512, 501(c)(3) language on donate + success pages
 - [ ] 2–3 condensed impact stats + link to `/impact`
 - [ ] 1 patient testimonial
@@ -298,8 +298,8 @@ Dropped by design: hero image, tool images, three-tool layout.
 - [x] `/whatsapp` — migrate from existing site *(the WhatsApp bot's welcome links here for terms — keep consistent with `/terms`; see WhatsApp integration)* *(shipped 2026-07-19 as an **unlisted** landing page: noindex,nofollow · no sitemap entry · removed from the footer nav · normal site chrome · links to `/privacy`, `/terms`, and the feedback Google Form)* ⚠️ **must stay unlisted through the redesign — do not re-link it in the new footer**
 - [ ] `/feedback` — migrate + add testimonial consent language
 - [x] Footer — contact · socials · links · legal (`/privacy` · `/terms`) *(legal links added 2026-07-19; 2026-07-20 `226bb91`: real Facebook + LinkedIn URLs — confirm the LinkedIn slug spelling "knowlege" — wa.me placeholder social removed)* **2026-07-22: footer to be rebuilt to the locked design** (brand + Kit newsletter signup · Explore + Support groups · legal bar) — carry over the real social URLs and keep `/whatsapp` out
-- [ ] Rebuild nav to the locked 2026-07-22 set *(replaces the v3.1 nav from `226bb91`; mobile hamburger retained; reserved language-toggle slot)*
-- [ ] → Paste to Claude Code *(remaining: `/feedback` · nav + footer rebuild in Phase 5)*
+- [x] Rebuild nav to the locked 2026-07-22 set *(shipped 2026-07-26, PR #11 — hover/focus dropdowns, mobile hamburger, reserved language-toggle slot; Impact ▾ ships gated behind `IMPACT_NAV_LIVE=false` in `src/lib/nav.ts` until `/impact` has real numbers, with Publications reachable from the footer meanwhile; footer rebuilt in the same PR to the locked design, socials carried over, `/whatsapp` kept out)*
+- [ ] → Paste to Claude Code *(remaining: `/feedback` form only)*
 
 ### 13. Legal — `/privacy` · `/terms`
 *New pages. Blocking the WhatsApp/Meta app publish — see **WhatsApp integration** above.*
@@ -334,7 +334,7 @@ Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos �
 
 - [x] ~~**Finish the design deliverables**~~ **closed 2026-07-26** — the two comp revisions resolved in the imported comps · token exports verified in-repo · component designs descoped as Phase 5 blockers (see Design section); the only standalone design task left is News cards/filters, deferred on the taxonomy
 - [ ] **Stakeholder feedback (post-launch)** — Wunmi + Lewis review the deployed staging site; revisions applied as token/copy changes *(pre-implementation gate waived 2026-07-22)*
-- [ ] **Phase 5 (Claude Code)** — branch + PR: wire tokens into the theme · rebuild nav/footer to the locked set · rebuild `/` to the locked design · restyle existing pages with tokens (markdown/frontmatter untouched for Decap) · donate default flip + note field · one-line hypothesis distillation
+- [x] **Phase 5 (Claude Code)** — **shipped 2026-07-26 as PRs #11/#12/#13**: tokens wired into the theme + Inter · nav/footer rebuilt to the locked set · `/` rebuilt to the locked design · all pages restyled with tokens (page markdown untouched except home.md, rewritten by design) · donate default flip + note field · one-line hypothesis distillation *(see the 2026-07-26 Phase 5 History entry)*
 - [ ] Integrations — Voiceflow embed · Stripe checkout · embed/licensing form link
 - [ ] QA — `design-review` skill against the staging URL · accessibility (WCAG AA — use the AA-safe red stop from the token export for small text on light backgrounds · `prefers-reduced-motion` degrades scroll reveals to static) · mobile · performance on a throttled connection *(low-bandwidth mobile is a primary audience)*
 - [ ] Domain cutover — lower TTL a few days ahead · point sckin.org DNS at Vercel · keep Squarespace live until it resolves *(Vercel provisions SSL automatically once DNS verifies)* · update the Stripe webhook URL after cutover
@@ -354,6 +354,47 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Phase 5 shipped — the site wears the locked design (2026-07-26)
+
+Implemented as a three-PR series, each squash-merged after green checks.
+**PR #11 (`708cc54`)** wired the frozen token export into the live theme
+(`globals.css` imports `src/styles/tokens.css`, semantic tokens mapped onto
+Tailwind utilities; old placeholder `#c41e3a` palette deleted — `#8A1626`
+everywhere), loaded Inter via next/font (400/600 only for low-bandwidth
+mobile), and rebuilt the nav + footer to the locked set: hover/focus-within
+dropdowns, reserved language-toggle slot, red Donate pill, animated mobile
+hamburger with Donate kept visible; footer with brand + newsletter signup
+(new `NewsletterSignup` → `/api/newsletter`), Explore/Support groups, legal
+bar, carried-over socials. Impact ▾ ships gated (`IMPACT_NAV_LIVE=false`);
+Publications sits in the footer's Explore group meanwhile; `/feedback` left
+out of the footer per the comp; `/whatsapp` stays unlisted.
+**PR #12 (`4bcf91a`)** rebuilt `/` to the comps (Hero → Mission → Products →
+red Impact band → News → red Donate band), rewrote `content/home.md` to the
+new section shape (obsolete v3.1 image alt TODOs gone), added the one-line
+hypothesis distillation from `content/mission.md`, scroll reveals that zero
+out under `prefers-reduced-motion` (hero exempt so LCP isn't gated on
+hydration; noscript fallback), and the shared `DonateWidget` on the band and
+`/donate`: one-time-first $25 default, frequency-dependent presets, note
+field → Stripe metadata via `/api/checkout` (session + payment-intent/
+subscription); the old recurring-first `DonateForm` deleted. The comp's
+impact-equivalence placeholder line deliberately not rendered pending unit
+costs. Verified 16/16 against a local prod server incl. live test-mode
+Checkout URLs for all three shapes.
+**PR #13** restyled every remaining page with the token system — Mission,
+About (module CSS re-tokenized; it still referenced pre-Phase-5 variables
+deleted in PR #11), SickleCellPedia, Pro (+ lead form to the §4c comp with
+its success card), Publications (§4a: anchor pills + hairline entries), News
++ Blog (§4b cards), Responsible AI + legal pages (§4d template + prose
+styles), Contact, Feedback, `/whatsapp`, donate success, Impact, 404 — via
+shared `PageHeader` + `.prose-sckin`; page markdown/frontmatter untouched.
+The §4 component comps (Publications entries · News card · Pro form · legal
+template) turned out to exist in the imported `Homepage.dc.html` after all,
+so PR #13 implemented them directly rather than deriving from tokens alone.
+39/39 rendered-page checks pass; `tsc` + production build clean throughout.
+Remaining before cutover: QA pass (design-review · WCAG AA · throttled
+mobile), staging review by Wunmi + Lewis, one full test-card donation on
+production, board photos/logos on drop-in.
 
 ### Design revision flags closed — already resolved in the comps (2026-07-26)
 

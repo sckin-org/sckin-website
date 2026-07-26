@@ -7,6 +7,7 @@ import {
   type BoardMember,
   type Collaborator,
 } from "@/lib/content";
+import PageHeader from "@/components/PageHeader";
 import Prose from "@/components/Prose";
 import styles from "./about.module.css";
 
@@ -49,18 +50,32 @@ function BoardCard({ member }: { member: BoardMember }) {
       )}
 
       <h3>{member.name}</h3>
-      {member.role ? <p data-role="role">{member.role}</p> : null}
+      {member.role ? (
+        <p data-role="role" className="mt-0.5 text-[15px] text-muted">
+          {member.role}
+        </p>
+      ) : null}
 
       {member.linkedin ? (
-        <p>
-          <a href={member.linkedin} target="_blank" rel="noopener noreferrer">
+        <p className="mt-2">
+          <a
+            href={member.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[14px] font-semibold text-link transition-colors hover:text-link-hover"
+          >
             LinkedIn
           </a>
         </p>
       ) : null}
       {member.links?.map((link) => (
-        <p key={link.href}>
-          <a href={link.href} target="_blank" rel="noopener noreferrer">
+        <p key={link.href} className="mt-1">
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[14px] font-semibold text-link transition-colors hover:text-link-hover"
+          >
             {link.label}
           </a>
         </p>
@@ -71,12 +86,18 @@ function BoardCard({ member }: { member: BoardMember }) {
       {member.bio ? (
         <div
           data-role="bio"
+          className="prose-sckin mt-3 text-[15px]"
           dangerouslySetInnerHTML={{ __html: renderSectionBody(member.bio) }}
         />
       ) : null}
       {member.founder_link ? (
-        <p>
-          <a href={member.founder_link.href}>{member.founder_link.label}</a>
+        <p className="mt-3">
+          <a
+            href={member.founder_link.href}
+            className="text-[14px] font-semibold text-link transition-colors hover:text-link-hover"
+          >
+            {member.founder_link.label} →
+          </a>
         </p>
       ) : null}
     </li>
@@ -116,19 +137,22 @@ function CollaboratorEntry({ collaborator }: { collaborator: Collaborator }) {
 
       {collaborator.description ? (
         <div
+          className="prose-sckin mt-2.5 text-[15px]"
           dangerouslySetInnerHTML={{
             __html: renderSectionBody(collaborator.description),
           }}
         />
       ) : null}
       {collaborator.status ? (
-        <p>
-          <strong>Status:</strong> {collaborator.status}
+        <p className="mt-2.5 text-[14px] leading-normal text-body">
+          <strong className="font-semibold text-heading">Status:</strong>{" "}
+          {collaborator.status}
         </p>
       ) : null}
       {collaborator.collaboration ? (
-        <p>
-          <strong>Collaboration:</strong> {collaborator.collaboration}
+        <p className="mt-1 text-[14px] leading-normal text-body">
+          <strong className="font-semibold text-heading">Collaboration:</strong>{" "}
+          {collaborator.collaboration}
         </p>
       ) : null}
     </div>
@@ -145,52 +169,68 @@ export default function AboutPage() {
   const { frontmatter, html } = getAbout();
 
   return (
-    <article data-page="about">
-      <h1>{frontmatter.title}</h1>
+    <div className="px-6 py-14 md:px-12 md:py-20">
+      <article data-page="about" className="container-page">
+        <PageHeader title={frontmatter.title} />
 
-      {frontmatter.sections?.map((section) => (
-        <section key={section.id} id={section.id}>
-          <h2>{section.heading}</h2>
+        {frontmatter.sections?.map((section) => (
+          <section
+            key={section.id}
+            id={section.id}
+            className="mt-8 max-w-[720px] border-t border-(--gray-100) pt-8 [&:has([data-role=board-grid])]:max-w-none"
+          >
+            <h2 className="text-[22px] font-semibold tracking-[-0.01em] text-heading md:text-[28px]">
+              {section.heading}
+            </h2>
 
-          {section.body ? (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: renderSectionBody(section.body),
-              }}
-            />
-          ) : null}
+            {section.body ? (
+              <div
+                className="prose-sckin mt-3 max-w-[720px]"
+                dangerouslySetInnerHTML={{
+                  __html: renderSectionBody(section.body),
+                }}
+              />
+            ) : null}
 
-          {section.subsections?.map((sub) => (
-            <div key={sub.heading} data-role="subsection">
-              <h3>{sub.heading}</h3>
-              {sub.body ? (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: renderSectionBody(sub.body),
-                  }}
-                />
-              ) : null}
-            </div>
-          ))}
+            {section.subsections?.map((sub) => (
+              <div
+                key={sub.heading}
+                data-role="subsection"
+                className="mt-7 max-w-[720px]"
+              >
+                <h3 className="text-[17px] font-semibold text-heading">
+                  {sub.heading}
+                </h3>
+                {sub.body ? (
+                  <div
+                    className="prose-sckin mt-2"
+                    dangerouslySetInnerHTML={{
+                      __html: renderSectionBody(sub.body),
+                    }}
+                  />
+                ) : null}
+              </div>
+            ))}
 
-          {section.members?.length ? (
-            <ul className={styles.grid} data-role="board-grid">
-              {section.members.map((member) => (
-                <BoardCard key={member.name} member={member} />
-              ))}
-            </ul>
-          ) : null}
+            {section.members?.length ? (
+              <ul className={styles.grid} data-role="board-grid">
+                {section.members.map((member) => (
+                  <BoardCard key={member.name} member={member} />
+                ))}
+              </ul>
+            ) : null}
 
-          {section.collaborators?.map((collaborator) => (
-            <CollaboratorEntry
-              key={collaborator.name}
-              collaborator={collaborator}
-            />
-          ))}
-        </section>
-      ))}
+            {section.collaborators?.map((collaborator) => (
+              <CollaboratorEntry
+                key={collaborator.name}
+                collaborator={collaborator}
+              />
+            ))}
+          </section>
+        ))}
 
-      <Prose html={html} />
-    </article>
+        <Prose html={html} className="mt-8" />
+      </article>
+    </div>
   );
 }

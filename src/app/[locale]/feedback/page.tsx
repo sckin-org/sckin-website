@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PageHeader from "@/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "Feedback",
@@ -11,12 +12,13 @@ export const metadata: Metadata = {
  */
 export default function FeedbackPage() {
   return (
-    <article data-page="feedback">
-      <h1>Feedback</h1>
-      <p>
-        We&rsquo;d love to hear from you. A feedback form will be available here
-        soon.
-      </p>
-    </article>
+    <div className="px-6 py-14 md:px-12 md:py-20">
+      <article data-page="feedback" className="mx-auto max-w-[720px]">
+        <PageHeader
+          title="Feedback"
+          subhead="We'd love to hear from you. A feedback form will be available here soon."
+        />
+      </article>
+    </div>
   );
 }
