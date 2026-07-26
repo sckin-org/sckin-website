@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getImpact } from "@/lib/content";
 import type { Testimonial } from "@/lib/content";
+import PageHeader from "@/components/PageHeader";
 import Prose from "@/components/Prose";
 
 export function generateMetadata(): Metadata {
@@ -17,21 +18,26 @@ function TestimonialCard({ t }: { t: Testimonial }) {
     .filter(Boolean)
     .join(", ");
   return (
-    <figure data-role="testimonial">
-      <blockquote>{t.quote}</blockquote>
-      <figcaption>
-        <span data-role="name">{t.name}</span>
-        {attribution ? <span data-role="attribution">{attribution}</span> : null}
+    <figure data-role="testimonial" className="rounded-lg bg-subtle p-6">
+      <blockquote className="text-[17px] leading-(--line-height-body) text-heading text-pretty">
+        {t.quote}
+      </blockquote>
+      <figcaption className="mt-3 text-[14px] text-body">
+        <span data-role="name" className="font-semibold text-heading">
+          {t.name}
+        </span>
+        {attribution ? (
+          <span data-role="attribution"> — {attribution}</span>
+        ) : null}
       </figcaption>
     </figure>
   );
 }
 
 /**
- * Impact page. Renders the structured frontmatter from content/impact.md:
- * a hero, headline stats, and two testimonial rows (community and clinical).
- * Unstyled placeholder layout — visual design arrives from the Claude Design
- * handoff.
+ * Impact page — gated from the nav until it carries real numbers (the
+ * requirements checklist forbids placeholder figures here: funders read this
+ * page). Tokenized layout; content from content/impact.md.
  */
 export default function ImpactPage() {
   const { frontmatter, html } = getImpact();
@@ -39,42 +45,62 @@ export default function ImpactPage() {
     frontmatter;
 
   return (
-    <article data-page="impact">
-      <section data-section="hero">
-        <h1>{hero.headline}</h1>
-        <p>{hero.subhead}</p>
-      </section>
+    <div className="px-6 py-14 md:px-12 md:py-20">
+      <article data-page="impact" className="mx-auto max-w-[720px]">
+        <PageHeader title={hero.headline} subhead={hero.subhead} />
 
-      {stats?.length ? (
-        <section data-section="stats">
-          {stats.map((s, i) => (
-            <div key={i}>
-              <p data-role="figure">{s.figure}</p>
-              <p data-role="caption">{s.caption}</p>
+        {stats?.length ? (
+          <section data-section="stats" className="mt-10 grid gap-6 md:grid-cols-3">
+            {stats.map((s, i) => (
+              <div key={i} className="border-t border-(--gray-100) pt-4">
+                <p
+                  data-role="figure"
+                  className="text-[40px] font-semibold leading-none tracking-(--tracking-tight) text-heading-accent"
+                >
+                  {s.figure}
+                </p>
+                <p data-role="caption" className="mt-2 text-[15px] leading-normal text-body">
+                  {s.caption}
+                </p>
+              </div>
+            ))}
+          </section>
+        ) : null}
+
+        {testimonials_community?.length ? (
+          <section
+            data-section="testimonials-community"
+            className="mt-10 border-t border-(--gray-100) pt-8"
+          >
+            <h2 className="text-[22px] font-semibold tracking-[-0.01em] text-heading">
+              From our community
+            </h2>
+            <div className="mt-5 flex flex-col gap-4">
+              {testimonials_community.map((t, i) => (
+                <TestimonialCard key={i} t={t} />
+              ))}
             </div>
-          ))}
-        </section>
-      ) : null}
+          </section>
+        ) : null}
 
-      {testimonials_community?.length ? (
-        <section data-section="testimonials-community">
-          <h2>From our community</h2>
-          {testimonials_community.map((t, i) => (
-            <TestimonialCard key={i} t={t} />
-          ))}
-        </section>
-      ) : null}
+        {testimonials_clinical?.length ? (
+          <section
+            data-section="testimonials-clinical"
+            className="mt-10 border-t border-(--gray-100) pt-8"
+          >
+            <h2 className="text-[22px] font-semibold tracking-[-0.01em] text-heading">
+              From clinicians
+            </h2>
+            <div className="mt-5 flex flex-col gap-4">
+              {testimonials_clinical.map((t, i) => (
+                <TestimonialCard key={i} t={t} />
+              ))}
+            </div>
+          </section>
+        ) : null}
 
-      {testimonials_clinical?.length ? (
-        <section data-section="testimonials-clinical">
-          <h2>From clinicians</h2>
-          {testimonials_clinical.map((t, i) => (
-            <TestimonialCard key={i} t={t} />
-          ))}
-        </section>
-      ) : null}
-
-      <Prose html={html} />
-    </article>
+        <Prose html={html} className="mt-8" />
+      </article>
+    </div>
   );
 }

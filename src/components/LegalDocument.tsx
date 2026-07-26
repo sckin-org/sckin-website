@@ -28,9 +28,9 @@ function formatLastUpdated(iso: string): string {
 }
 
 /**
- * Shared renderer for the legal pages (/privacy, /terms). Renders the
- * frontmatter of a `content/legal/*.md` file — title, subtitle, last-updated
- * line — then the Markdown body as prose.
+ * Shared renderer for the legal pages (/privacy, /terms), styled to the
+ * content-page template (Homepage.dc.html §4d): overline → title → subtitle →
+ * last-updated line → divider → prose body from `content/legal/*.md`.
  */
 export default function LegalDocument({
   doc,
@@ -39,13 +39,25 @@ export default function LegalDocument({
 }) {
   const { title, subtitle, lastUpdated } = doc.frontmatter;
   return (
-    <article data-page="legal">
-      <h1>{title}</h1>
-      <p data-role="subtitle">{subtitle}</p>
-      <p data-role="last-updated">
-        Last updated: {formatLastUpdated(lastUpdated)}
-      </p>
-      <Prose html={doc.html} />
-    </article>
+    <div className="px-6 py-14 md:px-12 md:py-20">
+      <article data-page="legal" className="mx-auto max-w-[720px]">
+        <p className="overline-label text-muted">SCKIN</p>
+        <h1 className="mt-4 text-(length:--font-size-h1) font-semibold leading-(--line-height-tight) tracking-(--tracking-tight) text-heading text-pretty">
+          {title}
+        </h1>
+        <p
+          data-role="subtitle"
+          className="mt-3 text-[19px] leading-[1.5] text-body text-pretty"
+        >
+          {subtitle}
+        </p>
+        <p data-role="last-updated" className="mt-4 text-[13px] text-muted">
+          Last updated: {formatLastUpdated(lastUpdated)}
+        </p>
+        <div className="mt-8 border-t border-(--gray-100) pt-8">
+          <Prose html={doc.html} />
+        </div>
+      </article>
+    </div>
   );
 }
