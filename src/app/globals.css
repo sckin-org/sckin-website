@@ -1,52 +1,116 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
 
 /*
- * SCKIN design tokens.
- * These raw values live in :root so they are emitted verbatim as CSS custom
- * properties. The incoming Claude Design handoff consumes them directly, e.g.
- *   color: var(--color-primary);
- *   border-radius: var(--radius);
- * The @theme inline block below maps the same tokens onto Tailwind's utility
- * layer (bg-primary, text-ink, bg-surface, text-muted, rounded, ...) WITHOUT
- * re-emitting duplicate variables. See docs/tokens.md.
+ * SCKIN theme wiring.
+ *
+ * src/styles/tokens.css is the frozen Phase 2 token export (source of truth:
+ * docs/design/tokens.json). Components consume the SEMANTIC tokens only —
+ * either through the Tailwind utilities mapped below (bg-band, text-body,
+ * rounded-pill, ...) or through var(--...) in arbitrary values. Never raw hex.
+ *
+ * The @theme inline block maps tokens onto Tailwind's namespaces without
+ * re-emitting duplicate variables.
  */
-:root {
-  --color-primary: #c41e3a; /* SCKIN red */
-  --color-ink: #16161a;
-  --color-bg: #ffffff;
-  --color-surface: #fafaf8;
-  --color-muted: #5c5c56;
-  --radius: 12px;
-}
-
 @theme inline {
-  --color-primary: var(--color-primary);
-  --color-ink: var(--color-ink);
-  --color-bg: var(--color-bg);
-  --color-surface: var(--color-surface);
-  --color-muted: var(--color-muted);
+  /* Type — Inter is loaded via next/font in the locale layout and exposed as
+     --font-inter; tokens.css's --font-family is the fallback stack. */
+  --font-sans: var(--font-inter, var(--font-family));
 
-  /* Custom name (not the built-in rounded-* scale) so the utility actually
-     resolves to --radius rather than being shadowed by Tailwind's default. */
-  --radius-token: var(--radius);
+  /* Semantic colors → bg-, text-, and border- utilities */
+  --color-cta: var(--color-cta);
+  --color-cta-hover: var(--color-cta-hover);
+  --color-cta-pressed: var(--color-cta-pressed);
+  --color-link: var(--color-link);
+  --color-link-hover: var(--color-link-hover);
+  --color-page: var(--surface-page);
+  --color-subtle: var(--surface-subtle);
+  --color-band: var(--surface-band);
+  --color-footer: var(--surface-footer);
+  --color-heading: var(--text-heading);
+  --color-body: var(--text-body);
+  --color-muted: var(--text-muted);
+  --color-heading-accent: var(--text-heading-accent);
+  --color-body-accent: var(--text-body-accent);
+  --color-on-band: var(--text-on-band);
+  --color-on-band-muted: var(--text-on-band-muted);
+  --color-on-footer-strong: var(--text-on-footer-strong);
+  --color-on-footer: var(--text-on-footer);
+  --color-on-footer-muted: var(--text-on-footer-muted);
+  --color-hairline: var(--border-subtle);
+  --color-hairline-strong: var(--border-strong);
+  --color-input: var(--border-input);
+  --color-input-error: var(--border-input-error);
+  --color-input-error-bg: var(--surface-input-error);
+  --color-error: var(--text-error);
+  --color-chip: var(--surface-chip);
+  --color-chip-fg: var(--text-chip);
+  --color-selected: var(--surface-selected);
+  --color-on-selected: var(--text-on-selected);
 
-  /* Humanist sans stack; swap the concrete family in during the design handoff. */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
+  /* Radius → rounded-* utilities */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-pill: var(--radius-pill);
+
+  /* Shadows */
+  --shadow-card: var(--shadow-card);
+  --shadow-nav: var(--shadow-nav);
 }
 
-/*
- * Minimal, intentionally unstyled base. Visual design (type scale, spacing,
- * layout) arrives separately from the Claude Design handoff — keep this thin.
- */
 body {
-  background: var(--color-bg);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  line-height: 1.6;
+  background: var(--surface-page);
+  color: var(--text-body);
+  font-family: var(--font-inter, var(--font-family));
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
   -webkit-font-smoothing: antialiased;
 }
 
 a {
   color: inherit;
+}
+
+::selection {
+  background: var(--red-100);
+  color: var(--red-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cta);
+  outline-offset: 2px;
+}
+
+/* Section eyebrow — the uppercase overline used across the design. */
+@utility overline-label {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+}
+
+/* Page column — the design's 980px content measure. */
+@utility container-page {
+  max-width: 980px;
+  margin-inline: auto;
+}
+
+/*
+ * Scroll reveal (Apple-style fade + rise). The Reveal component adds
+ * data-reveal; is-visible is set by IntersectionObserver. tokens.css zeroes
+ * --motion-duration and --motion-rise under prefers-reduced-motion, so the
+ * effect degrades to static without extra rules.
+ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--motion-rise));
+  transition:
+    opacity var(--motion-duration) var(--motion-ease),
+    transform var(--motion-duration) var(--motion-ease);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
 }

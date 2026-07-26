@@ -1,13 +1,12 @@
 /**
- * Site navigation model — the locked v3.1 nav:
- *   Mission · About ▾ · SickleCellPedia · SickleCellPedia Pro ·
- *   Responsible AI ▾ · Publications · News ▾ · [Donate]
+ * Site navigation model — the locked 2026-07-22 set (design annex, Navigation):
+ *   About us ▾ · SickleCellPedia · For Clinicians · Responsible AI ·
+ *   Impact ▾ (Impact · Publications) · News ▾ (Latest News · Blog) · [Donate]
  *
- * Logo links to Home (Home is not a nav item). Items with `children` are
- * dropdown menus. The Donate CTA is rendered separately on the right. Impact
- * and Contact are deliberately NOT nav items — the routes stay reachable
- * (contact email lives in the footer). Kept as data so the design handoff can
- * restyle without touching structure.
+ * Logo links to Home (Home is not a nav item). "For Clinicians" is the nav
+ * label for SickleCellPedia Pro — the full product name lives on the page.
+ * The Donate CTA renders separately on the right, after the reserved
+ * language-toggle slot. Contact and /feedback are deliberately out of the nav.
  */
 
 export interface NavChild {
@@ -21,10 +20,25 @@ export interface NavItem {
   children?: NavChild[];
 }
 
+/**
+ * The Impact ▾ item goes live only once /impact carries real numbers
+ * (requirements checklist, 2026-07-22). While gated, /publications stays
+ * reachable from the footer's Explore group.
+ */
+export const IMPACT_NAV_LIVE = false;
+
+const IMPACT_ITEM: NavItem = {
+  label: "Impact",
+  href: "/impact",
+  children: [
+    { label: "Impact", href: "/impact" },
+    { label: "Publications", href: "/publications" },
+  ],
+};
+
 export const NAV_ITEMS: NavItem[] = [
-  { label: "Mission", href: "/mission" },
   {
-    label: "About",
+    label: "About us",
     href: "/about",
     children: [
       { label: "SCKIN", href: "/about#sckin" },
@@ -35,19 +49,9 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: "SickleCellPedia", href: "/sicklecellpedia" },
-  { label: "SickleCellPedia Pro", href: "/sicklecellpedia-pro" },
-  {
-    label: "Responsible AI",
-    href: "/responsible-ai",
-    children: [
-      { label: "Our approach", href: "/responsible-ai#approach" },
-      {
-        label: "Human-in-the-Loop Surveys",
-        href: "/responsible-ai#surveys",
-      },
-    ],
-  },
-  { label: "Publications", href: "/publications" },
+  { label: "For Clinicians", href: "/sicklecellpedia-pro" },
+  { label: "Responsible AI", href: "/responsible-ai" },
+  ...(IMPACT_NAV_LIVE ? [IMPACT_ITEM] : []),
   {
     label: "News",
     href: "/news",

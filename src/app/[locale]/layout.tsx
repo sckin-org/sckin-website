@@ -1,9 +1,19 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { LOCALES, isLocale, type Locale } from "@/lib/i18n";
+
+/* Single family, two weights — smallest payload for low-bandwidth mobile,
+   hierarchy comes from size and weight only (design annex, Typography). */
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -39,7 +49,7 @@ export default async function LocaleLayout({
   const activeLocale = locale as Locale;
 
   return (
-    <html lang={activeLocale}>
+    <html lang={activeLocale} className={inter.variable}>
       <body>
         <SiteHeader locale={activeLocale} />
         <main>{children}</main>
