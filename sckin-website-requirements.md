@@ -146,9 +146,9 @@ document). Comps exist at 390px and 1440px in Claude Design.
 - [x] Donate band copy (child-mortality lead) + Stripe trust line; impact-equivalence placeholders clearly marked pending unit costs
 - [x] Footer: brand + Kit newsletter signup · Explore + Support link groups · legal bar (© · 501(c)(3) · EIN · Privacy · Terms)
 - [x] Product cards: SickleCellPedia one-liner · Pro one-liner with IN DEVELOPMENT tag + Register interest → `#register`
-- [ ] **Design revision needed:** donate band presets must be frequency-dependent (one-time $25/$50/$100 default · monthly $10/$20/$50) — the current comp shows a single $10–$100 row
-- [ ] **Design revision needed:** nav must match the locked set (add Responsible AI top-level + Impact ▾ (Impact · Publications); About us ▾ carries the five About anchors)
-- [ ] Token exports: CSS custom properties file + `tokens.json`, full red ramp + neutrals, AA-safe red stop marked for small text on white
+- [x] ~~Design revision needed: donate band presets must be frequency-dependent~~ **resolved in the imported comps** — verified 2026-07-26: `Homepage.dc.html` (`685c4b4`) swaps the preset row with the toggle (one-time $25/$50/$100, $25 default · monthly $10/$20/$50, $20 when toggled), Monthly carries the "most impactful" tag, plus custom amount + collapsed note field
+- [x] ~~Design revision needed: nav must match the locked set~~ **resolved in the imported comps** — verified 2026-07-26: the 1440px comp (`685c4b4`) shows About us ▾ · SickleCellPedia · For Clinicians · Responsible AI · Impact ▾ · News ▾ · reserved language-toggle slot · red Donate; 390px keeps hamburger + Donate. *Dropdown contents aren't modeled in the static comp — implement them from the locked set (About anchors · Impact/Publications · Latest News/Blog)*
+- [x] Token exports: CSS custom properties file + `tokens.json`, full red ramp + neutrals, AA-safe red stop marked for small text on white *(verified 2026-07-26: `src/styles/tokens.css` + `docs/design/tokens.json` in-repo since `685c4b4` — red-50→900 + gray-0→900 ramps, `--red-500` `#8A1626` annotated 9.5:1 on white, AA/AAA-safe for all text sizes; not yet wired into the app — that's Phase 5)*
 - [ ] Remaining component designs so the set is complete: Publications entries · News cards/filters · Pro lead form · legal-page template · Responsible AI page (later — page design deferred per 2026-07-22 decision)
 - [x] ~~Pre-implementation stakeholder gate~~ **waived 2026-07-22** — Wunmi + Lewis give feedback on the published staging site instead (post-launch loop; token architecture makes revisions a token swap). **Tokens are frozen as of 2026-07-22** (with the `#8A1626` red revision + `$note` provenance correction)
 
@@ -331,7 +331,7 @@ Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos �
 
 ## After the content
 
-- [ ] **Finish the design deliverables** — the two revisions (frequency-dependent donate presets · locked nav), remaining components (Publications entries · News cards · Pro form · legal template), token exports (CSS custom properties + `tokens.json`)
+- [ ] **Finish the design deliverables** — ~~the two revisions (frequency-dependent donate presets · locked nav)~~ *(resolved in the imported comps — verified 2026-07-26, see Design section)*, remaining components (Publications entries · News cards · Pro form · legal template), token exports (CSS custom properties + `tokens.json`)
 - [ ] **Stakeholder feedback (post-launch)** — Wunmi + Lewis review the deployed staging site; revisions applied as token/copy changes *(pre-implementation gate waived 2026-07-22)*
 - [ ] **Phase 5 (Claude Code)** — branch + PR: wire tokens into the theme · rebuild nav/footer to the locked set · rebuild `/` to the locked design · restyle existing pages with tokens (markdown/frontmatter untouched for Decap) · donate default flip + note field · one-line hypothesis distillation
 - [ ] Integrations — Voiceflow embed · Stripe checkout · embed/licensing form link
@@ -343,7 +343,7 @@ Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos �
 
 ## Suggested order
 
-**Design close-out:** revisions + token export + stakeholder gate
+**Design close-out:** ~~revisions + token export + stakeholder gate~~ ✅ *(closed 2026-07-26 — revisions resolved in the comps, tokens exported + frozen, gate waived; remaining design work is the component set: Publications entries · News cards/filters · Pro form · legal template)*
 **Implementation:** nav/footer + Home rebuild + donate changes (one PR or a short series)
 **Content in parallel:** Responsible AI copy → Impact numbers → Contact → Utility
 **Warm-ups already done:** Mission · SickleCellPedia · About · Publications structure
@@ -353,6 +353,33 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Design revision flags closed — already resolved in the comps (2026-07-26)
+
+Verified the two "Design revision needed" items from the 2026-07-22
+reconciliation against the imported comps (`docs/design/comps/Homepage.dc.html`,
+`685c4b4`) and found both already incorporated — the comps were revised in
+Claude Design before the import, but the checklist boxes were never ticked.
+(1) Donate presets are frequency-dependent in the comp's interaction logic:
+`freq === 'monthly' ? presets ['10','20','50'], def '20' : presets
+['25','50','100'], def '25'` — matching the locked one-time-first decision and
+the existing Stripe lookup keys — with the "most impactful" tag on Monthly,
+custom-amount input, and collapsed note field, in both the 1440px and 390px
+donate bands. (2) The 1440px nav renders the locked set exactly: About us ▾ ·
+SickleCellPedia · For Clinicians · Responsible AI · Impact ▾ · News ▾ · a
+24px spacer titled "reserved: language toggle" · red Donate pill; the 390px
+comp keeps hamburger + Donate. Caveat carried onto the checklist item: the
+static comp shows dropdown carets but not the open dropdown contents, so
+dropdown internals are implemented from the locked set, not copied from the
+comp. Both boxes ticked; the annex's ⚠️ outstanding-revision note replaced
+with a resolved note. Same pass, on approval: the token-exports box was also
+verified and ticked — `src/styles/tokens.css` + `docs/design/tokens.json`
+(in-repo since `685c4b4`) carry the full red-50→900 and gray-0→900 ramps with
+the AA-safe `--red-500` `#8A1626` stop annotated (9.5:1 on white); the tokens
+are still not wired into the app, which remains Phase 5 work. The "Suggested
+order" design-close-out line updated to match. Design section now fully
+closed except the remaining component designs (Publications entries · News
+cards/filters · Pro lead form · legal-page template).
 
 ### Design reconciliation + master doc retirement (2026-07-22)
 
