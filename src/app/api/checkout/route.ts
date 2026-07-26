@@ -18,6 +18,7 @@ const TIER_LOOKUP_KEYS = new Set([
 
 const MIN_CUSTOM_USD = 1;
 const MAX_CUSTOM_USD = 25000;
+const MAX_NOTE_LENGTH = 500;
 
 type Body = {
   frequency: "monthly" | "once";
@@ -25,6 +26,8 @@ type Body = {
   lookupKey?: string;
   /** Whole-dollar custom amount when no tier was chosen */
   customAmount?: number;
+  /** Optional donor note — surfaces in the Stripe dashboard via metadata */
+  note?: string;
 };
 
 export async function POST(req: NextRequest) {
@@ -35,10 +38,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  const { frequency, lookupKey, customAmount } = body;
+  const { frequency, lookupKey, customAmount, note: rawNote } = body;
   if (frequency !== "monthly" && frequency !== "once") {
     return NextResponse.json({ error: "Invalid frequency." }, { status: 400 });
   }
+
+  if (rawNote !== undefined && typeof rawNote !== "string") {
+    return NextResponse.json({ error: "Invalid note." }, { status: 400 });
+  }
+  // Truncate rather than reject — the widget caps input at the same length.
+  const note = rawNote?.trim().slice(0, MAX_NOTE_LENGTH) || undefined;
 
   const origin = req.nextUrl.origin;
   const mode: Stripe.Checkout.SessionCreateParams.Mode =
@@ -77,6 +86,13 @@ export async function POST(req: NextRequest) {
     };
   }
 
+  // The note rides on the payment intent (one-time) / subscription (monthly)
+  // as well as the session, so it shows on the payment in the dashboard.
+  const metadata: Stripe.MetadataParam = {
+    source: "sckin_donate_page",
+    ...(note ? { note } : {}),
+  };
+
   const session = await getStripe().checkout.sessions.create({
     mode,
     line_items: [lineItem],
@@ -87,10 +103,13 @@ export async function POST(req: NextRequest) {
       ? {
           submit_type: "donate" as const,
           customer_creation: "always" as const,
-          payment_intent_data: { statement_descriptor: "SCKIN DONATION" },
+          payment_intent_data: {
+            statement_descriptor: "SCKIN DONATION",
+            metadata,
+          },
         }
-      : {}),
-    metadata: { source: "sckin_donate_page" },
+      : { subscription_data: { metadata } }),
+    metadata,
   });
 
   return NextResponse.json({ url: session.url });

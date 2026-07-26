@@ -51,6 +51,10 @@ export default async function LocaleLayout({
   return (
     <html lang={activeLocale} className={inter.variable}>
       <body>
+        {/* Without JS the scroll-reveal initial state must never hide content. */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1;transform:none}`}</style>
+        </noscript>
         <SiteHeader locale={activeLocale} />
         <main>{children}</main>
         <SiteFooter locale={activeLocale} />
