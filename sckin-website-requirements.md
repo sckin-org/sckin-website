@@ -209,7 +209,7 @@ Dropped by design: hero image, tool images, three-tool layout.
 - [x] `#board` — 9 members + bios *(responsive card grid; Zacharie's card links to Our Founder instead of repeating the bio; Maimouna + Bill intentionally bio-less, no placeholder text; Kyle + Kiari bios are {DRAFT — Zacharie to review})*
 - [x] `#collaborators` — RED (FR description + AI-translated EN) · ASH–SCDC · SC3 *(logo/link/description/status/collaboration per v3.1)*
 - [ ] `#friends` — *(blocked: define it; heading + anchor reserved, body intentionally empty)*
-- [ ] Board photos → `public/images/team/` *(placeholders rendering — initials blocks for people, name-only for org logos in `public/images/logos/`; pending real image files, which appear on drop-in with no code change)*
+- [x] Board photos → `public/images/team/` *(landed 2026-07-26 — all nine board photos in place at the documented paths and rendering; org logos in `public/images/logos/` still pending, name-only fallback meanwhile)*
 - [x] → Paste to Claude Code
 
 ### 5. Donate — `/donate` ◐
@@ -321,7 +321,7 @@ Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos �
 - ~~`home-hero.jpg`~~ *(dropped 2026-07-22 — locked design is minimal-typographic, no hero image)*
 - ~~`home-tool-pedia.jpg` · `home-tool-pro.jpg` · `home-tool-news.jpg`~~ *(dropped 2026-07-22 — product cards are text-only in the locked design)*
 - [x] `sicklecellpedia-qr.png` *(regenerated crisp as `whatsapp-qr.png` via `scripts/generate-whatsapp-qr.mjs` (`c321570`), shown on SickleCellPedia)*
-- [ ] Board photos (×9) → `public/images/team/` *(initials placeholders rendering meanwhile)*
+- [x] Board photos (×9) → `public/images/team/` *(landed 2026-07-26 — renamed to the documented `team-<name>.jpg` paths, converted to JPEG and resized to max 960px, 15.6 MB → 1.2 MB total; all nine render on `/about`, initials placeholders retired)*
 - [ ] Founder photo
 - [ ] Org logos (RED · ASH–SCDC · SC3) → `public/images/logos/` *(name-only rendering meanwhile)*
 - [ ] `publication-genai-safety-poster.jpg` *(poster thumbnail for the Presentations entry)*
