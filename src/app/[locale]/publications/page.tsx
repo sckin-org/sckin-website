@@ -40,7 +40,7 @@ export default function PublicationsPage() {
               <a
                 key={section.id}
                 href={`#${section.id}`}
-                className="rounded-pill border border-hairline-strong px-3.5 py-1.5 text-[14px] font-semibold text-body transition-colors hover:border-heading hover:text-heading"
+                className="rounded-pill border border-hairline-strong px-3.5 py-1.5 text-[14px] font-semibold text-body transition-colors hover:border-heading hover:text-heading hover:no-underline focus-visible:no-underline"
               >
                 {section.heading}
               </a>

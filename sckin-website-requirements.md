@@ -355,6 +355,27 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Link rendering bug fixed + link-affordance rule adopted (2026-07-26)
+
+Zacharie flagged post-Phase-5 staging: the Donate pill rendered dark grey on
+red, and text links rendered plain grey. Root cause was a CSS cascade-layer
+bug, not the design: `globals.css` declared `a { color: inherit }` OUTSIDE
+any `@layer`, and unlayered CSS outranks Tailwind's layered utilities — so
+every `<a>` ignored its color utility (`text-on-band`, `text-link`, …) and
+inherited body grey. The frozen tokens were correct all along. Fix: all
+hand-written base rules moved into `@layer base` (the redundant anchor rule
+deleted — preflight covers it) and `.prose-sckin` into `@layer components`,
+which also un-broke per-use utility overrides like `text-[15px]` on prose
+blocks. Rule for the future, recorded in globals.css itself: hand-written
+CSS must always live inside a cascade layer.
+
+Approved same day, a **link-affordance amendment** to the design annex
+(WCAG 1.4.1 — color must not be the only cue): prose links are always
+underlined; standalone links (nav, card CTAs, arrow links, footer) underline
+on hover/keyboard focus only; pill-shaped anchors never underline
+(`hover:no-underline` opt-outs). Tokens unchanged — no value revision, so
+the 2026-07-22 freeze stands.
+
 ### Phase 5 shipped — the site wears the locked design (2026-07-26)
 
 Implemented as a three-PR series, each squash-merged after green checks.

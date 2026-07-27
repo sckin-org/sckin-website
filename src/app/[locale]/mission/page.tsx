@@ -108,7 +108,7 @@ export default function MissionPage() {
                       key={cta.href}
                       href={cta.href}
                       data-role="cta"
-                      className="rounded-pill bg-cta px-6 py-3 text-[17px] font-semibold text-on-band transition-colors hover:bg-cta-hover"
+                      className="rounded-pill bg-cta px-6 py-3 text-[17px] font-semibold text-on-band transition-colors hover:bg-cta-hover hover:no-underline focus-visible:no-underline"
                     >
                       {cta.label}
                     </Link>

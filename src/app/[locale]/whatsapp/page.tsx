@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const LINK_CLASS =
-  "inline-block rounded-pill border border-hairline-strong px-5 py-2.5 text-[15px] font-semibold text-heading transition-colors hover:border-heading";
+  "inline-block rounded-pill border border-hairline-strong px-5 py-2.5 text-[15px] font-semibold text-heading transition-colors hover:border-heading hover:no-underline focus-visible:no-underline";
 
 /**
  * Unlisted landing page for WhatsApp users — the bot's welcome message links

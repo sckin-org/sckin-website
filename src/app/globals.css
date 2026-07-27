@@ -59,27 +59,41 @@
   --shadow-nav: var(--shadow-nav);
 }
 
-body {
-  background: var(--surface-page);
-  color: var(--text-body);
-  font-family: var(--font-inter, var(--font-family));
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  -webkit-font-smoothing: antialiased;
-}
+/*
+ * Hand-written rules MUST live inside cascade layers: unlayered CSS outranks
+ * every @layer, so an unlayered base rule here would silently defeat Tailwind
+ * utilities (an unlayered `a { color: inherit }` once turned every link and
+ * anchor-button grey — see the 2026-07-26 checklist History entry).
+ */
+@layer base {
+  body {
+    background: var(--surface-page);
+    color: var(--text-body);
+    font-family: var(--font-inter, var(--font-family));
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    -webkit-font-smoothing: antialiased;
+  }
 
-a {
-  color: inherit;
-}
+  /* Link affordance (annex amendment 2026-07-26): standalone links carry no
+     underline at rest — position, weight, and color signal them — but gain
+     one on hover/keyboard focus. Pill-shaped anchors opt out with
+     hover:no-underline. Prose links are always underlined (see .prose-sckin). */
+  a:hover,
+  a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 
-::selection {
-  background: var(--red-100);
-  color: var(--red-900);
-}
+  ::selection {
+    background: var(--red-100);
+    color: var(--red-900);
+  }
 
-:focus-visible {
-  outline: 2px solid var(--color-cta);
-  outline-offset: 2px;
+  :focus-visible {
+    outline: 2px solid var(--color-cta);
+    outline-offset: 2px;
+  }
 }
 
 /* Section eyebrow — the uppercase overline used across the design. */
@@ -99,49 +113,56 @@ a {
 /*
  * Prose — rendered Markdown bodies (content pages, legal pages, section
  * bodies). Styles from the content-page template comp (Homepage.dc.html §4d).
- * Tailwind's preflight strips list styles; restore them here.
+ * Tailwind's preflight strips list styles; restore them here. Lives in the
+ * components layer so per-use utilities (e.g. text-[15px]) can override it.
  */
-.prose-sckin {
-  font-size: 17px;
-  line-height: 1.6;
-  color: var(--text-body);
-}
-.prose-sckin > * + * {
-  margin-top: 12px;
-}
-.prose-sckin h2 {
-  margin-top: 28px;
-  font-size: 22px;
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: -0.01em;
-  color: var(--text-heading);
-}
-.prose-sckin h3 {
-  margin-top: 28px;
-  font-size: 17px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-heading);
-}
-.prose-sckin ul {
-  list-style: disc;
-  padding-left: 22px;
-}
-.prose-sckin ol {
-  list-style: decimal;
-  padding-left: 22px;
-}
-.prose-sckin li + li {
-  margin-top: 8px;
-}
-.prose-sckin a {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-link);
-}
-.prose-sckin a:hover {
-  color: var(--color-link-hover);
-}
-.prose-sckin strong {
-  color: var(--text-heading);
+@layer components {
+  .prose-sckin {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-body);
+  }
+  .prose-sckin > * + * {
+    margin-top: 12px;
+  }
+  .prose-sckin h2 {
+    margin-top: 28px;
+    font-size: 22px;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: -0.01em;
+    color: var(--text-heading);
+  }
+  .prose-sckin h3 {
+    margin-top: 28px;
+    font-size: 17px;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-heading);
+  }
+  .prose-sckin ul {
+    list-style: disc;
+    padding-left: 22px;
+  }
+  .prose-sckin ol {
+    list-style: decimal;
+    padding-left: 22px;
+  }
+  .prose-sckin li + li {
+    margin-top: 8px;
+  }
+  /* Links in running text are always underlined (WCAG 1.4.1 — color alone
+     must not be the only cue; annex amendment 2026-07-26). */
+  .prose-sckin a {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .prose-sckin a:hover {
+    color: var(--color-link-hover);
+  }
+  .prose-sckin strong {
+    color: var(--text-heading);
+  }
 }
 
 /*
