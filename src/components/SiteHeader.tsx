@@ -80,7 +80,7 @@ export default function SiteHeader({
           <Link
             href={href(DONATE_CTA.href)}
             data-role="cta"
-            className="rounded-pill bg-cta px-[18px] py-2 text-[15px] font-semibold text-on-band transition-colors hover:bg-cta-hover"
+            className="rounded-pill bg-cta px-[18px] py-2 text-[15px] font-semibold text-on-band transition-colors hover:bg-cta-hover hover:no-underline focus-visible:no-underline"
           >
             {DONATE_CTA.label}
           </Link>
@@ -92,7 +92,7 @@ export default function SiteHeader({
             href={href(DONATE_CTA.href)}
             data-role="cta"
             onClick={() => setOpen(false)}
-            className="rounded-pill bg-cta px-[15px] py-[7px] text-[14px] font-semibold text-on-band transition-colors hover:bg-cta-hover"
+            className="rounded-pill bg-cta px-[15px] py-[7px] text-[14px] font-semibold text-on-band transition-colors hover:bg-cta-hover hover:no-underline focus-visible:no-underline"
           >
             {DONATE_CTA.label}
           </Link>

@@ -83,6 +83,12 @@ No full sitemap — the site is ~10 pages and the nav already covers it. Revisit
 ### Typography
 Inter throughout, loaded as a variable font or two weights maximum (400, 600/700). Hierarchy comes from size and weight, never from a second family. Rationale: screen-native at all sizes, single-family Apple approach, smallest font payload for low-bandwidth mobile users (a primary audience in Sub-Saharan Africa).
 
+### Link affordance (amended 2026-07-26)
+Links render semibold in the link tokens (`--color-link` `#5A0E19` at rest, `--color-link-hover` `#8A1626` on hover). Color and weight are not the only cue (WCAG 1.4.1):
+- **Links inside running prose** (legal pages, section bodies, bios) are **always underlined** — that is where readers hunt for links, and dark red vs. dark grey body text is not distinguishable for all users.
+- **Standalone links** (nav items, card CTAs, `→` arrow links, footer links) carry no underline at rest — position, weight, and the arrow signal them — and **underline on hover and keyboard focus** as the feedback cue.
+- **Pill-shaped anchors** (Donate, primary CTAs, outline pills) never underline; their affordance is the pill itself.
+
 ### Motion
 Subtle scroll-triggered reveals (fade + 20–30px rise) on section entry, Apple-style. Constraints:
 - IntersectionObserver + CSS transitions only; no animation libraries, no scroll-jacking

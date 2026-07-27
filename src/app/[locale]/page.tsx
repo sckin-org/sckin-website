@@ -42,7 +42,7 @@ export default function HomePage() {
             <Link
               href={hero.cta.href}
               data-role="cta"
-              className="rounded-pill bg-cta px-[30px] py-4 text-[19px] font-semibold text-on-band transition-colors hover:bg-cta-hover md:px-8"
+              className="rounded-pill bg-cta px-[30px] py-4 text-[19px] font-semibold text-on-band transition-colors hover:bg-cta-hover hover:no-underline focus-visible:no-underline md:px-8"
             >
               {hero.cta.label}
             </Link>

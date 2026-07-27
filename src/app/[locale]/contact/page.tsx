@@ -41,7 +41,7 @@ export default function ContactPage() {
             </p>
             <Link
               href={deflect.cta.href}
-              className="mt-4 inline-block rounded-pill bg-cta px-5 py-2.5 text-[15px] font-semibold text-on-band transition-colors hover:bg-cta-hover"
+              className="mt-4 inline-block rounded-pill bg-cta px-5 py-2.5 text-[15px] font-semibold text-on-band transition-colors hover:bg-cta-hover hover:no-underline focus-visible:no-underline"
             >
               {deflect.cta.label}
             </Link>
