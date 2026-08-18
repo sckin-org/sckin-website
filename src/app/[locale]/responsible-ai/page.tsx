@@ -13,9 +13,9 @@ export function generateMetadata(): Metadata {
 
 /**
  * Responsible AI — ships on the generic tokenized content template until its
- * dedicated design exists (deferred 2026-07-22). Two anchor sections matching
- * the shipped anchors: #approach (with sub-topic blocks) and #surveys. Copy is
- * placeholder until the master doc's [TO ADD] fields are filled.
+ * dedicated design exists (deferred 2026-07-22). Flat anchor sections
+ * (#approach → #privacy) driven by content/responsible-ai.md; copy landed
+ * 2026-08-18, replacing the #approach-sub-blocks + #surveys scaffold.
  */
 export default function ResponsibleAiPage() {
   const { frontmatter, html } = getResponsibleAi();

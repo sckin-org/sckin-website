@@ -237,16 +237,17 @@ Dropped by design: hero image, tool images, three-tool layout.
 - [x] → Paste to Claude Code
 
 ### 7. Responsible AI — `/responsible-ai`
-*Heavy lift. Distinctive — few nonprofits have this. **Top-level nav item (2026-07-22); page design deferred — ships with the token system's generic page template until designed.** Structure + anchors shipped 2026-07-20 (`2fba37e`): `#approach` with the five sub-blocks and `#surveys`, matching the nav dropdown; every body is [TO ADD] in the doc, so clean "Content coming soon." placeholders render.*
+*Heavy lift. Distinctive — few nonprofits have this. **Top-level nav item (2026-07-22); page design deferred — ships with the token system's generic page template until designed.** Copy landed 2026-08-18 (Zacharie's polished draft): flat top-level sections `#approach` (five commitments + Warrior Con slides link) · `#grounding` · `#disclaimer` · `#pro` · `#limitations` · `#evaluation` · `#privacy`, replacing the 2026-07-20 `#approach`-with-sub-blocks + `#surveys` scaffold (see the 2026-08-18 History entry).*
 
-- [ ] Our approach
-- [ ] Guideline grounding & mandatory citations
-- [ ] Medical disclaimer
-- [ ] Known limitations — **be candid; candor is what makes this page credible**
-- [ ] Evaluation & benchmarking
-- [ ] Data privacy
-- [ ] `#surveys` — intro · who can participate · what's involved · CTA · survey embed *(section + anchor built; all copy and the Google Form link pending)*
-- [x] → Paste to Claude Code *(scaffold only — the copy above still needs writing)*
+- [x] Our approach — five commitments + link to the Warrior Con 2026 presentation
+- [x] Guideline grounding & mandatory citations — with "get in touch" → `/contact`
+- [x] Medical disclaimer
+- [x] SickleCellPedia Pro — robustness bullets + link to `/sicklecellpedia-pro`
+- [x] Known limitations — **be candid; candor is what makes this page credible**
+- [x] Evaluation & benchmarking — ASCAT October 2026 · HITL surveys vs ChatGPT/Claude/Gemini, HealthBench method
+- [x] Data privacy — links `/privacy`
+- [x] ~~`#surveys` — intro · who can participate · what's involved · CTA · survey embed~~ **dropped 2026-08-18** — superseded by the human-in-the-loop copy in Our approach + Evaluation & benchmarking; revisit if a "Become a rater" flow ships
+- [x] → Paste to Claude Code
 
 ### 8. Impact — `/impact`
 *Needs real numbers. Don't let it block the other pages. **Gates the Impact ▾ nav item going live (2026-07-22).***
@@ -354,6 +355,31 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Responsible AI copy landed; #surveys section dropped (2026-08-18)
+
+Zacharie supplied the polished Responsible AI draft and it shipped verbatim
+(minus light link wiring). Decisions taken with him this session:
+
+- **Title unchanged.** "How responsible AI can revolutionize sickle cell
+  care" is the *presentation* title, not a page rename — `/responsible-ai`
+  keeps its URL, nav label, and "Responsible AI" H1.
+- **Warrior Con slides linked from Our approach.** The Google Slides deck
+  from the "Sickle Cell Health & A.I." session (Warrior Con 2026, July 23,
+  Los Angeles — see the same-day blog post, PR #16) closes the section so
+  visitors get a visual of the vision; opens in a new tab via
+  renderSectionBody.
+- **Structure flattened.** The 2026-07-20 scaffold (`#approach` with five
+  sub-blocks + `#surveys`) became seven flat top-level sections — approach ·
+  grounding · disclaimer · pro · limitations · evaluation · privacy — the
+  new copy added SickleCellPedia Pro as a peer topic and reads as siblings,
+  not children. No inbound `#`-links existed, so no redirects needed.
+- **`#surveys` dropped** (Zacharie's call, recommended): human-in-the-loop
+  now lives in the fifth commitment and in Evaluation & benchmarking; the
+  grounding section's "get in touch" → `/contact` covers collaborator
+  recruitment until a "Become a rater" flow ships.
+- **Pro section links onward** to `/sicklecellpedia-pro` and its
+  `#register` interest form (Zacharie's call, recommended).
 
 ### Link rendering bug fixed + link-affordance rule adopted (2026-07-26)
 
