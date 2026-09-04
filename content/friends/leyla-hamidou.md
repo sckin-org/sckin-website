@@ -15,10 +15,9 @@ intro: >-
   SCKIN's SickleCellPedia AI assistant on her phone to answer students'
   questions in real time.
 story_link_label: "Read Leyla's story"
-# TODO: replace with Leyla's photo — square, at least 480×480 px, JPEG, saved
-# at exactly this path. Until the file exists the card and the page show an
-# initials placeholder of the same size, and the Open Graph image switches on
-# automatically once the file lands. (Do not use a frame from the videos.)
+# Square 960×960 JPEG (cropped from the portrait Leyla supplied, 2026-09-04).
+# Also the Open Graph image. If the file is ever missing, the card and page
+# fall back to an initials placeholder of the same size.
 photo: /images/friends/leyla-hamidou.jpg
 photo_alt: "Portrait of Leyla Aïssa Hamidou, President and Coordinator of DES, in Niamey, Niger"
 publishedAt: "2026-09-04"

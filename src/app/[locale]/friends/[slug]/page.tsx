@@ -49,8 +49,8 @@ export async function generateMetadata({
           images: [
             {
               url: fm.photo,
-              width: 480,
-              height: 480,
+              width: 960,
+              height: 960,
               alt: fm.photo_alt ?? fm.name,
             },
           ],
