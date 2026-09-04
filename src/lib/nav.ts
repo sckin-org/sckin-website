@@ -1,7 +1,13 @@
 /**
- * Site navigation model — the locked 2026-07-22 set (design annex, Navigation):
+ * Site navigation model — the locked 2026-07-22 set (design annex, Navigation),
+ * amended 2026-09-04 with Events under News ▾:
  *   About us ▾ · SickleCellPedia · For Clinicians · Responsible AI ·
- *   Impact ▾ (Impact · Publications) · News ▾ (Latest News · Blog) · [Donate]
+ *   Impact ▾ (Impact · Publications) · News ▾ (Latest News · Blog · Events) ·
+ *   [Donate]
+ *
+ * News ▾ taxonomy: Latest News = SCKIN's own news · Blog = updates about
+ * SCKIN's work · Events = events from across the sickle cell community,
+ * mostly organized by others and shared with us.
  *
  * Logo links to Home (Home is not a nav item). "For Clinicians" is the nav
  * label for SickleCellPedia Pro — the full product name lives on the page.
@@ -58,6 +64,7 @@ export const NAV_ITEMS: NavItem[] = [
     children: [
       { label: "Latest News", href: "/news" },
       { label: "Blog", href: "/news/blog" },
+      { label: "Events", href: "/events" },
     ],
   },
 ];

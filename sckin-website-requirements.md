@@ -22,7 +22,7 @@
 | **Design system** | Locked 2026-07-22 via Claude Design (annex: `sckin-design-spec-phase1.md`). Inter throughout · red `#8A1626` ramp (**revised 2026-07-22** from `#C41E3A` at import review — Zacharie approved the darker red the delivered ramp was anchored on; 9.5:1 on white; correct the token files' fabricated 2026-07-21 approval `$note` to this real provenance) · mobile-first (390px) · two-tone hero, no hero image · minimal-typographic (no photography on Home) · token handoff = CSS custom properties + `tokens.json`; every value must trace to a token |
 | **Stripe** | SCKIN account → Chase nonprofit account. **Apply for 501(c)(3) rate** (2.2% + 30¢ vs 2.9% + 30¢ — not automatic) |
 | **Donate defaults** | **One-time is the default** (flipped from recurring-first 2026-07-22), $25 pre-selected. Presets are frequency-dependent: one-time $25/$50/$100 · monthly $10/$20/$50 ($20 pre-selected when toggled). Monthly carries a "most impactful" tag. Existing lookup keys (`once_25/50/100`, `monthly_10/20/50`) already match — **no catalog reseed needed**. Optional "Add a note" field → Stripe metadata (to build). Homepage donate band and `/donate` share the same component + defaults |
-| **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **News ▾** (Latest News · Blog) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
+| **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **News ▾** (Latest News · Blog · Events — Events added 2026-09-04, see History) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
 | **Publications placement** | Nav: under **Impact ▾**. Route stays **`/publications`** (no URL move — avoids redirect churn; reverses only the nav placement, not commit `a294044`) |
 | **Hypothesis** | Full text lives on **`/mission` only**; Home's Mission section carries a one-line distillation + "Our mission →" link (no duplicated full copy) |
 | **Pro leads** | Native on-site form → Google Sheet via **Workload Identity Federation API route** *(supersedes Apps Script per master doc v3.1 — switched to a service-account key 2026-07-20, `9aa2577`; switched again to keyless WIF 2026-07-23 — no service-account JSON key ever exists, see Technical setup)* |
@@ -281,6 +281,7 @@ Dropped by design: hero image, tool images, three-tool layout.
 
 - [x] Intro copy — explain the AI classifier *(v3.1 launch phase, `7a82af5`: "In development — expected September 2026" badge, social-distribution language, plain card list — no filters yet, `NewsBrowser` parked until the taxonomy ships)*
 - [x] Blog subpage — `/news/blog` *(SCKIN's own announcements, linked from the News landing + News ▾ nav; card scaffold + empty state; posts authored later in `/admin` into `content/blog/`)*
+- [x] Events subpage — `/events` + `/events/[slug]` *(2026-09-04: events from across the sickle cell community, relayed by SCKIN — third-party webinars, symposia, awareness days, patient-association meetings; Upcoming/Past split at render time with hourly ISR; Register + flyer + .ics links; posts in `content/events/`, copy + every label in `content/events.md`; see History)*
 - [ ] 3–5 seed posts so the page isn't empty at launch *(only `example-post.md` today; the three headlines used in the homepage design — EHA abstract accepted · WhatsApp launch · Warrior Con — are natural seeds)*
 - [ ] Confirm DAG emits the agreed frontmatter contract *(`title`, `date`, `summary`, `source_url`, `topics: []`, `geographies: []`, `image`)*
 - [x] → Paste to Claude Code *(landing + blog shipped; seed posts + taxonomy later)*
@@ -317,7 +318,7 @@ Dropped by design: hero image, tool images, three-tool layout.
 ## Images
 
 Originals (full resolution) → `Products > website > Images`. Name by page and role.
-Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos → `public/images/team/`, org logos → `public/images/logos/`, blog featured images → `public/images/blog/` — the documented per-person/per-org filenames are already referenced in `content/about.md`, so files appear on drop-in with no code change)*.
+Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos → `public/images/team/`, org logos → `public/images/logos/`, blog featured images → `public/images/blog/` (empty since 2026-09-04), event flyers → `public/images/events/` — the documented per-person/per-org filenames are already referenced in `content/about.md`, so files appear on drop-in with no code change)*.
 
 - ~~`home-hero.jpg`~~ *(dropped 2026-07-22 — locked design is minimal-typographic, no hero image)*
 - ~~`home-tool-pedia.jpg` · `home-tool-pro.jpg` · `home-tool-news.jpg`~~ *(dropped 2026-07-22 — product cards are text-only in the locked design)*
@@ -355,6 +356,44 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Events section added; the Chicago summit moves out of the Blog (2026-09-04)
+
+Hours after PR #18 landed, Zacharie re-scoped the News menu: **Latest
+News** = SCKIN's own news · **Blog** = updates about SCKIN's work · **Events**
+(new) = events from across the sickle cell community — webinars, symposia,
+awareness days, patient-association meetings — mostly organized by others
+and shared with us. The Chicago summit is a relayed third-party event, so it
+moved from the Blog into the new section. Decisions:
+
+- **Nav amended:** News ▾ = Latest News · Blog · Events. Amends the
+  2026-07-22 locked set on Zacharie's instruction; annex line updated to
+  match. Home page untouched in this pass.
+- **Content model:** `content/events/*.md` (slug = filename, as for
+  news/blog) with landing copy *and every UI label* in `content/events.md`,
+  so a `content/events.<locale>.md` localizes the section without code —
+  the site is still `en`-only (`LOCALES`), and events thread `locale`
+  through loaders, links and Intl formatting the way the rest of the app
+  does. Frontmatter is camelCase like the legal collection (contract for a
+  future CMS collection): `eventStart`/`eventEnd` as ISO 8601 with offset ·
+  `timeZone` label · `format` (online · in-person · hybrid) · `location` ·
+  `platform` · `organizer` · `speakers` · `cost` · `registrationUrl` ·
+  `flyerPdf` · `flyerImage`(+`Alt`) · `sourceNote` · `publishedAt`. No
+  author, no tag: events are attributed to the organizer.
+- **Behaviour:** `/events` splits Upcoming (soonest first) / Past (most
+  recent first) on `eventEnd` vs. now; both pages revalidate hourly (ISR) so
+  the split and the Register button move without a deploy. Past cards keep
+  full text contrast (WCAG) but lose the tinted card and Register and carry
+  a "Past event" pill. `/events/[slug]` detail + `/events/[slug]/calendar`
+  (.ics, small dynamic route handler — no dependency). One-line disclaimer
+  on listing and detail.
+- **Blog post removed; nothing to redirect.** Blog posts render inline on
+  `/news/blog` and never had a URL of their own, so no shared link breaks;
+  the flyer PDF keeps its `/documents/` path. Its image moved to
+  `public/images/events/` (`public/images/blog/` now empty). The blog card's
+  optional image/cta/links fields from PR #18 stay — harmless and
+  documented.
+- No sitemap exists in the repo, so nothing to add there.
 
 ### Chicago Sickle Cell Summit post; blog cards gain image + CTA slots (2026-09-04)
 
