@@ -47,7 +47,7 @@ Minimal and typographic. No stock photography, no photo collages. The "imagery" 
 
 ### Navigation (amended 2026-07-22)
 - Slim single-row nav, sticky, white/translucent background, monochrome except the red Donate button
-- Items: About us ▾ (SCKIN · Our Founder · Board · Collaborators · Friends) · SickleCellPedia · For Clinicians · Responsible AI · Impact ▾ (Impact · Publications) · News ▾ (Latest News · Blog) · Donate (red button)
+- Items: About us ▾ (SCKIN · Our Founder · Board · Collaborators · Friends) · SickleCellPedia · For Clinicians · Responsible AI · Impact ▾ (Impact · Publications) · News ▾ (Latest News · Blog · Events — Events added 2026-09-04 per the checklist) · Donate (red button)
 - "For Clinicians" is the nav label for SickleCellPedia Pro; the full product name lives on the page itself
 - Publications routes to top-level `/publications` (only the nav placement is under Impact ▾); the Impact ▾ item goes live only once `/impact` carries real numbers
 - Reserved space for a future language toggle; mobile hamburger retained

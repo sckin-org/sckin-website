@@ -339,6 +339,72 @@ export interface BlogPostFrontmatter extends FrontmatterBase {
   links?: Cta[];
 }
 
+export type EventFormat = "online" | "in-person" | "hybrid";
+
+/**
+ * A community event (content/events/*.md) — third-party webinars, symposia,
+ * awareness days and patient-association meetings relayed by SCKIN (News ▾ →
+ * Events, added 2026-09-04). Attributed to the organizer and `sourceNote`,
+ * never to a SCKIN author: no author/tag fields by design. Slug = filename,
+ * as for news/blog. Fields are camelCase like the legal collection — they are
+ * the contract for a future CMS collection, keep them stable.
+ */
+export interface EventFrontmatter extends FrontmatterBase {
+  summary: string;
+  /** ISO 8601 with UTC offset, e.g. 2026-09-24T10:00:00-05:00. The wall-clock
+   * part is what visitors see; the offset makes upcoming/past and .ics exact. */
+  eventStart: string;
+  eventEnd: string;
+  /** Human label shown after the time, e.g. "Central Time". */
+  timeZone: string;
+  format: EventFormat;
+  location?: string;
+  /** e.g. "Zoom". */
+  platform?: string;
+  organizer: string;
+  speakers?: string[];
+  /** e.g. "Free". */
+  cost?: string;
+  /** Rendered as the Register button (new tab) until the event is past. */
+  registrationUrl?: string;
+  /** Paths under public/: the flyer PDF (documents/) and its page-1 image
+   * (images/events/). Image is skipped at render time if the file is missing. */
+  flyerPdf?: string;
+  flyerImage?: string;
+  flyerImageAlt?: string;
+  /** Who shared it with SCKIN, e.g. "Shared with SCKIN by board member …". */
+  sourceNote?: string;
+  /** ISO date (YYYY-MM-DD) the listing went up; also the .ics DTSTAMP. */
+  publishedAt: string;
+}
+
+/** /events landing copy + every UI label the Events pages render
+ * (content/events.md — a content/events.<locale>.md localizes the section). */
+export interface EventsLandingFrontmatter extends FrontmatterBase {
+  intro?: string;
+  /** "A listing here does not mean SCKIN organizes or endorses the event." */
+  disclaimer: string;
+  upcoming_heading: string;
+  past_heading: string;
+  /** Empty-state line when nothing is upcoming. */
+  empty: string;
+  labels: {
+    register: string;
+    flyer: string;
+    calendar: string;
+    past: string;
+    details: string;
+    back: string;
+    when: string;
+    where: string;
+    format: string;
+    organizer: string;
+    speakers: string;
+    cost: string;
+  };
+  formats: Record<EventFormat, string>;
+}
+
 /**
  * Legal policies (Privacy Policy, User Agreement) live in `content/legal/` so
  * a CMS collection can later be pointed at just that folder. Fields are
@@ -453,20 +519,26 @@ export const getPublications = () =>
   getDoc<PublicationsFrontmatter>("publications");
 export const getNewsLanding = () => getDoc<NewsLandingFrontmatter>("news");
 export const getBlogLanding = () => getDoc<BlogLandingFrontmatter>("blog");
+export const getEventsLanding = (locale?: string) =>
+  getDoc<EventsLandingFrontmatter>("events", locale);
 export const getPrivacy = () => getDoc<LegalFrontmatter>("legal/privacy");
 export const getTerms = () => getDoc<LegalFrontmatter>("legal/terms");
 
 /* -------------------------------------------------------------------------- */
-/* Post collections (News, Blog)                                              */
+/* Post collections (News, Blog, Events)                                      */
 /* -------------------------------------------------------------------------- */
 
 /**
- * All posts in a content subdirectory, newest first (by `date` frontmatter).
+ * All posts in a content subdirectory, newest first by the date `dateOf`
+ * picks from the frontmatter (`date` for news/blog, `eventStart` for events).
  * Ignores non-Markdown files (e.g. .gitkeep); an absent directory is an empty
- * collection, not an error.
+ * collection, not an error. `locale` is accepted for forward-compatibility
+ * exactly as in resolveContentPath: per-locale post files land there first.
  */
-function getCollection<T extends FrontmatterBase & { date: string }>(
-  dirName: string
+function getCollection<T extends FrontmatterBase>(
+  dirName: string,
+  dateOf: (frontmatter: T) => string | undefined,
+  _locale?: string
 ): Doc<T>[] {
   const dir = path.join(CONTENT_DIR, dirName);
   if (!fs.existsSync(dir)) return [];
@@ -485,18 +557,37 @@ function getCollection<T extends FrontmatterBase & { date: string }>(
       };
     })
     .sort((a, b) =>
-      (b.frontmatter.date ?? "").localeCompare(a.frontmatter.date ?? "")
+      (dateOf(b.frontmatter) ?? "").localeCompare(dateOf(a.frontmatter) ?? "")
     );
 }
 
 /** All news posts, newest first. */
 export function getAllNews(): Doc<NewsFrontmatter>[] {
-  return getCollection<NewsFrontmatter>("news");
+  return getCollection<NewsFrontmatter>("news", (fm) => fm.date);
 }
 
 /** All SCKIN blog posts, newest first. */
 export function getAllBlogPosts(): Doc<BlogPostFrontmatter>[] {
-  return getCollection<BlogPostFrontmatter>("blog");
+  return getCollection<BlogPostFrontmatter>("blog", (fm) => fm.date);
+}
+
+/** All community events, latest start first (pages re-split into upcoming /
+ * past — see src/lib/events.ts). */
+export function getAllEvents(locale?: string): Doc<EventFrontmatter>[] {
+  return getCollection<EventFrontmatter>(
+    "events",
+    (fm) => fm.eventStart,
+    locale
+  );
+}
+
+/** One event by slug (= filename), or null. Looked up through the collection
+ * so a crafted slug can never read outside content/events/. */
+export function getEvent(
+  slug: string,
+  locale?: string
+): Doc<EventFrontmatter> | null {
+  return getAllEvents(locale).find((event) => event.slug === slug) ?? null;
 }
 
 /** Sorted, de-duplicated facet values across all news posts. */
