@@ -357,6 +357,21 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Favicon and Apple touch icon added (2026-09-04)
+
+The site had no tab icon. Zacharie supplied the 1024px SCKIN app icon
+(mosaic DNA emblem over the SCKIN wordmark). Decisions:
+
+- **Emblem only, no wordmark** — the text is illegible at 16–48px, so the
+  icon files carry the mosaic circle alone, masked to a transparent disc so
+  it reads as a round mark on light and dark tabs.
+- **Next file conventions in `src/app/`:** `favicon.ico` (16/32/48, PNG
+  payloads — Turbopack requires RGBA), `icon.png` (192) and
+  `apple-icon.png` (180). Next injects the `<link>` tags on every page; no
+  code change. The locale middleware already skips these paths.
+- The full logo with wordmark is still the open "SCKIN logo" item under
+  Images; the 1024px source is the app icon Zacharie supplied.
+
 ### Chicago summit: final CME flyer and copy replace the first version (2026-09-04)
 
 UIC issued the final, CME-accredited flyer for the **9th Annual Chicago
