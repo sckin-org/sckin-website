@@ -68,8 +68,8 @@ export default async function EventPage({ params }: { params: Params }) {
       <Image
         src={fm.flyerImage}
         alt={fm.flyerImageAlt ?? ""}
-        width={1200}
-        height={1553}
+        width={1600}
+        height={2071}
         sizes="(max-width: 767px) 100vw, 400px"
         className="h-auto w-full rounded-md border border-hairline"
       />
