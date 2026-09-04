@@ -327,7 +327,16 @@ export interface BlogPostFrontmatter extends FrontmatterBase {
   author?: string;
   summary?: string;
   tag?: string;
+  /** Featured image — path under public/, e.g. /images/blog/….png. Skipped at
+   * render time if the file is missing (see publicFileExists). */
   image?: string;
+  image_alt?: string;
+  /** Where the featured image links (e.g. the full flyer PDF) — new tab. */
+  image_href?: string;
+  /** Primary call to action (e.g. "Register on Zoom") — pill button, new tab. */
+  cta?: Cta;
+  /** Secondary links beside the CTA (e.g. "Download the flyer (PDF)") — new tab. */
+  links?: Cta[];
 }
 
 /**

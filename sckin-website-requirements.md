@@ -317,7 +317,7 @@ Dropped by design: hero image, tool images, three-tool layout.
 ## Images
 
 Originals (full resolution) → `Products > website > Images`. Name by page and role.
-Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos → `public/images/team/`, org logos → `public/images/logos/` — the documented per-person/per-org filenames are already referenced in `content/about.md`, so files appear on drop-in with no code change)*.
+Destination: `public/images/` *(currently holds `whatsapp-qr.png`; team photos → `public/images/team/`, org logos → `public/images/logos/`, blog featured images → `public/images/blog/` — the documented per-person/per-org filenames are already referenced in `content/about.md`, so files appear on drop-in with no code change)*.
 
 - ~~`home-hero.jpg`~~ *(dropped 2026-07-22 — locked design is minimal-typographic, no hero image)*
 - ~~`home-tool-pedia.jpg` · `home-tool-pro.jpg` · `home-tool-news.jpg`~~ *(dropped 2026-07-22 — product cards are text-only in the locked design)*
@@ -355,6 +355,31 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Chicago Sickle Cell Summit post; blog cards gain image + CTA slots (2026-09-04)
+
+Dr. Lewis Hsu (UIC, SCKIN Medical Director and board member) shared the
+flyer for the **9th Annual Chicago Sickle Cell Summit** — *Hope for Sickle
+Cell Through Clinical Trials*, a free Zoom webinar on 2026-09-24 hosted by
+UIC's Community Advisory Board, keynote Dr. Mark Gladwin. Decisions:
+
+- **Home is the Blog, not the News feed.** `content/news/` is reserved for
+  the classifier pipeline (§10: "posts come from the DAG"), so a hand-written
+  SCKIN notice lands in `content/blog/` beside the Warrior Con post — master
+  doc boundary: "News = announcements, partnerships, events, updates". Tagged
+  `Announcement` (documented set: Announcement / Product / Impact; no Event
+  tag introduced).
+- **Blog card now renders the optional `image`** the v3.1 entry format always
+  allowed, plus optional companions added to `BlogPostFrontmatter`:
+  `image_alt`, `image_href` (the image links out, new tab — here to the flyer
+  PDF), `cta` (pill button, new tab) and `links` (secondary links, new tab).
+  All optional; the Warrior Con post is unchanged.
+- **Assets:** flyer PDF → `public/documents/` (beside the Warrior Con
+  agenda); page 1 rasterized to `public/images/blog/` at 1200px wide — the
+  first file in that folder.
+- No per-post detail route exists (posts render in full on `/news/blog`) and
+  none was added; no `event_date` field either — the date/time lives in the
+  copy.
 
 ### Responsible AI copy landed; #surveys section dropped (2026-08-18)
 
