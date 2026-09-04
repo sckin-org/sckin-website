@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import {
   getAbout,
+  getAllFriends,
   publicFileExists,
   renderSectionBody,
   type BoardMember,
   type Collaborator,
 } from "@/lib/content";
+import type { Locale } from "@/lib/i18n";
+import FriendCard from "@/components/FriendCard";
 import PageHeader from "@/components/PageHeader";
 import Prose from "@/components/Prose";
 import styles from "./about.module.css";
@@ -162,11 +165,19 @@ function CollaboratorEntry({ collaborator }: { collaborator: Collaborator }) {
 /**
  * About page. Anchor sections in master-doc order — SCKIN, Our Board,
  * Our Founder, Our Collaborators, Friends of SCKIN — keyed by `id` so the nav
- * dropdown links (/about#board, …) resolve. Friends of SCKIN renders heading
- * + anchor only (body reserved).
+ * dropdown links (/about#board, …) resolve. The `friends` section lists the
+ * Friends of SCKIN from content/friends/ (one card each, linking to the
+ * friend's story page at /friends/<slug>).
  */
-export default function AboutPage() {
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const activeLocale = locale as Locale;
   const { frontmatter, html } = getAbout();
+  const friends = getAllFriends(activeLocale);
 
   return (
     <div className="px-6 py-14 md:px-12 md:py-20">
@@ -226,6 +237,21 @@ export default function AboutPage() {
                 collaborator={collaborator}
               />
             ))}
+
+            {section.id === "friends" && friends.length ? (
+              <ul
+                data-role="friends-list"
+                className="mt-6 flex list-none flex-col gap-4 p-0"
+              >
+                {friends.map((friend) => (
+                  <FriendCard
+                    key={friend.slug}
+                    friend={friend}
+                    locale={activeLocale}
+                  />
+                ))}
+              </ul>
+            ) : null}
           </section>
         ))}
 

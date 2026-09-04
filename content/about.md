@@ -224,4 +224,10 @@ sections:
   # launch (content TO ADD once the section is defined).
   - id: friends
     heading: Friends of SCKIN
+    # The friends themselves live in content/friends/<slug>.md — one file per
+    # friend, rendered as cards here and as story pages at /friends/<slug>.
+    body: >-
+      People and organizations across the sickle cell community who put
+      SCKIN's tools to work in their own communities — and share what they
+      learn.
 ---
