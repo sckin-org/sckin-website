@@ -374,9 +374,11 @@ preview before it merges** — not auto-merged. Decisions:
   photo (+alt) · publishedAt · sections[] (markdown) · videos[] (YouTube id
   · caption · note) · contacts[] (label · email) · back_label, plus a `fr`
   block mirroring the translatable fields. Adding a friend = adding a file.
-- **Photo:** none publishable yet. Initials placeholder at the final size
-  (square, ≥480px) until `public/images/friends/leyla-hamidou.jpg` lands;
-  the Open Graph image switches on with the file. No video frame used.
+- **Photo:** Leyla supplied a portrait the same day — cropped to a square
+  960×960 JPEG at `public/images/friends/leyla-hamidou.jpg` (no GPS/device
+  metadata), which is also the Open Graph image. Should the file ever go
+  missing, the card and page fall back to an initials placeholder of the
+  same size. No video frame used.
 - **Videos:** two unlisted SCKIN YouTube videos via youtube-nocookie.com,
   lazy, 16:9, fullscreen — new `YouTubeEmbed` component; no .mp4 in the
   repo. Swapping a video is a one-line content change.
