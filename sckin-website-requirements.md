@@ -51,7 +51,7 @@ decision; design tokens ship vendor-neutral regardless.)*
 - [ ] **Impact numbers** — conversations · countries reached · questions answered · channel split *(gates the Impact ▾ nav item going live)*
 - [ ] **GBD figure verification** — confirm the homepage impact-band stats (7.7M · 500K+ · ~80%) against Global Burden of Disease 2021, The Lancet Haematology, before ship
 - [ ] **France / 54 years** — confirm source (54 traces to a 2019 *US* study in available sources)
-- [ ] **"Friends of SCKIN"** — define what this section actually is
+- [x] **"Friends of SCKIN"** — define what this section actually is *(defined 2026-09-04: people and organizations across the sickle cell community who use SCKIN's tools in their own work — a card on `/about#friends` plus a story page at `/friends/<slug>`; first friend Leyla Hamidou, ONG DES, Niger — see History)*
 - [ ] **Board bios** — Maimouna Phelan, Bill Phelan (no bio links on current site)
 
 ---
@@ -356,6 +356,35 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Friends of SCKIN defined; first friend Leyla Hamidou, ONG DES, Niger (2026-09-04)
+
+Zacharie defined the long-open "Friends of SCKIN" section: people and
+organizations across the sickle cell community who use SCKIN's tools in their
+own work, each with a card and a full story page. First friend: Leyla Aïssa
+Hamidou, President and Coordinator of DES (Drépanocytose Éducation Santé),
+Niamey. Built on `feat/friends-leyla-hamidou`; **Leyla approves the Vercel
+preview before it merges** — not auto-merged. Decisions:
+
+- **Placement:** the existing `/about#friends` anchor (About ▾ → Friends of
+  SCKIN), which was heading-only, rather than the home page — the locked
+  home flow has no Friends slot. Story pages at `/friends/<slug>`.
+- **Content model:** `content/friends/<slug>.md` — name · title · seo_title
+  · role · organization · location · quote · intro · story_link_label ·
+  photo (+alt) · publishedAt · sections[] (markdown) · videos[] (YouTube id
+  · caption · note) · contacts[] (label · email) · back_label, plus a `fr`
+  block mirroring the translatable fields. Adding a friend = adding a file.
+- **Photo:** none publishable yet. Initials placeholder at the final size
+  (square, ≥480px) until `public/images/friends/leyla-hamidou.jpg` lands;
+  the Open Graph image switches on with the file. No video frame used.
+- **Videos:** two unlisted SCKIN YouTube videos via youtube-nocookie.com,
+  lazy, 16:9, fullscreen — new `YouTubeEmbed` component; no .mp4 in the
+  repo. Swapping a video is a one-line content change.
+- **Emails:** published with Leyla's permission; rendered as mailto links
+  with every character HTML-entity-encoded (`ObfuscatedEmail`) — works
+  without JS, defeats naive scrapers.
+- **French:** stored under `fr` in the content file, not rendered — the site
+  is `en`-only with no switcher. No sitemap exists to update.
 
 ### Events section added; the Chicago summit moves out of the Blog (2026-09-04)
 

@@ -405,6 +405,68 @@ export interface EventsLandingFrontmatter extends FrontmatterBase {
   formats: Record<EventFormat, string>;
 }
 
+export interface FriendSection {
+  heading: string;
+  /** Markdown — rendered via renderSectionBody. */
+  body: string;
+}
+
+export interface FriendVideo {
+  /** YouTube video id (works for unlisted videos). */
+  youtube_id: string;
+  caption: string;
+  /** Duration / language line, e.g. "3 min 10 s · in Hausa with English subtitles". */
+  note?: string;
+}
+
+export interface FriendContact {
+  label: string;
+  /** Published with the owner's permission; rendered obfuscated. */
+  email: string;
+}
+
+/** The translatable part of a friend's story — the `fr` block mirrors it. */
+export interface FriendStory {
+  /** Full page title, e.g. "Turning the ordeal into commitment: …". */
+  title: string;
+  role: string;
+  organization?: string;
+  location: string;
+  /** Featured quote (without surrounding quotation marks). */
+  quote: string;
+  /** Two-sentence card intro; doubles as the page's meta description. */
+  intro?: string;
+  /** "Read Leyla's story" — the card's link label. */
+  story_link_label?: string;
+  sections?: FriendSection[];
+  videos_heading?: string;
+  contact_heading?: string;
+  /** Label of the link back to /about#friends. */
+  back_label?: string;
+}
+
+/**
+ * A Friend of SCKIN (content/friends/*.md, added 2026-09-04) — someone in the
+ * sickle cell community who uses SCKIN's tools in their own work: a card on
+ * /about#friends and a story page at /friends/<slug> (slug = filename).
+ */
+export interface FriendFrontmatter extends FrontmatterBase, FriendStory {
+  name: string;
+  /** Exact <title> / og:title, e.g. "Leyla Hamidou, ONG DES — Friends of SCKIN". */
+  seo_title?: string;
+  /** Path under public/images/friends/ — square, ≥480px. Initials placeholder
+   * of the same size until the file exists (see publicFileExists). */
+  photo?: string;
+  photo_alt?: string;
+  /** ISO date (YYYY-MM-DD) the friend was added; newest first on /about. */
+  publishedAt: string;
+  videos?: FriendVideo[];
+  contacts?: FriendContact[];
+  /** French version, stored for a future locale — not rendered while the
+   * site is English-only. */
+  fr?: Partial<FriendStory> & { contacts_line?: string };
+}
+
 /**
  * Legal policies (Privacy Policy, User Agreement) live in `content/legal/` so
  * a CMS collection can later be pointed at just that folder. Fields are
@@ -588,6 +650,24 @@ export function getEvent(
   locale?: string
 ): Doc<EventFrontmatter> | null {
   return getAllEvents(locale).find((event) => event.slug === slug) ?? null;
+}
+
+/** All Friends of SCKIN, newest first. */
+export function getAllFriends(locale?: string): Doc<FriendFrontmatter>[] {
+  return getCollection<FriendFrontmatter>(
+    "friends",
+    (fm) => fm.publishedAt,
+    locale
+  );
+}
+
+/** One friend by slug (= filename), or null — via the collection, so a
+ * crafted slug can never read outside content/friends/. */
+export function getFriend(
+  slug: string,
+  locale?: string
+): Doc<FriendFrontmatter> | null {
+  return getAllFriends(locale).find((friend) => friend.slug === slug) ?? null;
 }
 
 /** Sorted, de-duplicated facet values across all news posts. */
