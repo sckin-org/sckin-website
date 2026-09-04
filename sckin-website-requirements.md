@@ -357,6 +357,41 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Chicago summit: final CME flyer and copy replace the first version (2026-09-04)
+
+UIC issued the final, CME-accredited flyer for the **9th Annual Chicago
+Sickle Cell Summit** (file `2026 Chicago Sickle Cell Summit CME Flyer 04SEP26
+FINAL.pdf`) and Zacharie supplied replacement copy — a long version for the
+event page body, a short one for the `/events` card. Both replace the flyer
+and copy shipped in PRs #18/#19. The LinkedIn post is handled off-site and
+was not touched. Facts checked against the new flyer; what changed:
+
+- **Start time 10 AM → 9 am** Central (`eventStart` is now `09:00-05:00`;
+  the "When" line and the .ics follow). End time unchanged, 3 pm.
+- **Registration link → `https://tinyurl.com/SCDSummit2026`** (replaces the
+  `uic.zoom.us/webinar/register/…` URL). The tinyurl resolves to a UIC Zoom
+  link, so `platform: Zoom` stays even though the flyer says "(VIRTUAL)".
+- **Speakers:** keynote Mark T. Gladwin, MD (University of Maryland) plus the
+  seven featured speakers from UIC and Northwestern named on the flyer,
+  including Lewis Hsu, MD — all in `speakers`, so the facts block matches.
+- **CME (new):** up to 3.0 *AMA PRA Category 1 Credits*™, accredited by the
+  University of Illinois College of Medicine at Chicago — in the body and
+  the summary. **Contact (new):** Judy Nocek, PhD, Project Coordinator,
+  jnocek@uic.edu — in the body as a plain mailto link (it is public on the
+  flyer, unlike the Friends emails, so no obfuscation).
+- **Organizer** reworded to the flyer's own phrasing (volunteer Community
+  Advisory Board, patient advisors, community-based organizations — UIC).
+  **`cost: Free` kept:** the new flyer states no fee and nothing contradicts
+  the earlier "free" relayed by Dr. Hsu; flagged for confirmation.
+- **Assets:** same paths (`/documents/chicago-sickle-cell-summit-2026.pdf`,
+  `/images/events/chicago-sickle-cell-summit-2026.png`), so no link or
+  import changes; the old files are overwritten, not kept alongside. Page 1
+  rasterized at 1600px wide (was 1200; `next/image` derives the responsive
+  variants, so no hand-made srcset). Alt text as supplied.
+- No Open Graph image or JSON-LD Event schema exists for events (only
+  `/friends/[slug]` sets `openGraph`) and there is no sitemap, so nothing
+  else to update.
+
 ### Friends of SCKIN defined; first friend Leyla Hamidou, ONG DES, Niger (2026-09-04)
 
 Zacharie defined the long-open "Friends of SCKIN" section: people and
