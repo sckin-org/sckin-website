@@ -22,6 +22,17 @@ export const metadata: Metadata = {
   },
   description:
     "SCKIN is a 501(c)(3) nonprofit making useful, reliable information about sickle cell disease universally accessible.",
+  /* Brand icon (public/brand/README.md). The tab favicon uses the LIGHT
+     variant — the dark master disc has no edge on dark tab bars; everything
+     else (manifest, Apple touch icon) is the dark master. */
+  icons: {
+    icon: [
+      { url: "/brand/icon-light.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/site.webmanifest",
 };
 
 /** Prerender one tree per supported locale. Adding "fr" to LOCALES is enough. */

@@ -357,6 +357,35 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### New brand icon: SVG masters in public/brand, light favicon (2026-09-04)
+
+Zacharie's Claude Design export ("Website icon redesign.zip") replaced the
+provisional mosaic-emblem favicon from PR #23 the same evening: a disc with
+five rounded bars (blue · yellow · green · yellow · red), delivered as two
+true-vector SVGs (dark disc = winner, light disc = alternate; no mono
+variant). Decisions:
+
+- **Brand assets live in `public/brand/`** — `icon.svg` (dark, the master),
+  `icon-light.svg`, rasters `icon-512/192/32.png`, plus `README.md` saying
+  which to use where. Cleaned to standalone SVGs: C2PA metadata and fixed
+  1024px width/height stripped, 4-unit padding on a 108×108 viewBox, svgo
+  (`removeViewBox: false`, `removeDimensions`) — output verified
+  pixel-identical to the cleaned source at 512px. 352 bytes each.
+- **Light favicon, dark everywhere else** (Zacharie's call on the flag
+  that a dark disc has no edge on dark tab bars): `public/favicon.ico`
+  (16/32/48) and the SVG favicon link come from `icon-light.svg`; the
+  manifest icons (192/512) and `apple-touch-icon.png` (180, full-bleed on
+  `#17150F` so iOS doesn't fill the corners black) come from `icon.svg`.
+- **Wiring:** `metadata.icons` + `metadata.manifest` in the locale layout
+  (explicit `<link>`s) replace the `src/app/` file-convention icons from
+  PR #23, which were deleted — nothing else referenced them. New
+  `public/site.webmanifest` (name, short_name, 192/512 icons, theme colour
+  `#8A1626`). The locale middleware already skips dotted paths.
+- **Tooling stayed out of the repo:** svgo 3.3.2, sharp 0.34.3 and
+  png-to-ico 2.1.8 ran from a scratch folder; `package.json` untouched.
+  Header wordmark untouched (separate task); the "SCKIN logo" item under
+  Images stays open for the full logo with wordmark.
+
 ### Favicon and Apple touch icon added (2026-09-04)
 
 The site had no tab icon. Zacharie supplied the 1024px SCKIN app icon
