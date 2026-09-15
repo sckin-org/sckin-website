@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
+import { Analytics } from "@vercel/analytics/next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { analyticsEnabled } from "@/lib/analytics";
 import { LOCALES, isLocale, type Locale } from "@/lib/i18n";
 
 /* Single family, two weights — smallest payload for low-bandwidth mobile,
@@ -73,6 +75,10 @@ export default async function LocaleLayout({
         {/* The SickleCellPedia chat is an inline pane on /sicklecellpedia
             (<VoiceflowEmbed />) — deliberately no site-wide corner launcher. */}
         <GoogleAnalytics />
+        {/* Cookieless — the source the Impact page quotes, chosen precisely because
+            it needs no consent banner. Gated the same as GoogleAnalytics so preview
+            builds and local dev don't consume the project's event quota. */}
+        {analyticsEnabled && <Analytics />}
       </body>
     </html>
   );
