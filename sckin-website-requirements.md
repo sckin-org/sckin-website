@@ -357,6 +357,47 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Vercel Web Analytics added; cookieless source for the Impact page (2026-09-15)
+
+**PR #26 (`05eacb2`)** mounts `<Analytics />` from `@vercel/analytics/next` in
+the root layout, alongside GA4 (PR #25, below), on the same `analyticsEnabled`
+gate (`VERCEL_ENV === "production"`). Decisions:
+
+- **Cookieless — no consent banner required.** This is why it, not GA4, is
+  the source the Impact page quotes.
+- Gated identically to GA4: preview deploys and local dev emit no events, so
+  neither test traffic nor the project's event quota is spent on
+  non-production builds.
+- Installing the package only ships the client wiring; collection also
+  needed **Web Analytics** enabled in the Vercel dashboard (Project →
+  Analytics), a separate step — enabled 2026-09-15 and confirmed receiving
+  data.
+
+### Google Analytics 4 added site-wide, including /sicklecellpedia (2026-09-15)
+
+**PR #25 (`265e4f1`)** adds GA4 (`G-343BSR99X0`) via
+`src/components/GoogleAnalytics.tsx`, rendered from the root layout and
+gated on `analyticsEnabled` (`VERCEL_ENV === "production"`,
+`src/lib/analytics.ts`). Decisions:
+
+- **Measurement ID committed to the repo, not an env var** — the same call
+  as `lib/voiceflow.ts`: gtag.js ships the ID to every visitor in the page
+  source, so it is public by design.
+- **Site-wide scope, `/sicklecellpedia` included.** Excluding the assistant
+  page was considered and rejected: every URL on this domain is already
+  sickle-cell-specific, so the inference from a pageview on `/about` is
+  identical, and excluding it would drop the conversion signal Google Ad
+  Grants requires. What visitors ask the assistant itself never reaches GA
+  — that stays in Voiceflow.
+- **Google Signals and ad-personalization signals disabled at the tag**
+  (`allow_google_signals`, `allow_ad_personalization_signals`), not left to
+  a dashboard toggle. Google already treats health as a sensitive interest
+  category and bars advertiser-curated audiences for it, so this forfeits
+  nothing usable.
+- **GA4 property data retention set to 14 months**, the free-tier maximum.
+- **Open gap:** GA4 sets cookies and there is no consent banner yet. Google
+  Consent Mode is required before driving UK/EU traffic.
+
 ### New brand icon: SVG masters in public/brand, light favicon (2026-09-04)
 
 Zacharie's Claude Design export ("Website icon redesign.zip") replaced the
