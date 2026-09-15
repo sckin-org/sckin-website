@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { LOCALES, isLocale, type Locale } from "@/lib/i18n";
 
 /* Single family, two weights — smallest payload for low-bandwidth mobile,
@@ -71,6 +72,7 @@ export default async function LocaleLayout({
         <SiteFooter locale={activeLocale} />
         {/* The SickleCellPedia chat is an inline pane on /sicklecellpedia
             (<VoiceflowEmbed />) — deliberately no site-wide corner launcher. */}
+        <GoogleAnalytics />
       </body>
     </html>
   );
