@@ -30,7 +30,8 @@ methodology: definitions (identical in every file)
   real question and a real answer). Fall back to `assistant.analytics.sessions` only with a footnote,
   because raw sessions include widget loads where nobody typed.
 * **Countries reached** → `assistant.transcripts.countries_reached`.
-* **Questions answered** → `assistant.transcripts.user_messages` (user turns in non-test sessions).
+* **Messages people sent** → `assistant.transcripts.user_messages` (messages from users in
+  non-test sessions; not "questions" — many are greetings, and not "turns", which is ambiguous).
 * **People** → prefer `assistant.transcripts.unique_users_engaged` for the transcript window; the
   Analytics `unique_users_monthly_sum` double-counts people active in more than one month.
 

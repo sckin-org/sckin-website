@@ -9,6 +9,7 @@ import {
   monthlyEngaged,
   rankedCountries,
   totalEngagedConversations,
+  totalUserMessages,
   transcriptWindow,
   unknownCountryConversations,
 } from "@/lib/impact";
@@ -125,6 +126,7 @@ export default function ImpactPage() {
 
   const channels = channelSplit(periods);
   const totalChannelEngaged = channels.reduce((sum, c) => sum + c.engaged, 0);
+  const userMessages = totalUserMessages(periods);
 
   const ranked = rankedCountries(periods);
   const topCountries = ranked.slice(0, 8);
@@ -176,8 +178,8 @@ export default function ImpactPage() {
           ))}
         </section>
         <p className="mt-4 text-[13px] text-muted">
-          These three cover {windowLabel} — the window Voiceflow's
-          conversation transcripts still retain. SickleCellPedia has been
+          These three cover {windowLabel} — the period for which we hold
+          conversation-level detail. SickleCellPedia has been
           live since June 2025; see <a href="#usage" className="text-link hover:text-link-hover">Usage over time</a> for
           the fuller, longer-running picture and <a href="#methodology" className="text-link hover:text-link-hover">Methodology</a> for
           what counts as a conversation.
@@ -212,6 +214,10 @@ export default function ImpactPage() {
               </div>
             ))}
           </div>
+
+          <p className="mt-4 text-[15px] leading-(--line-height-body) text-body text-pretty">
+            Across those conversations, people sent {userMessages.toLocaleString()} messages.
+          </p>
 
           <h3 className="mt-8 text-[17px] font-semibold text-heading">
             Where SickleCellPedia is used
@@ -411,15 +417,17 @@ export default function ImpactPage() {
           </p>
         </section>
 
-        {/* Methodology */}
+        {/* Methodology — five short blocks, deliberately less detailed than
+            the first pass (Zacharie's call, 2026-09-16): what counts, what
+            we exclude, countries, languages, coverage. Reader-facing text
+            here and in the JSON strings it reads from must never name
+            Voiceflow, retention windows, test-ID patterns, how the test
+            handset is matched, or the Elevate licensee — see the History
+            entry for why. */}
         <section id="methodology" data-section="methodology" className="mt-10 border-t border-(--gray-100) pt-8">
           <h2 className="text-[22px] font-semibold tracking-[-0.01em] text-heading">
             Methodology
           </h2>
-          <p className="mt-3 text-[15px] leading-(--line-height-body) text-body text-pretty">
-            This is a funder-facing page, so here is exactly how the numbers
-            above are built.
-          </p>
           <div className="mt-5 flex flex-col gap-4">
             <div>
               <h3 className="text-[15px] font-semibold text-heading">
@@ -439,10 +447,18 @@ export default function ImpactPage() {
             </div>
             <div>
               <h3 className="text-[15px] font-semibold text-heading">
-                Country and language
+                Countries
               </h3>
               <p className="mt-1 text-[15px] leading-(--line-height-body) text-body text-pretty">
-                {periodQ3.methodology.country} {periodQ3.methodology.language}
+                {periodQ3.methodology.country}
+              </p>
+            </div>
+            <div>
+              <h3 className="text-[15px] font-semibold text-heading">
+                Languages
+              </h3>
+              <p className="mt-1 text-[15px] leading-(--line-height-body) text-body text-pretty">
+                {periodQ3.methodology.language}
                 {otherLanguageMentions > 0
                   ? ` ${otherLanguageMentions.toLocaleString()} conversations opened in a language other than English or French.`
                   : ""}
@@ -450,16 +466,14 @@ export default function ImpactPage() {
             </div>
             <div>
               <h3 className="text-[15px] font-semibold text-heading">
-                How far back we can look
+                Coverage
               </h3>
               <p className="mt-1 text-[15px] leading-(--line-height-body) text-body text-pretty">
-                {periodQ3.methodology.retention}
+                {periodQ3.methodology.coverage} Figures last updated{" "}
+                {formatDate(periodQ3.generated_on)}.
               </p>
             </div>
           </div>
-          <p className="mt-4 text-[13px] text-muted">
-            Figures last generated {formatDate(periodQ3.generated_on)}.
-          </p>
         </section>
 
         {testimonials_community?.length ? (
