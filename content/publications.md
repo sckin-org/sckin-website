@@ -17,8 +17,6 @@ sections:
         link:
           label: View the poster
           href: "https://drive.google.com/file/d/11cAybCxHmocmXkZXVo_jNb_gW0_PMAC5/view?usp=drive_link"
-        # TODO: poster thumbnail pending in public/images/ — renders once the
-        # file lands.
         image: /images/publication-genai-safety-poster.jpg
         image_alt: Poster — Can AI Be Trusted for Sickle Cell Disease Education?
   - id: publications
