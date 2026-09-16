@@ -27,11 +27,12 @@ export interface NavItem {
 }
 
 /**
- * The Impact ▾ item goes live only once /impact carries real numbers
- * (requirements checklist, 2026-07-22). While gated, /publications stays
- * reachable from the footer's Explore group.
+ * The Impact ▾ item went live 2026-09-16, once /impact carried real numbers
+ * (content/impact-data/*.json, computed at build time — see src/lib/impact.ts
+ * and content/impact-data/README.md). /publications remains reachable from
+ * the footer's Explore group regardless of this flag.
  */
-export const IMPACT_NAV_LIVE = false;
+export const IMPACT_NAV_LIVE = true;
 
 const IMPACT_ITEM: NavItem = {
   label: "Impact",

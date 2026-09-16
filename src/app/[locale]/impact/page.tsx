@@ -82,11 +82,11 @@ function Bar({ pct, tone }: { pct: number; tone: "strong" | "soft" }) {
 }
 
 /**
- * Impact page — gated from the nav (src/lib/nav.ts, IMPACT_NAV_LIVE) until
- * this page carries real numbers. It now does: every figure below is
- * computed at build time from content/impact-data/*.json via
- * src/lib/impact.ts, never hand-typed here or in content/impact.md. See
- * content/impact-data/README.md for what each field means and why.
+ * Impact page — live in the nav as of 2026-09-16 (src/lib/nav.ts,
+ * IMPACT_NAV_LIVE). Every figure below is computed at build time from
+ * content/impact-data/*.json via src/lib/impact.ts, never hand-typed here or
+ * in content/impact.md. See content/impact-data/README.md for what each
+ * field means and why.
  */
 export default function ImpactPage() {
   const { frontmatter, html } = getImpact();
@@ -143,9 +143,13 @@ export default function ImpactPage() {
     period2025.assistant.analytics?.excluded_months?.["2025-08"];
 
   const { frontmatter: publicationsFm } = getPublications();
-  const scdCoalitionEntry = publicationsFm.sections
-    ?.find((s) => s.id === "presentations")
-    ?.entries.find((e) => e.title.startsWith("Can AI Be Trusted"));
+  /** content/publications.md's "presentations" section is authored
+   * newest-first; this teaser takes the top few rather than re-typing
+   * entries here, so /impact and /publications can't drift apart. */
+  const presentationsTeaser =
+    publicationsFm.sections
+      ?.find((s) => s.id === "presentations")
+      ?.entries.slice(0, 3) ?? [];
 
   const pillClass =
     "rounded-pill border border-hairline-strong px-2.5 py-[3px] text-[12px] font-semibold uppercase tracking-[0.04em] text-body";
@@ -230,6 +234,53 @@ export default function ImpactPage() {
             Country could not be resolved for {unknownCountry.toLocaleString()}{" "}
             conversations — mostly earlier web sessions, before country
             detection went live in April 2026.
+          </p>
+        </section>
+
+        {/* Presentations & events — a short teaser only. The full list
+            (including upcoming/forthcoming engagements) lives on
+            /publications, which is the single home for it; this section
+            must never re-type an entry or list anything upcoming, or the
+            two pages will drift.
+
+            Section order on this page: stat tiles → Reach → this teaser →
+            Usage over time → Research → Methodology. Usage is the mission
+            and stays the dominant thread of the page (tiles, Reach, and the
+            month-by-month chart that follows), but this credibility signal
+            — SCKIN speaking to real audiences — is placed right before the
+            month-by-month detail, so a reader has a reason to trust the
+            numbers before working through them. Keep it here if the page
+            gets reordered again. */}
+        <section data-section="presentations" className="mt-10 border-t border-(--gray-100) pt-8">
+          <h2 className="text-[22px] font-semibold tracking-[-0.01em] text-heading">
+            Presentations &amp; events
+          </h2>
+          <p className="mt-3 text-[15px] leading-(--line-height-body) text-body text-pretty">
+            SCKIN treats speaking directly to clinicians, patients and
+            researchers as impact in its own right, alongside SickleCellPedia
+            usage.
+          </p>
+
+          <div className="mt-6 flex flex-col gap-4">
+            {presentationsTeaser.map((entry, i) => (
+              <div key={i}>
+                <p className="text-[13px] text-muted">
+                  {[entry.venue, entry.date].filter(Boolean).join(" · ")}
+                </p>
+                <h3 className="mt-1 text-[17px] font-semibold leading-[1.35] text-heading text-pretty">
+                  {entry.title}
+                </h3>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-5">
+            <a
+              href="/publications"
+              className="text-[15px] font-semibold text-link transition-colors hover:text-link-hover"
+            >
+              See all presentations and publications →
+            </a>
           </p>
         </section>
 
@@ -330,96 +381,6 @@ export default function ImpactPage() {
                 transcript coverage through{" "}
                 {periodQ3.data_through ? formatDate(periodQ3.data_through) : "today"}
                 . Figures will grow as the quarter continues.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Presentations & events */}
-        <section data-section="presentations" className="mt-10 border-t border-(--gray-100) pt-8">
-          <h2 className="text-[22px] font-semibold tracking-[-0.01em] text-heading">
-            Presentations &amp; events
-          </h2>
-          <p className="mt-3 text-[15px] leading-(--line-height-body) text-body text-pretty">
-            SCKIN treats speaking directly to clinicians, patients and
-            researchers as impact in its own right, alongside SickleCellPedia
-            usage.
-          </p>
-
-          <div className="mt-6 flex flex-col gap-5">
-            <div>
-              <p className="text-[13px] text-muted">
-                April 21, 2026 · SCD Coalition Peer Learning Exchange (webinar)
-              </p>
-              <h3 className="mt-1 text-[17px] font-semibold leading-[1.35] text-heading text-pretty">
-                Can AI Be Trusted for Sickle Cell Disease Education?
-                Introducing SickleCellPedia
-              </h3>
-              <p className="mt-1.5 text-[15px] leading-(--line-height-body) text-body text-pretty">
-                Zacharie Liman-Tinguiri and Dr. Lewis Thomas presented a
-                real-world case study of SickleCellPedia.
-              </p>
-              <p className="mt-2">
-                <a
-                  href={scdCoalitionEntry?.link?.href ?? "/publications#presentations"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[15px] font-semibold text-link transition-colors hover:text-link-hover"
-                >
-                  {scdCoalitionEntry?.link?.label ?? "See the presentation"} →
-                </a>
-              </p>
-            </div>
-
-            <div>
-              <p className="text-[13px] text-muted">
-                July 23, 2026 · Warrior Con 2026 (13th Annual Sickle Cell
-                Warriors Convention)
-              </p>
-              <h3 className="mt-1 text-[17px] font-semibold leading-[1.35] text-heading text-pretty">
-                Responsible AI Will Revolutionize Sickle Cell Care
-              </h3>
-              <p className="mt-2">
-                <a
-                  href="/news/blog"
-                  className="text-[15px] font-semibold text-link transition-colors hover:text-link-hover"
-                >
-                  Read more on our blog →
-                </a>
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-8 flex items-center gap-2">
-            <h3 className="text-[17px] font-semibold text-heading">Upcoming</h3>
-            <span className={pillClass}>Not yet happened</span>
-          </div>
-          <div className="mt-4 flex flex-col gap-5">
-            <div>
-              <p className="text-[13px] text-muted">
-                October 2026 · ASCAT (Academy on Sickle Cell and
-                Thalassaemia), London
-              </p>
-              <p className="mt-1.5 text-[15px] leading-(--line-height-body) text-body text-pretty">
-                SCKIN&apos;s benchmarking abstract has been accepted for an
-                oral presentation.
-              </p>
-              <p className="mt-2">
-                <a
-                  href="/publications#abstracts"
-                  className="text-[15px] font-semibold text-link transition-colors hover:text-link-hover"
-                >
-                  See the abstract →
-                </a>
-              </p>
-            </div>
-            <div>
-              <p className="text-[13px] text-muted">
-                October 2026 · SCDAA 54th Annual National Convention
-              </p>
-              <p className="mt-1.5 text-[15px] leading-(--line-height-body) text-body text-pretty">
-                SCKIN will also be presenting at the Sickle Cell Disease
-                Association of America&apos;s national convention.
               </p>
             </div>
           </div>

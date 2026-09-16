@@ -250,7 +250,7 @@ Dropped by design: hero image, tool images, three-tool layout.
 - [x] → Paste to Claude Code
 
 ### 8. Impact — `/impact`
-*Needs real numbers. Don't let it block the other pages. **Gates the Impact ▾ nav item going live (2026-07-22)** — still gated post-launch pending Zacharie's review of the preview URL; flipping `IMPACT_NAV_LIVE` is then a one-line follow-up.*
+*Needs real numbers. Don't let it block the other pages. **Impact ▾ went live in the nav 2026-09-16** — `IMPACT_NAV_LIVE = true` in `src/lib/nav.ts`; see History.*
 
 - [x] Hero headline + subhead *(2026-09-15, see History)*
 - [x] Stat: total conversations *(2026-09-15 — "232 substantive conversations," scoped to the 16 Mar–15 Sep 2026 transcript window, not literal all-time; see History)*
@@ -356,6 +356,46 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Impact ▾ published: nav gate flipped, presentations trimmed, section reordered (2026-09-16)
+
+`IMPACT_NAV_LIVE` is now `true` (`src/lib/nav.ts`) — Impact ▾ (Impact ·
+Publications) renders in the header, desktop and mobile, verified in the
+built HTML. Decisions:
+
+- **"Presentations & events" is now a teaser, not a full list.** It read
+  two engagements in full and hardcoded a separate "Upcoming" block (ASCAT,
+  SCDAA); `/publications` already carried the SCD Coalition entry
+  independently, so the two pages could drift. The section now reads
+  `content/publications.md`'s `presentations` array at build time (`.slice(0, 3)`,
+  no re-typing) and renders title + venue · date only, closing with one "See
+  all presentations and publications →" link to `/publications`. Today that
+  section still holds a single entry (the SCD Coalition webinar), so the
+  teaser shows one item — correct, not a bug; Warrior Con and the upcoming
+  ASCAT/SCDAA engagements are not re-added here, since adding them to
+  `content/publications.md` is content-authoring work that belongs to the
+  paused "four speaking engagements" follow-up, not this PR.
+- **No upcoming engagements on `/impact` anymore, by design.** "Do not
+  duplicate abstracts or upcoming engagements onto /impact" — ASCAT and
+  SCDAA temporarily don't appear anywhere on the site until that follow-up
+  lands them on `/publications`. Expected, not a regression.
+- **Section order changed:** stat tiles → Reach → Presentations & events →
+  Usage over time → Research → Methodology (previously Presentations came
+  after Usage). Usage — tiles, Reach, the month-by-month chart — stays the
+  dominant thread of the page; the presentations teaser sits as a brief
+  credibility signal right before the granular month-by-month detail, so a
+  reader has a reason to trust the numbers before working through them.
+  Reasoning recorded as a comment in `impact/page.tsx` so it survives future
+  edits.
+- **No figures changed.** `content/impact-data/2026-H1.json` and
+  `2026-Q3.json` both still carry `pending_recompute` — `VOICEFLOW_API_KEY`
+  was not available in this environment, so the Q3 refresh and the planned
+  H1 `frozen` rewrite were both skipped entirely, per instruction ("leave
+  both flags as they are"). Every figure on the built `/impact` page —
+  including the three stat tiles (232 / 25 / 2) and the monthly chart — is
+  byte-identical to what was live before this PR. Refreshing 2026-Q3 (and
+  freezing 2026-H1's note) remains open, blocked on that key being
+  available.
 
 ### EHA venue references removed; ASCAT dates confirmed (2026-09-16)
 
