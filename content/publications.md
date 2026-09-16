@@ -50,10 +50,9 @@ sections:
     entries:
       - title: "A specialized AI agent for sickle cell patient education in low-resource settings: a benchmarking evaluation"
         people: "Presenting author: Mr Zacharie Liman-Tinguiri — Sickle Cell Knowledge and Information Network"
-        venue: ASCAT (Annual Sickle Cell and Thalassaemia Conference), London — Paper No. 226
+        venue: ASCAT 2026 (21st Annual Sickle Cell & Thalassaemia Conference), Central Hall Westminster, London — Paper No. 226
         status: Accepted as Oral (forthcoming)
-        # TODO: {PENDING} confirm exact ASCAT 2026 dates for this entry.
-        date: "2026"
+        date: "October 7–10, 2026"
         # TODO: link [TO ADD once available].
   - id: other-contributions
     heading: Other Contributions

@@ -250,26 +250,26 @@ Dropped by design: hero image, tool images, three-tool layout.
 - [x] → Paste to Claude Code
 
 ### 8. Impact — `/impact`
-*Needs real numbers. Don't let it block the other pages. **Gates the Impact ▾ nav item going live (2026-07-22).***
+*Needs real numbers. Don't let it block the other pages. **Gates the Impact ▾ nav item going live (2026-07-22)** — still gated post-launch pending Zacharie's review of the preview URL; flipping `IMPACT_NAV_LIVE` is then a one-line follow-up.*
 
-- [ ] Hero headline + subhead
-- [ ] Stat: total conversations
-- [ ] Stat: countries reached
-- [ ] Stat: questions answered
-- [ ] Our reach — who · where · channel split (web/WhatsApp/FB)
-- [ ] What people ask us — themes from the 1,587-turn / 315-conversation analysis
-- [ ] Community testimonials
-- [ ] Clinically evaluated — brief summary, link to Responsible AI
-- [ ] Clinician testimonials
-- [ ] → Paste to Claude Code
-- [ ] ⚠️ **No placeholder figures — funders read this page** *(this rule is why the homepage impact band deliberately uses epidemiology + the +5 yrs goal, not SCKIN traction numbers — the two are complementary, not duplicative)*
+- [x] Hero headline + subhead *(2026-09-15, see History)*
+- [x] Stat: total conversations *(2026-09-15 — "232 substantive conversations," scoped to the 16 Mar–15 Sep 2026 transcript window, not literal all-time; see History)*
+- [x] Stat: countries reached *(2026-09-15 — 25, see History)*
+- [ ] ~~Stat: questions answered~~ **swapped for languages served (2)** *(2026-09-15, per instruction — see History for why "2" not "3")*
+- [x] Our reach — who · where · channel split (web/WhatsApp) *(2026-09-15 — no Facebook entry: SCKIN has never run a Facebook assistant, nothing to split; see History)*
+- [ ] What people ask us — themes from the 1,587-turn / 315-conversation analysis *(not in the 2026-09-15 pass — no topic-tagged data file exists yet)*
+- [ ] Community testimonials *(intentionally left empty 2026-09-15 — no consented quotes yet; frontmatter contract kept so it's a data change, not a code change, once one lands)*
+- [ ] Clinically evaluated — brief summary, link to Responsible AI *(not in the 2026-09-15 pass — flagged as a gap, see History)*
+- [ ] Clinician testimonials *(intentionally left empty 2026-09-15 — same as community testimonials, above)*
+- [x] → Paste to Claude Code
+- [x] ⚠️ **No placeholder figures — funders read this page** *(this rule is why the homepage impact band deliberately uses epidemiology + the +5 yrs goal, not SCKIN traction numbers — the two are complementary, not duplicative. Satisfied 2026-09-15: every /impact figure traces to content/impact-data/*.json at build time.)*
 
 ### 9. Publications — `/publications`
 *Assembly, not writing. Pull from Zotero + abstract records. Route stays top-level `/publications` (commit `a294044`); **nav placement moved under Impact ▾ 2026-07-22**. Four sections — Presentations · Publications · Abstracts · Other Contributions.*
 
 - [ ] Intro line *(doc's example line renders; final [TO ADD])*
-- [ ] EHA Stockholm 2026 *(add: Submission ID EHA-4931, Abstract Code PB3135 — accepted; presented June 11–14 2026)*
-- [x] ASCAT London 2026 *(Abstracts: paper #226, accepted as Oral, presenting author Mr Zacharie Liman-Tinguiri, SCKIN; {PENDING} exact 2026 dates + link)*
+- [ ] EHA 2026 *(add: Submission ID EHA-4931, Abstract Code {PENDING} — PB4135 vs PB3135 unresolved; accepted; presented June 11–14 2026)*
+- [x] ASCAT London 2026 *(Abstracts: paper #226, accepted as Oral, presenting author Mr Zacharie Liman-Tinguiri, SCKIN; 7–10 October 2026, Central Hall Westminster, London — confirmed 2026-09-16; link {PENDING})*
 - [ ] SCDAA 2026 *(no entry in master doc v3.1 yet)*
 - [ ] Globinoscope essay *(section + N°11 source link render; pending article titles/authors/pages — two clearly-marked TO-ADD entries)*
 - [x] Others *(Presentations: SCD Coalition webinar Apr 21 2026 with poster Drive link; Other Contributions: public ASCAT-2025 NotebookLM link — both new-tab)*
@@ -357,6 +357,41 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### EHA venue references removed; ASCAT dates confirmed (2026-09-16)
+
+Merged `origin/main` (PR #29) into `feat/impact-page` to resolve a History
+merge conflict (both branches had prepended an entry to the same spot — kept
+both, newest-first, no words lost), then made two content corrections
+requested by Zacharie:
+
+- **"Stockholm" and "Milan" removed repo-wide.** Grepped the whole tree
+  case-insensitively for both. Hits: `sckin-website-requirements.md` (§9's
+  EHA checklist line, now "EHA 2026" with no venue, and this file's
+  2026-09-15 History entry, rewritten below) and
+  `docs/design/comps/Homepage.dc.html` ("Milan"). The design comp is an
+  archived import — not read by `next.config.ts`, not under `public/`, not
+  imported by any file under `src/` — so nothing renders it; left
+  untouched, per instruction. `content/publications.md` has no EHA entry
+  yet (§9's EHA line is still unchecked), so there was nothing to change
+  there for this pass. **ASCAT, London is SCKIN's only conference venue
+  going forward** — going forward, no other venue name should be
+  reintroduced without a deliberate decision.
+- **EHA abstract code stays flagged unresolved**, both candidates kept
+  rather than picking one: `PB4135` (from the original brief) vs `PB3135`
+  (the one figure on file, §9 line 271) — Submission ID `EHA-4931` is not
+  in question and isn't touched.
+- **ASCAT 2026 dates confirmed:** 21st Annual Sickle Cell & Thalassaemia
+  Conference, **7–10 October 2026, Central Hall Westminster, London**. §9's
+  `{PENDING}` marker on the ASCAT line (line 272) is resolved; the
+  registration link there is still pending, unrelated. `content/publications.md`'s
+  ASCAT abstract entry gets the same confirmed venue and date string
+  (`"October 7–10, 2026"`, rendered verbatim — `date` is free text, not
+  parsed) and drops its own now-resolved TODO comment.
+- **The Impact page itself is untouched.** It still renders ASCAT
+  month-only ("October 2026"); reflecting the confirmed day-range there,
+  and adding the four speaking engagements, is the separate follow-up
+  already scoped with Zacharie.
+
 ### SCD Coalition Peer-Learning Exchange blog post; publications poster lands (2026-09-16)
 
 Back-dated blog post for the April 21, 2026 presentation, plus the poster
@@ -381,6 +416,77 @@ asset that had been blocking the `/publications` entry. Decisions:
   (`1cGGqf5Am6…`) belongs to a different, later talk and is not reused here.
   There is no recording of this session yet; Zacharie is checking with the
   Sickle Cell Disease Coalition as a follow-up.
+
+### Impact page built on real numbers (2026-09-15)
+
+`/impact` is no longer a stub: every figure on the page is computed at build
+time from `content/impact-data/*.json` (new `src/lib/impact.ts`), never
+hand-typed in the component or in `content/impact.md` — see that folder's
+README for what each field means and which number answers which question.
+Decisions:
+
+- **Three stat tiles: substantive conversations (232), countries & regions
+  reached (25), languages confirmed (2).** The third swaps out the original
+  stub's "questions answered" for languages, per instruction. "2" (English,
+  French) rather than "3": the data's third `languages_first_message` bucket
+  is `other`, an unspecified catch-all for auto-detected non-English/French
+  text, not one nameable language — counting it as a language would overstate
+  a single, honest figure.
+- **All three are scoped to 16 Mar – 15 Sep 2026**, the only span with
+  transcripts (2025's have expired under Voiceflow's 6-month retention; 2024
+  predates the assistant) and therefore the only span with a consistent,
+  verifiable definition of "conversation." The page says so once under the
+  tiles and again in Reach, not just in Methodology.
+- **2025 is not merged into the 2026 conversation count.** Its only surviving
+  data is Analytics totals (423 monthly-user instances, 1,220 interactions),
+  a different unit than transcript-verified "substantive conversations" —
+  combining them would have overstated precision. August 2025 (204 users,
+  excluded as internal testing) and the October ASCAT London spike (146
+  users / 409 interactions, conference-driven, not organic) are surfaced
+  inline in Usage over time, not buried in a footnote. 2024 renders as an
+  explicit "not tracked" row.
+- **Reach:** WhatsApp already carries more engaged conversations than the web
+  widget in this window (122 vs. 110), despite existing as its own agent only
+  since June 2026 — genuinely the most interesting fact in the data. Top
+  countries are Nigeria, North America (US/Canada), and the UK; 25 distinct
+  countries/regions total, computed as a union across periods, not summed
+  (a country appearing in two periods counts once).
+- **Presentations & events** treats speaking engagements as impact in their
+  own right. The SCD Coalition webinar links straight to its poster, read
+  from `content/publications.md` at build time rather than re-typed, so the
+  two pages can't drift. Warrior Con links to `/news/blog` under its actual
+  title, "Responsible AI *Will Revolutionize* Sickle Cell Care" — the task
+  brief's paraphrase ("Can Improve") didn't match the source post and the
+  source won. ASCAT London and the SCDAA 54th Annual National Convention sit
+  under a separate "Upcoming" heading in future tense, dated only to the
+  month (October 2026). ASCAT's exact day-range — 7–10 October 2026, Central
+  Hall Westminster — was confirmed and recorded in §9 (line 272 below) on
+  2026-09-16; the Impact page itself still renders month-only, unchanged by
+  that correction — printing the full range there is a separate follow-up,
+  alongside the four speaking engagements.
+- **The EHA abstract is not named on the page.** The one record of it in
+  this repo (line 271 below, unchecked) says Submission ID `EHA-4931`. Its
+  venue reference — the brief's "Stockholm," the design comp's "Milan" — was
+  removed repo-wide on 2026-09-16 per Zacharie: ASCAT, London is SCKIN's
+  only conference venue going forward. The one open item now is the
+  abstract code, still unresolved between `PB4135` and `PB3135`. Rather than
+  pick a number, the page mentions the abstract without a code and links
+  through to `/publications`, unresolved for Zacharie to reconcile.
+- **Methodology renders the JSON's own `methodology` block** (what counts as
+  a conversation, test exclusions, retention window) plus a last-generated
+  date from `generated_on` — written as a funder-facing feature, not fine
+  print, per instruction.
+- **Community and clinician testimonials are emptied, not deleted** —
+  `content/impact.md`'s `testimonials_community`/`testimonials_clinical`
+  arrays are `[]`; the rendering code is untouched and picks them back up
+  the moment either array gets a real, consented quote.
+- **Nav stays gated** (`IMPACT_NAV_LIVE=false` in `src/lib/nav.ts`) so
+  Zacharie can review the preview URL before this goes live in the nav;
+  flipping it is a one-line follow-up.
+- Not in this pass, flagged rather than attempted: "What people ask us"
+  (theme analysis over the 1,587-turn / 315-conversation set — no
+  topic-tagged data file exists yet) and "Clinically evaluated" (a summary
+  linking to Responsible AI) — both still open below.
 
 ### Vercel Web Analytics added; cookieless source for the Impact page (2026-09-15)
 

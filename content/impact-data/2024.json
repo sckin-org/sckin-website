@@ -1,0 +1,30 @@
+{
+  "period": "2024",
+  "label": "2024",
+  "start": "2024-01-01",
+  "end": "2024-12-31",
+  "status": "not_tracked",
+  "generated_on": "2026-09-15",
+  "website": {
+    "visits": null,
+    "unique_visitors": null,
+    "source": "Squarespace Analytics (to be exported)",
+    "note": "Pending manual export from Squarespace Analytics."
+  },
+  "assistant": {
+    "note": "No usage data survives for 2024. The legacy web agent (Voiceflow project 6696064d23cb7050aa60577a, created 2024-07-16) returns zero sessions, users and interactions for every month of 2024 and 2025 via the Analytics API; the current agents did not exist yet. Publish as 'not tracked'.",
+    "sessions": null,
+    "engaged_conversations": null,
+    "unique_users": null
+  },
+  "methodology": {
+    "session": "One Voiceflow transcript = one session (a widget load or a WhatsApp thread).",
+    "engaged_conversation": "A session with at least one user message AND at least one assistant reply, and no runtime error message. Sessions where only the greeting fired are NOT engaged.",
+    "test_exclusions": "Excluded: synthetic WhatsApp ids (wa:smoke-*, wa:probe-*), Voiceflow test-console sessions on the WhatsApp agent, the relay smoke-test prompt, and SCKIN's own test handset (matched on the last four digits of the number; the number itself is never stored here). The Elevate licensee project (69a791fd828521eb0b1349d7) is excluded from SCKIN's figures by decision, Sep 2026 — it reported zero sessions in any case.",
+    "channel": "web = Voiceflow modality 'chat' on the web agent; whatsapp = modality 'api' on the web agent (FlowBridge era, to May 2026) or any 'api' session on the WhatsApp agent (Jun 2026 onward).",
+    "country": "Web: Voiceflow's vf-country property (only populated from mid-April 2026, so earlier web sessions are 'unknown'). WhatsApp: derived from the phone number's international dialling code; the number itself is never stored.",
+    "language": "Automatic language identification (py3langid) on the first user message of each engaged conversation; messages under 12 characters are skipped. Indicative only.",
+    "unique_users_monthly_sum": "Voiceflow reports unique users per month; the period figure is the sum of monthly uniques, so a person active in two months counts twice.",
+    "retention": "Voiceflow keeps transcripts for 6 months. Transcript-level metrics can only be recomputed for the trailing 6 months; the Analytics API series goes back to the agent's creation (June 2025)."
+  }
+}

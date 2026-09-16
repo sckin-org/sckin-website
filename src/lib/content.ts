@@ -110,7 +110,10 @@ export interface ImpactFrontmatter extends FrontmatterBase {
     headline: string;
     subhead: string;
   };
-  stats?: Array<{ figure: string; caption: string }>;
+  /* No `stats` field: the figures on /impact must come from
+   * content/impact-data/*.json at build time (see getImpactData below), not
+   * from hand-typed frontmatter, so the stat tiles are computed in
+   * src/app/[locale]/impact/page.tsx instead. */
   testimonials_community?: Testimonial[];
   testimonials_clinical?: Testimonial[];
 }
@@ -682,4 +685,93 @@ export function getNewsFacets(): { topics: string[]; geographies: string[] } {
     topics: [...topics].sort(),
     geographies: [...geographies].sort(),
   };
+}
+
+/* -------------------------------------------------------------------------- */
+/* Impact usage data (JSON, not Markdown)                                     */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * One reporting period's usage figures — content/impact-data/<period>.json.
+ * Field meanings, and which number to use for what, are documented in
+ * content/impact-data/README.md; that file is the source of truth, not this
+ * type. Only the fields /impact actually reads are typed here.
+ */
+export interface ImpactPeriodData {
+  period: string;
+  label: string;
+  status: "not_tracked" | "analytics_only" | "final" | "partial";
+  data_through?: string;
+  generated_on: string;
+  assistant: {
+    /** Set only for periods with no assistant data at all (2024). */
+    note?: string;
+    analytics?: {
+      sessions: number;
+      unique_users_monthly_sum: number;
+      interactions: number;
+      /** Per-agent monthly breakdown, e.g. per_project.web_agent.by_month —
+       * used for the 2025 ASCAT London spike (October). */
+      per_project?: Record<
+        string,
+        {
+          by_month: Record<
+            string,
+            { sessions: number; unique_users: number; interactions: number }
+          >;
+        }
+      >;
+      /** Months removed from the totals above (e.g. 2025-08, internal
+       * testing) but kept here for transparency — see exclusion_note. */
+      excluded_months?: Record<
+        string,
+        { sessions: number; unique_users: number; interactions: number }
+      >;
+      exclusion_note?: string;
+    };
+    /** Null when Voiceflow's 6-month transcript retention has already
+     * expired for this period (2024, 2025) — use `analytics` instead, with
+     * its caveats; there is no channel/country/language split to fall back
+     * to. */
+    transcripts: {
+      /** Prose describing the transcript-retained window, e.g. "2026-03-16
+       * to 2026-06-30 only (earlier transcripts expired)." Parsed for its
+       * two ISO dates by transcriptWindow() in src/lib/impact.ts. */
+      window: string;
+      engaged_conversations: number;
+      unique_users_engaged: number;
+      by_channel: Record<
+        string,
+        { sessions: number; engaged: number; unique_users: number }
+      >;
+      by_month: Record<string, { sessions: number; engaged: number }>;
+      countries_reached: number;
+      countries_engaged_conversations: Record<string, number>;
+      country_unknown_engaged: number;
+      languages_first_message: Record<string, number>;
+    } | null;
+    caveats?: string[];
+    event_context?: Record<string, string>;
+  };
+  methodology: Record<string, string>;
+}
+
+const IMPACT_DATA_DIR = path.join(CONTENT_DIR, "impact-data");
+
+/** The period files published so far, oldest first. Add a filename here
+ * once a new period lands (content/impact-data/README.md § Refreshing). */
+const IMPACT_PERIODS = ["2024", "2025", "2026-H1", "2026-Q3"] as const;
+
+/**
+ * All impact-data period files. Read at build time so every figure on
+ * /impact traces back to a committed JSON file rather than a literal in a
+ * component — see content/impact-data/README.md.
+ */
+export function getImpactData(): ImpactPeriodData[] {
+  return IMPACT_PERIODS.map(
+    (period) =>
+      JSON.parse(
+        fs.readFileSync(path.join(IMPACT_DATA_DIR, `${period}.json`), "utf8")
+      ) as ImpactPeriodData
+  );
 }
