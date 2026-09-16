@@ -1,9 +1,10 @@
 # SCKIN Website
 
 Next.js (App Router) site for SCKIN, a 501(c)(3) sickle-cell nonprofit. Hosted on
-Vercel (team SCKIN, project sckin-website); merges to `main` auto-deploy to the
-production `.vercel.app` URL, which serves as staging until the sckin.org domain
-cutover.
+Vercel (team SCKIN, project sckin-website). The sckin.org domain cutover completed
+in August 2026 — DNS on Route 53, registration transferred to AWS — so **merges to
+`main` auto-deploy to the live, public site at sckin.org**. There is no staging
+environment: a PR's preview deployment is the only pre-production check.
 
 **Source of truth:** `sckin-website-requirements.md` — the requirements & content
 checklist. `docs/sckin-design-spec-phase1.md` is its design annex; the checklist
@@ -25,7 +26,8 @@ Stop and ask before any one-way door:
 
 - Switching Stripe from test to live mode (keys, live webhook, live catalog
   seed), or issuing refunds
-- Domain/DNS changes (the sckin.org cutover), registrar moves
+- Domain/DNS or registrar changes (the cutover completed Aug 2026 — Route 53 DNS,
+  AWS registration)
 - Anything that spends money or changes billing/plans
 - Sending real communications: Kit/newsletter emails, social posts, anything
   user-facing off-site
@@ -43,3 +45,25 @@ Stop and ask before any one-way door:
   — never raw hex (brand red is `#8A1626` via `--red-500`)
 - `/whatsapp` is deliberately unlisted: no sitemap entry, no footer link, keep
   its `noindex` — do not re-link it anywhere
+
+## Analytics
+
+Two measurement systems, both mounted in `src/app/[locale]/layout.tsx` and both
+gated on `analyticsEnabled` from `src/lib/analytics.ts`
+(`VERCEL_ENV === "production"`), so `next dev` and preview deploys emit nothing:
+
+- **Google Analytics 4** (`G-343BSR99X0`), via `src/components/GoogleAnalytics.tsx`.
+  The measurement ID is committed rather than an env var — gtag ships it in the
+  page source, so it is public by design. Google Signals and ad-personalization
+  signals are disabled at the tag; do not re-enable them without a deliberate
+  decision. Google treats health as a sensitive interest category and bars
+  advertiser-curated audiences for it.
+- **Vercel Web Analytics**, via `<Analytics />` from `@vercel/analytics/next`.
+  Cookieless. This is the source the Impact page quotes.
+
+Do not add a third analytics package or a second GA property. Keep condition and
+symptom names out of URLs and page titles — gtag sends page path and title as
+event parameters.
+
+**Open gap:** GA4 sets cookies and there is no consent banner. Google Consent Mode
+is required before driving UK or EU traffic to the site.
