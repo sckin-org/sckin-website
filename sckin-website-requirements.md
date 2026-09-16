@@ -357,6 +357,31 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### SCD Coalition Peer-Learning Exchange blog post; publications poster lands (2026-09-16)
+
+Back-dated blog post for the April 21, 2026 presentation, plus the poster
+asset that had been blocking the `/publications` entry. Decisions:
+
+- **Back-dated `date` is deliberate.**
+  `content/blog/scdc-peer-learning-exchange-2026.md` is dated `2026-04-21`
+  (the presentation date, not the authoring date). The blog listing sorts
+  newest-first, so this lands the post in its April slot — below the August
+  Warrior Con post — instead of jumping to the top as if it were new.
+  Verified against the built `/news/blog` HTML: Warrior Con renders first,
+  the SCDC post second.
+- **Poster asset landed:** `public/images/publication-genai-safety-poster.jpg`
+  (1080×1350 JPEG) — the file the `/publications` SCDC entry (§9) has been
+  waiting on since it was added; its "renders once the file lands" TODO
+  comment is now removed. No other change to that entry.
+- **Blog post reuses the `image` / `image_alt` / `image_href` contract**
+  introduced for the Chicago Summit post (see the 2026-09-04 History entry):
+  the poster is the featured image, and it links out to the same Google
+  Drive view used on `/publications`.
+- **No slides or recording link.** The Warrior Con slides deck
+  (`1cGGqf5Am6…`) belongs to a different, later talk and is not reused here.
+  There is no recording of this session yet; Zacharie is checking with the
+  Sickle Cell Disease Coalition as a follow-up.
+
 ### Vercel Web Analytics added; cookieless source for the Impact page (2026-09-15)
 
 **PR #26 (`05eacb2`)** mounts `<Analytics />` from `@vercel/analytics/next` in
