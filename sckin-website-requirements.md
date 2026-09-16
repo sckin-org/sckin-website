@@ -357,6 +357,54 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Methodology copy simplified; messages-sent metric added; data refresh still blocked (2026-09-16)
+
+Zacharie read the live Methodology section and found it far too detailed.
+Decisions:
+
+- **Methodology rewritten to five short, plain-language blocks** — what
+  counts as a conversation, what we exclude, countries, languages, coverage
+  — replacing the four blocks before it (which folded country and language
+  together and opened with "This is a funder-facing page, so here is
+  exactly how the numbers above are built"). Copy is Zacharie's own wording,
+  applied verbatim. `methodology.retention` is renamed
+  `methodology.coverage` in all four `content/impact-data/*.json` files
+  (kept identical across all four, as before); the standalone "Figures last
+  generated …" footer line is gone, folded into the end of Coverage instead.
+- **Reader-facing copy no longer names Voiceflow, states the transcript
+  retention window, describes test-ID patterns, explains how the test
+  handset is matched, or names the Elevate licensee.** Those specifics
+  still live in the `session`, `channel` and `unique_users_monthly_sum`
+  methodology fields, which are not rendered and now serve as internal
+  documentation only. The muted line under the stat tiles changed to match:
+  "the period for which we hold conversation-level detail," not "the window
+  Voiceflow's conversation transcripts still retain." Verified against the
+  built HTML — none of the five banned terms appear anywhere on the
+  rendered page.
+- **New metric: messages people sent.** `assistant.transcripts.user_messages`
+  existed in the data but wasn't typed or surfaced. Now typed
+  (`ImpactPeriodData.transcripts.user_messages`, `src/lib/content.ts`),
+  summed across periods with transcripts (`totalUserMessages`,
+  `src/lib/impact.ts`), and rendered as one sentence in Reach, right after
+  the channel bars (500 = 291 from H1 + 209 from Q3). Deliberately not a
+  fourth stat tile — the grid is `md:grid-cols-3` and a fourth tile would
+  orphan onto its own row; the figure is also roughly double the headline
+  conversation count and is meant to support that number, not compete with
+  it. Called "messages," never "questions" (many are greetings, so that
+  overclaims) or "turns" (ambiguous — one utterance or one exchange?), per
+  instruction. `content/impact-data/README.md`'s field guide updated to
+  match.
+- **Task 1 of this PR — refreshing 2026-H1 and 2026-Q3 to exclude SCKIN's
+  own test handset — is still blocked.** `VOICEFLOW_API_KEY` was not
+  available in this environment, same as the Impact-publish PR immediately
+  below: no dry run was possible this time either, so both period files'
+  `pending_recompute` notes are untouched and that earlier entry's claim
+  ("both files still carry `pending_recompute`") remains accurate, not out
+  of date. This raises the stakes rather than lowering them: 2026-H1's
+  transcript window (16 Mar 2026 onward, six-month retention) is now at
+  real risk of having partially expired, so refreshing it is both more
+  urgent and less certain to succeed cleanly than it was a day ago.
+
 ### Impact ▾ published: nav gate flipped, presentations trimmed, section reordered (2026-09-16)
 
 `IMPACT_NAV_LIVE` is now `true` (`src/lib/nav.ts`) — Impact ▾ (Impact ·

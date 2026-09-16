@@ -28,6 +28,15 @@ export function totalEngagedConversations(periods: ImpactPeriodData[]): number {
   );
 }
 
+/** Sum of user_messages (messages people sent, not assistant replies) across
+ * every period with transcripts. */
+export function totalUserMessages(periods: ImpactPeriodData[]): number {
+  return periodsWithTranscripts(periods).reduce(
+    (sum, p) => sum + (p.assistant.transcripts?.user_messages ?? 0),
+    0
+  );
+}
+
 /** Distinct countries/regions across every period with transcripts (a
  * country appearing in two periods counts once). "North America (US/Canada)"
  * is one bucketed label in the source data, so it counts as one entry here

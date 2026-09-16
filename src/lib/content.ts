@@ -740,6 +740,7 @@ export interface ImpactPeriodData {
       window: string;
       engaged_conversations: number;
       unique_users_engaged: number;
+      user_messages: number;
       by_channel: Record<
         string,
         { sessions: number; engaged: number; unique_users: number }

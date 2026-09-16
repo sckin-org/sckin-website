@@ -141,12 +141,12 @@
   },
   "methodology": {
     "session": "One Voiceflow transcript = one session (a widget load or a WhatsApp thread).",
-    "engaged_conversation": "A session with at least one user message AND at least one assistant reply, and no runtime error message. Sessions where only the greeting fired are NOT engaged.",
-    "test_exclusions": "Excluded: synthetic WhatsApp ids (wa:smoke-*, wa:probe-*), Voiceflow test-console sessions on the WhatsApp agent, the relay smoke-test prompt, and SCKIN's own test handset (matched on the last four digits of the number; the number itself is never stored here). The Elevate licensee project (69a791fd828521eb0b1349d7) is excluded from SCKIN's figures by decision, Sep 2026 — it reported zero sessions in any case.",
+    "engaged_conversation": "A conversation is a session where someone asked something and the assistant answered. Sessions where the greeting appeared but nobody wrote back are not counted, and neither are sessions that ended in an error.",
+    "test_exclusions": "We exclude our own testing and anything that isn't a real person using the service.",
     "channel": "web = Voiceflow modality 'chat' on the web agent; whatsapp = modality 'api' on the web agent (FlowBridge era, to May 2026) or any 'api' session on the WhatsApp agent (Jun 2026 onward).",
-    "country": "Web: Voiceflow's vf-country property (only populated from mid-April 2026, so earlier web sessions are 'unknown'). WhatsApp: derived from the phone number's international dialling code; the number itself is never stored.",
-    "language": "Automatic language identification (py3langid) on the first user message of each engaged conversation; messages under 12 characters are skipped. Indicative only.",
+    "country": "Countries are inferred from where people connect from, and on WhatsApp from the country code of the phone number; we never store phone numbers. Location isn't always available, so this is a floor, not a total.",
+    "language": "Languages are detected automatically from the first message in each conversation, so treat them as indicative.",
     "unique_users_monthly_sum": "Voiceflow reports unique users per month; the period figure is the sum of monthly uniques, so a person active in two months counts twice.",
-    "retention": "Voiceflow keeps transcripts for 6 months. Transcript-level metrics can only be recomputed for the trailing 6 months; the Analytics API series goes back to the agent's creation (June 2025)."
+    "coverage": "Conversation-level detail is available for recent months only; earlier periods are reported from summary counts, which is why 2025 is shown differently."
   }
 }
