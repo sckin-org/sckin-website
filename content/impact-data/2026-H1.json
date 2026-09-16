@@ -1,0 +1,161 @@
+{
+  "period": "2026-H1",
+  "label": "January – June 2026",
+  "start": "2026-01-01",
+  "end": "2026-06-30",
+  "status": "final",
+  "generated_on": "2026-09-15",
+  "website": {
+    "visits": null,
+    "unique_visitors": null,
+    "source": "Squarespace Analytics until the Vercel cutover; Vercel Web Analytics afterwards",
+    "note": "Pending: Squarespace export for Jan-<cutover>; Vercel Web Analytics if it was enabled before the cutover."
+  },
+  "assistant": {
+    "analytics": {
+      "source": "Voiceflow Analytics API (query_project_transcript_count, query_unique_user_count, query_project_interaction_count), monthly buckets, America/New_York",
+      "pulled_on": "2026-09-15",
+      "sessions": 376,
+      "unique_users_monthly_sum": 374,
+      "interactions": 835,
+      "per_project": {
+        "web_agent": {
+          "project_id": "684db2d2921b2a3ad5910594",
+          "sessions": 364,
+          "unique_users_monthly_sum": 369,
+          "interactions": 805,
+          "by_month": {
+            "2026-01": {
+              "sessions": 40,
+              "unique_users": 39,
+              "interactions": 93
+            },
+            "2026-02": {
+              "sessions": 35,
+              "unique_users": 47,
+              "interactions": 157
+            },
+            "2026-03": {
+              "sessions": 54,
+              "unique_users": 50,
+              "interactions": 100
+            },
+            "2026-04": {
+              "sessions": 104,
+              "unique_users": 104,
+              "interactions": 193
+            },
+            "2026-05": {
+              "sessions": 81,
+              "unique_users": 82,
+              "interactions": 165
+            },
+            "2026-06": {
+              "sessions": 50,
+              "unique_users": 47,
+              "interactions": 97
+            }
+          }
+        },
+        "whatsapp_agent": {
+          "project_id": "6a1f2795e85b1c323616c71a",
+          "sessions": 12,
+          "unique_users_monthly_sum": 5,
+          "interactions": 30,
+          "by_month": {
+            "2026-06": {
+              "sessions": 12,
+              "unique_users": 5,
+              "interactions": 30
+            }
+          }
+        }
+      }
+    },
+    "transcripts": {
+      "source": "Voiceflow Transcripts API (search + get, filterConversation=true); one record per session",
+      "window": "2026-03-16 to 2026-06-30 only (earlier transcripts expired). Use for rates and splits, not for period totals.",
+      "pulled_on": "2026-09-15",
+      "sessions_fetched": 272,
+      "sessions_excluded_as_test": 12,
+      "sessions": 260,
+      "engaged_conversations": 142,
+      "engaged_rate": 0.546,
+      "unique_users": 204,
+      "unique_users_engaged": 104,
+      "user_messages": 291,
+      "assistant_messages": 496,
+      "by_channel": {
+        "web": {
+          "sessions": 187,
+          "engaged": 74,
+          "unique_users": 161
+        },
+        "whatsapp": {
+          "sessions": 73,
+          "engaged": 68,
+          "unique_users": 43
+        }
+      },
+      "by_month": {
+        "2026-03": {
+          "sessions": 25,
+          "engaged": 13
+        },
+        "2026-04": {
+          "sessions": 104,
+          "engaged": 48
+        },
+        "2026-05": {
+          "sessions": 81,
+          "engaged": 51
+        },
+        "2026-06": {
+          "sessions": 50,
+          "engaged": 30
+        }
+      },
+      "countries_reached": 16,
+      "countries_engaged_conversations": {
+        "Nigeria": 36,
+        "North America (US/Canada)": 30,
+        "United Kingdom": 13,
+        "India": 5,
+        "Niger": 4,
+        "Kenya": 3,
+        "Ghana": 3,
+        "Cameroon": 3,
+        "France": 2,
+        "Pakistan": 2,
+        "Republic of the Congo": 2,
+        "Madagascar": 1,
+        "Uganda": 1,
+        "Haiti": 1,
+        "Sierra Leone": 1,
+        "Belize": 1
+      },
+      "country_unknown_engaged": 34,
+      "languages_first_message": {
+        "en": 104,
+        "fr": 5,
+        "other": 7
+      },
+      "pending_recompute": "Figures predate the team test-handset exclusion (added Sep 2026). Re-run scripts/impact-assistant-usage.mjs before publishing."
+    },
+    "caveats": [
+      "Period totals (sessions, users, interactions) come from the Analytics block and cover the full six months.",
+      "Channel split, engaged rate, countries and languages come from the Transcripts block and cover 16 Mar - 30 Jun 2026 only; the April Analytics count (104) reconciles exactly with the transcripts fetched for April.",
+      "WhatsApp traffic Jan-May 2026 ran through FlowBridge into the web agent and is included in the web agent's Analytics totals; from June 2026 it has its own agent."
+    ]
+  },
+  "methodology": {
+    "session": "One Voiceflow transcript = one session (a widget load or a WhatsApp thread).",
+    "engaged_conversation": "A session with at least one user message AND at least one assistant reply, and no runtime error message. Sessions where only the greeting fired are NOT engaged.",
+    "test_exclusions": "Excluded: synthetic WhatsApp ids (wa:smoke-*, wa:probe-*), Voiceflow test-console sessions on the WhatsApp agent, the relay smoke-test prompt, and SCKIN's own test handset (matched on the last four digits of the number; the number itself is never stored here). The Elevate licensee project (69a791fd828521eb0b1349d7) is excluded from SCKIN's figures by decision, Sep 2026 — it reported zero sessions in any case.",
+    "channel": "web = Voiceflow modality 'chat' on the web agent; whatsapp = modality 'api' on the web agent (FlowBridge era, to May 2026) or any 'api' session on the WhatsApp agent (Jun 2026 onward).",
+    "country": "Web: Voiceflow's vf-country property (only populated from mid-April 2026, so earlier web sessions are 'unknown'). WhatsApp: derived from the phone number's international dialling code; the number itself is never stored.",
+    "language": "Automatic language identification (py3langid) on the first user message of each engaged conversation; messages under 12 characters are skipped. Indicative only.",
+    "unique_users_monthly_sum": "Voiceflow reports unique users per month; the period figure is the sum of monthly uniques, so a person active in two months counts twice.",
+    "retention": "Voiceflow keeps transcripts for 6 months. Transcript-level metrics can only be recomputed for the trailing 6 months; the Analytics API series goes back to the agent's creation (June 2025)."
+  }
+}

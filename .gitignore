@@ -34,3 +34,6 @@ coverage/
 # Claude Code — personal overrides only; .claude/settings.json IS committed
 .claude/settings.local.json
 .vercel
+
+# Impact page — raw Voiceflow transcript cache (conversation text + phone numbers; never commit)
+scripts/.impact-raw/

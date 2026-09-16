@@ -1,0 +1,92 @@
+{
+  "period": "2025",
+  "label": "2025",
+  "start": "2025-01-01",
+  "end": "2025-12-31",
+  "status": "analytics_only",
+  "generated_on": "2026-09-15",
+  "website": {
+    "visits": null,
+    "unique_visitors": null,
+    "source": "Squarespace Analytics (to be exported)",
+    "note": "Pending manual export from Squarespace Analytics."
+  },
+  "assistant": {
+    "analytics": {
+      "source": "Voiceflow Analytics API (query_project_transcript_count, query_unique_user_count, query_project_interaction_count), monthly buckets, America/New_York",
+      "pulled_on": "2026-09-15",
+      "sessions": 157,
+      "unique_users_monthly_sum": 423,
+      "interactions": 1220,
+      "per_project": {
+        "web_agent": {
+          "project_id": "684db2d2921b2a3ad5910594",
+          "sessions": 157,
+          "unique_users_monthly_sum": 423,
+          "interactions": 1220,
+          "by_month": {
+            "2025-06": {
+              "sessions": 0,
+              "unique_users": 20,
+              "interactions": 48
+            },
+            "2025-07": {
+              "sessions": 0,
+              "unique_users": 15,
+              "interactions": 36
+            },
+            "2025-09": {
+              "sessions": 0,
+              "unique_users": 54,
+              "interactions": 228
+            },
+            "2025-10": {
+              "sessions": 0,
+              "unique_users": 146,
+              "interactions": 409
+            },
+            "2025-11": {
+              "sessions": 115,
+              "unique_users": 145,
+              "interactions": 384
+            },
+            "2025-12": {
+              "sessions": 42,
+              "unique_users": 43,
+              "interactions": 115
+            }
+          }
+        }
+      },
+      "excluded_months": {
+        "2025-08": {
+          "sessions": 0,
+          "unique_users": 204,
+          "interactions": 541
+        }
+      },
+      "exclusion_note": "August 2025 removed from all totals: confirmed by Zacharie as internal testing, not public use. The month's figures are retained above for transparency."
+    },
+    "transcripts": null,
+    "caveats": [
+      "The current web agent (2025 SickleCellPedia V2) was created 2025-06-14; nothing is recorded before June 2025.",
+      "August 2025 is excluded as internal testing (confirmed Sep 2026). October 2025 is real, conference-driven usage from ASCAT London — see event_context.",
+      "Analytics session counts are zero for Jun-Oct 2025 while unique users and interactions are non-zero; the session series only begins Nov 2025. Use unique users / interactions for 2025, not sessions.",
+      "Transcripts for 2025 have expired (6-month retention), so channel, country, language and engaged-conversation splits cannot be computed for 2025.",
+      "OPEN: June 2025 (20 users) and July 2025 (15 users) fall between agent creation and public launch and may also be build-out traffic. Pending confirmation of the V2 public go-live date."
+    ],
+    "event_context": {
+      "2025-10": "Spike to 146 users / 409 interactions reflects clinicians and delegates trying SickleCellPedia at ASCAT (Academy on Sickle Cell and Thalassaemia), London, October 2025. Real usage, but event-driven rather than organic baseline — label it as such if shown."
+    }
+  },
+  "methodology": {
+    "session": "One Voiceflow transcript = one session (a widget load or a WhatsApp thread).",
+    "engaged_conversation": "A session with at least one user message AND at least one assistant reply, and no runtime error message. Sessions where only the greeting fired are NOT engaged.",
+    "test_exclusions": "Excluded: synthetic WhatsApp ids (wa:smoke-*, wa:probe-*), Voiceflow test-console sessions on the WhatsApp agent, the relay smoke-test prompt, and SCKIN's own test handset (matched on the last four digits of the number; the number itself is never stored here). The Elevate licensee project (69a791fd828521eb0b1349d7) is excluded from SCKIN's figures by decision, Sep 2026 — it reported zero sessions in any case.",
+    "channel": "web = Voiceflow modality 'chat' on the web agent; whatsapp = modality 'api' on the web agent (FlowBridge era, to May 2026) or any 'api' session on the WhatsApp agent (Jun 2026 onward).",
+    "country": "Web: Voiceflow's vf-country property (only populated from mid-April 2026, so earlier web sessions are 'unknown'). WhatsApp: derived from the phone number's international dialling code; the number itself is never stored.",
+    "language": "Automatic language identification (py3langid) on the first user message of each engaged conversation; messages under 12 characters are skipped. Indicative only.",
+    "unique_users_monthly_sum": "Voiceflow reports unique users per month; the period figure is the sum of monthly uniques, so a person active in two months counts twice.",
+    "retention": "Voiceflow keeps transcripts for 6 months. Transcript-level metrics can only be recomputed for the trailing 6 months; the Analytics API series goes back to the agent's creation (June 2025)."
+  }
+}
