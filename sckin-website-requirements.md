@@ -268,8 +268,8 @@ Dropped by design: hero image, tool images, three-tool layout.
 *Assembly, not writing. Pull from Zotero + abstract records. Route stays top-level `/publications` (commit `a294044`); **nav placement moved under Impact ▾ 2026-07-22**. Four sections — Presentations · Publications · Abstracts · Other Contributions.*
 
 - [ ] Intro line *(doc's example line renders; final [TO ADD])*
-- [ ] EHA Stockholm 2026 *(add: Submission ID EHA-4931, Abstract Code PB3135 — accepted; presented June 11–14 2026)*
-- [x] ASCAT London 2026 *(Abstracts: paper #226, accepted as Oral, presenting author Mr Zacharie Liman-Tinguiri, SCKIN; {PENDING} exact 2026 dates + link)*
+- [ ] EHA 2026 *(add: Submission ID EHA-4931, Abstract Code {PENDING} — PB4135 vs PB3135 unresolved; accepted; presented June 11–14 2026)*
+- [x] ASCAT London 2026 *(Abstracts: paper #226, accepted as Oral, presenting author Mr Zacharie Liman-Tinguiri, SCKIN; 7–10 October 2026, Central Hall Westminster, London — confirmed 2026-09-16; link {PENDING})*
 - [ ] SCDAA 2026 *(no entry in master doc v3.1 yet)*
 - [ ] Globinoscope essay *(section + N°11 source link render; pending article titles/authors/pages — two clearly-marked TO-ADD entries)*
 - [x] Others *(Presentations: SCD Coalition webinar Apr 21 2026 with poster Drive link; Other Contributions: public ASCAT-2025 NotebookLM link — both new-tab)*
@@ -357,6 +357,41 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### EHA venue references removed; ASCAT dates confirmed (2026-09-16)
+
+Merged `origin/main` (PR #29) into `feat/impact-page` to resolve a History
+merge conflict (both branches had prepended an entry to the same spot — kept
+both, newest-first, no words lost), then made two content corrections
+requested by Zacharie:
+
+- **"Stockholm" and "Milan" removed repo-wide.** Grepped the whole tree
+  case-insensitively for both. Hits: `sckin-website-requirements.md` (§9's
+  EHA checklist line, now "EHA 2026" with no venue, and this file's
+  2026-09-15 History entry, rewritten below) and
+  `docs/design/comps/Homepage.dc.html` ("Milan"). The design comp is an
+  archived import — not read by `next.config.ts`, not under `public/`, not
+  imported by any file under `src/` — so nothing renders it; left
+  untouched, per instruction. `content/publications.md` has no EHA entry
+  yet (§9's EHA line is still unchecked), so there was nothing to change
+  there for this pass. **ASCAT, London is SCKIN's only conference venue
+  going forward** — going forward, no other venue name should be
+  reintroduced without a deliberate decision.
+- **EHA abstract code stays flagged unresolved**, both candidates kept
+  rather than picking one: `PB4135` (from the original brief) vs `PB3135`
+  (the one figure on file, §9 line 271) — Submission ID `EHA-4931` is not
+  in question and isn't touched.
+- **ASCAT 2026 dates confirmed:** 21st Annual Sickle Cell & Thalassaemia
+  Conference, **7–10 October 2026, Central Hall Westminster, London**. §9's
+  `{PENDING}` marker on the ASCAT line (line 272) is resolved; the
+  registration link there is still pending, unrelated. `content/publications.md`'s
+  ASCAT abstract entry gets the same confirmed venue and date string
+  (`"October 7–10, 2026"`, rendered verbatim — `date` is free text, not
+  parsed) and drops its own now-resolved TODO comment.
+- **The Impact page itself is untouched.** It still renders ASCAT
+  month-only ("October 2026"); reflecting the confirmed day-range there,
+  and adding the four speaking engagements, is the separate follow-up
+  already scoped with Zacharie.
+
 ### SCD Coalition Peer-Learning Exchange blog post; publications poster lands (2026-09-16)
 
 Back-dated blog post for the April 21, 2026 presentation, plus the poster
@@ -424,16 +459,19 @@ Decisions:
   brief's paraphrase ("Can Improve") didn't match the source post and the
   source won. ASCAT London and the SCDAA 54th Annual National Convention sit
   under a separate "Upcoming" heading in future tense, dated only to the
-  month (October 2026): the brief's day-range (7–10 Oct) isn't confirmed
-  anywhere in the repo — `/publications` (line 271 below) still marks
-  ASCAT's exact dates `{PENDING}`, so the page doesn't print a precision it
-  doesn't have.
-- **The EHA abstract is not named on the page.** The brief called it "EHA
-  Stockholm 2026, PB4135"; the one record of it in this repo (line 271
-  below, unchecked) says Submission ID `EHA-4931`, Abstract Code `PB3135`,
-  and the design comp (`Homepage.dc.html`) says Milan, not Stockholm. Rather
-  than pick a number, the page mentions the abstract without a code and
-  links through to `/publications`, unresolved for Zacharie to reconcile.
+  month (October 2026). ASCAT's exact day-range — 7–10 October 2026, Central
+  Hall Westminster — was confirmed and recorded in §9 (line 272 below) on
+  2026-09-16; the Impact page itself still renders month-only, unchanged by
+  that correction — printing the full range there is a separate follow-up,
+  alongside the four speaking engagements.
+- **The EHA abstract is not named on the page.** The one record of it in
+  this repo (line 271 below, unchecked) says Submission ID `EHA-4931`. Its
+  venue reference — the brief's "Stockholm," the design comp's "Milan" — was
+  removed repo-wide on 2026-09-16 per Zacharie: ASCAT, London is SCKIN's
+  only conference venue going forward. The one open item now is the
+  abstract code, still unresolved between `PB4135` and `PB3135`. Rather than
+  pick a number, the page mentions the abstract without a code and links
+  through to `/publications`, unresolved for Zacharie to reconcile.
 - **Methodology renders the JSON's own `methodology` block** (what counts as
   a conversation, test exclusions, retention window) plus a last-generated
   date from `generated_on` — written as a funder-facing feature, not fine
