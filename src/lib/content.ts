@@ -262,6 +262,44 @@ export interface ContactFrontmatter extends FrontmatterBase {
   };
 }
 
+/**
+ * /ascat — contact & sign-up page for people met at ASCAT 2026
+ * (content/ascat.md). Deliberately absent from the main navigation: visitors
+ * arrive from the conference QR code or sckin.org/ascat. Indexable (unlike
+ * /whatsapp) so the link previews well when shared.
+ */
+export interface AscatFrontmatter extends FrontmatterBase {
+  hero: {
+    eyebrow: string;
+    headline: string;
+    body: string;
+    linkedin: Cta;
+    try_link: Cta;
+    talk: { label: string; title: string; meta: string };
+  };
+  form: { heading: string };
+  involve: {
+    heading: string;
+    cards: Array<{
+      eyebrow: string;
+      title: string;
+      body: string;
+      cta_label: string;
+      /** Matched by AscatForm's #form-<intent> hash pre-selection. */
+      intent: "evaluator" | "organisation";
+    }>;
+  };
+  /** PDF hrefs are paths under public/ — each button renders only if its file
+   * exists at build time (publicFileExists), so the page can ship in any
+   * order relative to the branch that adds the files. */
+  slides: {
+    heading: string;
+    body: string;
+    slides: Cta;
+    poster: Cta;
+  };
+}
+
 export interface ResponsibleAiFrontmatter extends FrontmatterBase {
   sections: AboutSection[];
 }
@@ -578,6 +616,7 @@ export const getSicklecellpedia = () =>
 export const getSicklecellpediaPro = () =>
   getDoc<SicklecellpediaProFrontmatter>("sicklecellpedia-pro");
 export const getContact = () => getDoc<ContactFrontmatter>("contact");
+export const getAscat = () => getDoc<AscatFrontmatter>("ascat");
 export const getResponsibleAi = () =>
   getDoc<ResponsibleAiFrontmatter>("responsible-ai");
 export const getPublications = () =>
