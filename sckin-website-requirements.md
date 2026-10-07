@@ -357,6 +357,30 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### ASCAT 2026 blog post published with slides and poster PDFs (2026-10-07)
+
+Added `content/blog/ascat-2026.md` announcing the Thursday 8 October oral
+presentation ("A specialized AI agent for sickle cell patient education in
+low-resource settings: a benchmarking evaluation", Zacharie Liman-Tinguiri
+and Dr Lewis Thomas, Robert Perks Room, Central Hall Westminster). Decisions:
+
+- **Blog collection, not News.** The post is SCKIN's own voice, so it joins
+  `content/blog/` beside the Warrior Con and SCDC posts (`tag: Announcement`);
+  `content/news/` remains reserved for the external news feed.
+- **PDFs live under `public/documents/`** — `sckin-ascat-2026-slides.pdf`
+  (1.0 MB) and `sckin-ascat-2026-poster.pdf` (0.2 MB) — following the
+  existing downloadable-file convention (`warrior-con-2026-agenda.pdf`)
+  rather than a new `public/ascat-2026/` folder. Copied from the Drive
+  originals (`ASCAT2026_SickleCellPedia_oral_pdf_10012026.pdf`,
+  `ASCAT2026_SickleCellPedia_poster_pdf_10012026.pdf`), unmodified.
+- **Downloads use the frontmatter `links` row** ("Download the slides
+  (PDF)" / "Download the poster (PDF)") — the designed pattern for
+  downloadable files, rendered new-tab — instead of body links, which
+  render same-tab.
+- **The post body links `sckin.org/ascat` to `/ascat`** (internal,
+  same-tab). That page ships separately; the link 404s until it lands —
+  accepted, by instruction.
+
 ### Methodology copy simplified; messages-sent metric added; data refresh still blocked (2026-09-16)
 
 Zacharie read the live Methodology section and found it far too detailed.
