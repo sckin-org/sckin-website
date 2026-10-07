@@ -236,3 +236,75 @@ export async function appendContactRow(
   }
   return { duplicate: false };
 }
+
+/**
+ * Column order of the ASCAT tab's header row — created by hand in the
+ * spreadsheet (2026-10-07), keep in sync. ASCAT sign-ups get their own tab
+ * rather than folding into the contacts superset: the evaluator/organisation/
+ * newsletter flags and evaluation language are per-column so the rows can be
+ * filtered and worked through directly during follow-up.
+ */
+export const ASCAT_SHEET_TAB = "ASCAT";
+export const ASCAT_TAB_COLUMNS = [
+  "timestamp",
+  "role",
+  "name",
+  "email",
+  "profession",
+  "organisation",
+  "website",
+  "evaluator",
+  "evaluation_language",
+  "organisation_interest",
+  "newsletter",
+  "message",
+] as const;
+
+/**
+ * Append one ASCAT sign-up to the ASCAT tab — same spreadsheet, credentials
+ * and WIF flow as appendContactRow; only the target range differs. `clean`
+ * is the whitelisted, validated field map from the route handler (checkboxes
+ * are "on" when ticked, "" otherwise → written as TRUE/FALSE; blanks as "").
+ * Every submission appends — no dedup: a repeat submission at a conference
+ * usually carries new information, and the timestamp orders them.
+ */
+export async function appendAscatRow(
+  clean: Record<string, string>
+): Promise<void> {
+  const config = readConfig();
+  const token = await getAccessToken(config);
+  const bool = (value: string | undefined) => (value ? "TRUE" : "FALSE");
+
+  const values = [
+    [
+      new Date().toISOString(),
+      clean.role ?? "",
+      clean.name ?? "",
+      (clean.email ?? "").trim(),
+      clean.profession ?? "",
+      clean.organisation ?? "",
+      clean.website ?? "",
+      bool(clean.evaluator),
+      clean.evaluation_language ?? "",
+      bool(clean.organisation_interest),
+      bool(clean.newsletter),
+      clean.message ?? "",
+    ],
+  ];
+
+  const range = encodeURIComponent(`'${ASCAT_SHEET_TAB}'!A1`);
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ values }),
+    }
+  );
+  if (!res.ok) {
+    throw new Error(`Sheets append (ASCAT tab) responded ${res.status}`);
+  }
+}

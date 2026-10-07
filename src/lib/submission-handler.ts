@@ -1,10 +1,13 @@
 /**
- * Shared submission route-handler factory. The SickleCellPedia Pro, newsletter,
- * and Contact forms all use this one pattern — do not fork a second approach.
+ * Shared submission route-handler factory. The SickleCellPedia Pro,
+ * newsletter, Contact and ASCAT forms all use this one pattern — do not fork
+ * a second approach.
  *
  * Server-only (imports the Sheets bridge + reads request headers). The pipeline:
  *   rate limit → parse JSON → honeypot → server-side validation → map to the
  *   contacts row schema → append to the Google Sheet via the service account.
+ * A form may instead supply `persist` to land somewhere other than the
+ * combined contacts tab (ASCAT writes to its own tab of the same sheet).
  *
  * ALWAYS returns JSON (never an HTML error page). When the Sheets env vars are
  * not configured yet, the route logs a clear error and still acknowledges the
@@ -21,12 +24,27 @@ import {
 import { checkRateLimit } from "@/lib/rate-limit";
 import { DEFAULT_LOCALE } from "@/lib/i18n";
 
-export function createSubmissionHandler(opts: {
-  formType: string;
-  fields: FieldSpec[];
-  /** Map validated, whitelisted values onto the contacts row schema. */
-  toRow: (clean: Record<string, string>) => ContactRow;
-}) {
+type PersistSpec =
+  | {
+      /** Map validated, whitelisted values onto the contacts row schema
+       * (combined contacts tab — the default destination). */
+      toRow: (clean: Record<string, string>) => ContactRow;
+      persist?: never;
+    }
+  | {
+      /** Custom persistence for forms that land outside the contacts tab
+       * (e.g. the ASCAT tab). Must throw SheetsConfigError when the Sheets
+       * env is missing so the graceful not-configured path still applies. */
+      persist: (clean: Record<string, string>) => Promise<void>;
+      toRow?: never;
+    };
+
+export function createSubmissionHandler(
+  opts: {
+    formType: string;
+    fields: FieldSpec[];
+  } & PersistSpec
+) {
   return async function POST(request: Request) {
     try {
       const ip =
@@ -70,11 +88,15 @@ export function createSubmissionHandler(opts: {
         clean[field.name] = String(values[field.name] ?? "").trim();
       }
 
-      // Site is English-only today; when a locale switcher ships, thread the
-      // page locale through the form payload instead of assuming the default.
-      const row = { ...opts.toRow(clean), locale: DEFAULT_LOCALE };
-
       try {
+        if (opts.persist) {
+          await opts.persist(clean);
+          return NextResponse.json({ ok: true });
+        }
+        // Site is English-only today; when a locale switcher ships, thread
+        // the page locale through the form payload instead of assuming the
+        // default.
+        const row = { ...opts.toRow(clean), locale: DEFAULT_LOCALE };
         const { duplicate } = await appendContactRow(row);
         return NextResponse.json({ ok: true, duplicate });
       } catch (error) {

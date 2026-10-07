@@ -82,6 +82,47 @@ export function proLeadToRow(clean: Record<string, string>): ContactRow {
   };
 }
 
+/** "I am a…" options on the /ascat form — kept in sync with AscatForm. */
+export const ASCAT_ROLES = [
+  "Clinician or researcher",
+  "Patient organisation",
+  "Patient or family member",
+  "Other",
+] as const;
+
+/** Evaluation-language options on the /ascat form. */
+export const ASCAT_LANGUAGES = [
+  "English",
+  "French",
+  "English and French",
+] as const;
+
+/**
+ * ASCAT 2026 contact & sign-up form (/ascat). Checkboxes arrive as "on" when
+ * ticked and are absent otherwise (FormData semantics, same as PRO consent).
+ * evaluation_language is optional on the server even though the client
+ * requires it when the evaluator box is ticked — a missing language is a
+ * follow-up question, not a reason to lose a contact at a conference booth.
+ */
+export const ASCAT_FIELDS: FieldSpec[] = [
+  { name: "role", required: true, type: "select", options: [...ASCAT_ROLES] },
+  { name: "name", required: true, type: "text", maxLength: 200 },
+  { name: "email", required: true, type: "email", maxLength: 254 },
+  { name: "profession", required: false, type: "text", maxLength: 200 },
+  { name: "organisation", required: false, type: "text", maxLength: 300 },
+  { name: "website", required: false, type: "text", maxLength: 300 },
+  { name: "evaluator", required: false, type: "checkbox" },
+  {
+    name: "evaluation_language",
+    required: false,
+    type: "select",
+    options: [...ASCAT_LANGUAGES],
+  },
+  { name: "organisation_interest", required: false, type: "checkbox" },
+  { name: "newsletter", required: false, type: "checkbox" },
+  { name: "message", required: false, type: "textarea", maxLength: 5000 },
+];
+
 /** Home email signup — email only; name/HCP/country are optional per source. */
 export const NEWSLETTER_FIELDS: FieldSpec[] = [
   { name: "email", required: true, type: "email" },

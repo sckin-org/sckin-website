@@ -357,6 +357,44 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### /ascat contact & sign-up page for ASCAT 2026 (2026-10-07)
+
+New unlisted page at `/ascat` (`content/ascat.md` + `src/app/[locale]/ascat/`
++ `src/components/AscatForm.tsx`) for people met at the conference: hero with
+the talk details, a sign-up form (audience pills, evaluator / organisation /
+newsletter checkboxes with conditional fields), "Two ways to work with us"
+cards that pre-fill the form, and the slides/poster downloads. Decisions:
+
+- **Not in the main navigation** (QR-code entry), but indexable with Open
+  Graph tags — unlike /whatsapp there is no noindex. No OG image yet: no
+  existing asset fits (brand icons are square); text-only preview accepted
+  for now.
+- **Storage reuses the existing WIF → Sheets pipeline** — no Apps Script,
+  no new env vars (decided with Zacharie mid-build, replacing the webhook
+  plan in the original brief). `/api/ascat` goes through the same
+  `createSubmissionHandler` pipeline (rate limit, honeypot, server
+  validation) but persists to the hand-created "ASCAT" tab of the contacts
+  spreadsheet via `appendAscatRow` (`src/lib/sheets.ts`), one column per
+  field, booleans TRUE/FALSE, ISO timestamp, no dedup (a repeat submission
+  carries new information). The handler factory gained an optional
+  `persist` override; the contact/newsletter/pro path is unchanged.
+- **`FieldSpec.maxLength`** added to shared validation (server rejects
+  oversized fields); existing forms unaffected.
+- **Form copy lives in the component, page copy in `content/ascat.md`** —
+  the form's microcopy (labels, helpers, success variants) is coupled to
+  its interaction logic, unlike the declarative contact form.
+- **Card links are `next/link`, with real anchor spans** at the top of the
+  form card: a plain fragment anchor fires popstate and the App Router
+  restores its recorded scroll position over the browser's fragment scroll.
+- **Newsletter tick = sheet column only.** The repo has no Kit API
+  integration (newsletter signups land in the contacts sheet; Kit sends are
+  manual), so per the brief nothing new was built.
+- **Evaluator success-state links omitted** — the EN/FR rating-form URLs
+  were not supplied; add them to AscatForm's success block when they exist.
+- PDF downloads point at `/documents/sckin-ascat-2026-*.pdf` (the location
+  the news-post PR established), each button rendered only if the file
+  exists at build time.
+
 ### ASCAT 2026 blog post published with slides and poster PDFs (2026-10-07)
 
 Added `content/blog/ascat-2026.md` announcing the Thursday 8 October oral

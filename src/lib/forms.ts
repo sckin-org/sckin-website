@@ -27,6 +27,8 @@ export interface FieldSpec {
   type?: string;
   /** Allowed values for a select — submissions outside this set are rejected. */
   options?: string[];
+  /** Upper bound on string length — oversized submissions are rejected. */
+  maxLength?: number;
 }
 
 /**
@@ -55,6 +57,13 @@ export function validateSubmission(
     }
     if (spec.options && typeof value === "string" && !spec.options.includes(value)) {
       errors.push(`${spec.name} is not a valid option`);
+    }
+    if (
+      spec.maxLength !== undefined &&
+      typeof value === "string" &&
+      value.length > spec.maxLength
+    ) {
+      errors.push(`${spec.name} is too long`);
     }
   }
   return errors;
