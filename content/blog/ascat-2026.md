@@ -5,7 +5,8 @@ author: "Zacharie Liman-Tinguiri"
 tag: "Announcement"
 summary: >-
   Zacharie Liman-Tinguiri and Dr Lewis Thomas present SCKIN's benchmarking
-  evaluation of SickleCellPedia at ASCAT 2026 in London on Thursday 8 October.
+  evaluation of SickleCellPedia at ASCAT 2026 in London on Thursday
+  8 October at 3:22pm, in the Robert Perks Room at Central Hall Westminster.
 links:
   - label: "Download the slides (PDF)"
     href: /documents/sckin-ascat-2026-slides.pdf
