@@ -357,6 +357,15 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### ASCAT slides PDF: English QR code now points to /ascat (2026-10-08)
+
+`public/documents/sckin-ascat-2026-slides.pdf` updated to match the deck as
+presented on 8 October. On slide 12 ("How you can help") the top QR code,
+which opened the English Google rating form, now opens
+`https://sckin.org/ascat`, and its label reads "sckin.org/ascat" instead of
+"English rating form". The French QR code and form are unchanged, as are
+slides 1–11. Same filename and URL, so no link changes.
+
 ### /ascat contact & sign-up page for ASCAT 2026 (2026-10-07)
 
 New unlisted page at `/ascat` (`content/ascat.md` + `src/app/[locale]/ascat/`
