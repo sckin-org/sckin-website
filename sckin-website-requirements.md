@@ -357,6 +357,63 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### SickleCellPedia chat pane: definite height fixes unreachable mobile input (2026-10-15)
+
+Reported on an iPhone 17 (402×874, Safari): the chat area was cramped and the
+message input nearly impossible to reach. Diagnosed against the live site with
+same-origin iframes at 390×844, 402×874 and 440×956, reading inside the widget's
+shadow root.
+
+**Root cause.** The container at `VoiceflowEmbed.tsx` carried `min-height: 600`
+and no definite `height`. Voiceflow's pane is `height: 100%`, which against an
+indefinite parent degenerates to `height: auto` — so the pane *grew with the
+conversation* (measured 489 → 844px) instead of scrolling internally, until it
+hit a phone-only rule in Voiceflow's stylesheet:
+`@media (max-width:768px){ ._1h5tt2v0{height:100%;max-height:100vh} }`.
+
+Because the pane starts 431px down the document (52px sticky header + `py-14` +
+`PageHeader`), the input row ended up 300–431px below the fold and moved further
+down with every message. On a 390×844 phone it was unreachable at **any** scroll
+position: pane (844) + header (52) exceeds the viewport. Severity scales
+inversely with screen height, which is why it surfaced on the iPhone 17.
+
+**Fix.** `className="w-full h-[min(600px,70svh)] md:h-[600px]"` — a definite
+height, so `height: 100%` resolves and the widget's own message scroller takes
+the overflow. Verified at runtime: growth goes flat (600→600), the
+`.vfrc-chat-dialog__container` scroller engages (479 visible / 677 scrollable),
+and the composer returns to reach at every size. The `md:` breakpoint (768px) is
+chosen to match Voiceflow's own `@media (max-width:768px)` boundary exactly.
+
+**Desktop was affected too.** Measured at 1421×808, the pane grew 455 → 609px,
+past the 600px floor, with `max-height: 100%` of an indefinite parent resolving
+to no cap at all — no `100vh` backstop, since that rule is phone-only. The flat
+`md:h-[600px]` caps that growth as well. This is a deliberate desktop behaviour
+change, not a no-op.
+
+**Ruled out** (so they are not re-investigated): input `font-size` is 16px, so no
+iOS auto-zoom — the 14px hidden `<textarea>` Voiceflow leaves in `<body>` is an
+orphaned autosize mirror, never focused. No `transform`/`filter`/`backdrop-filter`
+/`contain` on any ancestor — `SiteHeader`'s `backdrop-blur-xl` is a *sibling* of
+`<main>`. Viewport meta is correct (`width=device-width, initial-scale=1`, no
+`maximum-scale`). No flex/grid parent forcing height. `overflow-hidden` at
+`sicklecellpedia/page.tsx:32` is kept — it clips the widget's square corners to
+the rounded border and no longer risks clipping content now that the pane scrolls
+internally.
+
+**Known limitation.** The fix keys on width but the problem is height: a landscape
+iPhone (874×402) is ≥768px wide and takes the `md:` branch, so a 600px pane in a
+402px-tall viewport is still unreachable. Portrait only, as scoped.
+
+**Not done.** `env(safe-area-inset-bottom)` padding is unnecessary — the pane is in
+normal document flow with content below it, so it never sits at the screen bottom.
+`visualViewport` keyboard handling is deferred pending the on-device check; note
+that `dvh`/`svh` addresses Safari *toolbar* overlap, not the keyboard, which shrinks
+only the visual viewport. `svh` is preferred over `dvh` so the pane does not resize
+mid-scroll as the toolbar collapses. A `render: 'overlay'` switch below a mobile
+breakpoint would also sidestep the problem (verified: fixed-position full-screen
+takeover, composer in view) but was **rejected** — it would reverse the `fe63413`
+decision that made the chat an always-open inline embed with no corner launcher.
+
 ### /scdaa conference landing page for SCDAA 2026 (2026-10-14)
 
 New unlisted page at `/scdaa` (`content/scdaa.md` + `src/app/[locale]/scdaa/`
