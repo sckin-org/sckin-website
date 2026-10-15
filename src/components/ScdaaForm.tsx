@@ -90,11 +90,14 @@ export default function ScdaaForm() {
   if (status === "success") {
     return (
       <div data-role="form-confirmation" role="status">
-        <h3 className="text-[19px] font-semibold text-heading">
-          Thank you. We have your details.
-        </h3>
+        {/* The brief fixes this copy verbatim: "Thank you. We have your
+            details and will be in touch about the options you ticked."
+            Split across ASCAT's h3 + p structure, it reads as that exact
+            sentence pair — don't reword either half. */}
+        <h3 className="text-[19px] font-semibold text-heading">Thank you.</h3>
         <p className="mt-2.5 text-[15px] leading-(--line-height-body) text-body text-pretty">
-          We will be in touch about the options you ticked.
+          We have your details and will be in touch about the options you
+          ticked.
         </p>
       </div>
     );
