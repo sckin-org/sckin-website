@@ -329,7 +329,8 @@ export default function ScdaaForm() {
       ) : null}
 
       {/* text-body, not text-muted: #7D7D85 is ~4.1:1 on white, under the
-          4.5:1 WCAG AA floor for 13px text. */}
+          4.5:1 WCAG AA floor for 13px text. Deliberate deviation from
+          /ascat — see the page component's header comment. */}
       <p className="text-[13px] leading-[1.5] text-body">
         We use your details only to reply to you and for the options you tick.
         We never share them.{" "}

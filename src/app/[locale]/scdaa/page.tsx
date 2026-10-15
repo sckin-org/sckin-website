@@ -18,9 +18,12 @@ import CopyEmail from "@/components/CopyEmail";
  * Mobile first: the QR audience is on phones. Section order on a phone is
  * hero copy → poster tile → try → form → work with us → feedback.
  *
- * Small text on this page uses text-body rather than the design's text-muted:
- * #7D7D85 is ~4.1:1 on white, below the 4.5:1 WCAG AA floor at 13px, and
- * this page is held to Lighthouse accessibility ≥ 95.
+ * Small text on this page uses text-body rather than the design's text-muted.
+ * --gray-500 (#7D7D85) measures ~4.1:1 on white, under the 4.5:1 WCAG AA
+ * floor for the 13px eyebrows and convention line. This is a deliberate
+ * deviation from /ascat, which uses text-muted and fails that check; it is
+ * reversible with a find-and-replace if the design calls for the lighter
+ * grey back.
  */
 
 const PAGE_URL = "https://sckin.org/scdaa";

@@ -395,13 +395,16 @@ Decisions:
 - **Form field order differs from sheet column order** (the form asks
   organization → profession; the tab stores profession → organization).
   `appendScdaaRow` is the single place that reconciles them.
-- **Small text uses `text-body`, not the design's `text-muted`.** Measured:
-  `--gray-500` (#7D7D85) is ≈4.1:1 on white, under the 4.5:1 WCAG AA floor
-  for the 13px eyebrows and consent line. With `text-body` (≈6.9:1) this
-  page scores **100** on Lighthouse accessibility; `/ascat`, which uses
-  `text-muted`, scores **96** and fails `color-contrast` on exactly those
-  nodes. Worth fixing on `/ascat` and anywhere else `text-muted` carries
-  small text — not done here to keep this PR scoped.
+- **Small text uses `text-body`, not the design's `text-muted`** — a
+  deliberate deviation from the annex, taken to fix a real WCAG AA failure
+  rather than to clear a score. Measured: `--gray-500` (#7D7D85) is ≈4.1:1
+  on white, under the 4.5:1 floor for the 13px eyebrows and consent line.
+  `/ascat`, which uses `text-muted`, fails Lighthouse's `color-contrast`
+  audit on exactly those nodes (it still scores 96, so the ≥95 bar did not
+  force this); `/scdaa` with `text-body` (≈6.9:1) scores 100. Reversible
+  with a single find-and-replace if the design wants the lighter grey back.
+  The same fix is worth making on `/ascat` and anywhere else `text-muted`
+  carries small text — not done here to keep this PR scoped.
 - **`CopyEmail` is a new component**, not `ObfuscatedEmail`: the brief calls
   for a selectable address with a Copy button, and an entity-encoded mailto
   can be neither selected nor copied. The address is already printed on the
