@@ -308,3 +308,138 @@ export async function appendAscatRow(
     throw new Error(`Sheets append (ASCAT tab) responded ${res.status}`);
   }
 }
+
+/**
+ * Column order of the scdaa tab's header row — created by hand in the
+ * spreadsheet (2026-10-14), keep in sync. Same rationale as the ASCAT tab
+ * (one column per field, filterable during follow-up), but a different field
+ * set: the SCDAA audience is mostly patients, families and community-based
+ * organizations, so `city_state` and `try_product` replace ASCAT's
+ * `evaluation_language`, and US spelling ("organization") is used throughout.
+ *
+ * NOTE the order difference from the form: the sheet puts `profession` before
+ * `organization`, the form asks for `organization` first. The mapping in
+ * appendScdaaRow is the single place that reconciles them.
+ */
+export const SCDAA_SHEET_TAB = "scdaa";
+export const SCDAA_TAB_COLUMNS = [
+  "timestamp",
+  "role",
+  "name",
+  "email",
+  "profession",
+  "organization",
+  "website",
+  "city_state",
+  "try_product",
+  "org_interest",
+  "evaluator",
+  "newsletter",
+  "message",
+] as const;
+
+/**
+ * Has this instance already confirmed the scdaa header row? Only a SUCCESSFUL
+ * check is cached, so correcting the sheet recovers without a redeploy.
+ */
+let scdaaHeadersVerified = false;
+
+/**
+ * Verify row 1 of the scdaa tab matches SCDAA_TAB_COLUMNS exactly before the
+ * first write of an instance's life. Headers are NEVER written: the tab is
+ * created by hand, and silently appending to a tab whose columns have shifted
+ * would scatter contacts across the wrong fields.
+ *
+ * Deliberately throws a plain Error, not SheetsConfigError — the route turns
+ * SheetsConfigError into `{ok:true, persisted:false}`, which would show the
+ * visitor "Thank you" while dropping their details. A header mismatch must
+ * surface as a 500 and the form's inline error, so the submission is retried
+ * once the sheet is fixed rather than lost quietly.
+ */
+async function assertScdaaHeaders(
+  config: WifConfig,
+  token: string
+): Promise<void> {
+  if (scdaaHeadersVerified) return;
+
+  const range = encodeURIComponent(`'${SCDAA_SHEET_TAB}'!1:1`);
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${range}?majorDimension=ROWS`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  if (!res.ok) {
+    throw new Error(
+      `Sheets header read (scdaa tab) responded ${res.status} — ` +
+        `does the "${SCDAA_SHEET_TAB}" tab exist?`
+    );
+  }
+  const header =
+    ((await res.json()) as { values?: string[][] }).values?.[0] ?? [];
+  const actual = header.map((cell) => (cell ?? "").trim());
+  const expected = [...SCDAA_TAB_COLUMNS];
+  const matches =
+    actual.length === expected.length &&
+    expected.every((name, i) => actual[i] === name);
+  if (!matches) {
+    throw new Error(
+      `Sheets header mismatch on the "${SCDAA_SHEET_TAB}" tab. ` +
+        `Expected row 1 to be exactly [${expected.join(", ")}] ` +
+        `but found [${actual.join(", ")}]. Fix the tab by hand — this code ` +
+        `never writes headers.`
+    );
+  }
+  scdaaHeadersVerified = true;
+}
+
+/**
+ * Append one SCDAA sign-up to the scdaa tab — same spreadsheet, credentials
+ * and WIF flow as appendContactRow and appendAscatRow; only the target range
+ * and column mapping differ. `clean` is the whitelisted, validated field map
+ * from the route handler (checkboxes are "on" when ticked, "" otherwise →
+ * written as TRUE/FALSE; blanks as ""). Every submission appends — no dedup,
+ * for the same reason as ASCAT: a repeat submission at a conference usually
+ * carries new information, and the timestamp orders them.
+ */
+export async function appendScdaaRow(
+  clean: Record<string, string>
+): Promise<void> {
+  const config = readConfig();
+  const token = await getAccessToken(config);
+  await assertScdaaHeaders(config, token);
+  const bool = (value: string | undefined) => (value ? "TRUE" : "FALSE");
+
+  // Order must match SCDAA_TAB_COLUMNS (A–M), not the form's field order.
+  const values = [
+    [
+      new Date().toISOString(),
+      clean.role ?? "",
+      clean.name ?? "",
+      (clean.email ?? "").trim(),
+      clean.profession ?? "",
+      clean.organization ?? "",
+      clean.website ?? "",
+      clean.city_state ?? "",
+      bool(clean.try_product),
+      bool(clean.org_interest),
+      bool(clean.evaluator),
+      bool(clean.newsletter),
+      clean.message ?? "",
+    ],
+  ];
+
+  const range = encodeURIComponent(`'${SCDAA_SHEET_TAB}'!A1`);
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ values }),
+    }
+  );
+  if (!res.ok) {
+    throw new Error(`Sheets append (scdaa tab) responded ${res.status}`);
+  }
+}

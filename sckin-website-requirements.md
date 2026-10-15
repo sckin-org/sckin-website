@@ -357,6 +357,65 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### /scdaa conference landing page for SCDAA 2026 (2026-10-14)
+
+New unlisted page at `/scdaa` (`content/scdaa.md` + `src/app/[locale]/scdaa/`
++ `src/components/ScdaaForm.tsx` + `src/components/CopyEmail.tsx`) for people
+met at the SCDAA 54th Annual National Convention (15–17 October 2026, Embassy
+Suites by Hilton Charlotte Concord, Concord NC): hero with a poster tile,
+"Try SickleCellPedia" (web + WhatsApp), a stay-in-touch form beside the
+mission statement, "Two ways to work with us", and a feedback band.
+Built as a sibling of `/ascat`, reusing its patterns, components and styling.
+Decisions:
+
+- **The route name is fixed by the printed poster.** Its QR code points at
+  `https://www.sckin.org/scdaa`, so `/scdaa` must never be renamed or
+  redirected. The site-wide `www` → apex 308 still applies (verified: it
+  already does for `/ascat`), which is a redirect of the host, not the route.
+- **Not in the main navigation**, indexable with Open Graph tags, no
+  `noindex` — same treatment as `/ascat`, unlike `/whatsapp`. Nothing to do
+  for "not in the sitemap": the site has no sitemap route.
+- **Storage reuses the existing WIF → Sheets pipeline**, like ASCAT: no new
+  env vars, no Google-side changes. `/api/scdaa` goes through the same
+  `createSubmissionHandler` (rate limit, honeypot, server validation) and
+  persists via `appendScdaaRow` to the hand-created `scdaa` tab of the
+  contacts spreadsheet — 13 columns A–M, booleans TRUE/FALSE, ISO timestamp,
+  no dedup.
+- **The scdaa tab's header row is verified before the first write** of each
+  instance, and a mismatch throws a plain `Error` — deliberately NOT
+  `SheetsConfigError`, which the handler converts into
+  `{ok:true, persisted:false}` and would show the visitor "Thank you" while
+  dropping their details. Only a successful check is cached, so correcting
+  the sheet recovers without a redeploy. Headers are never written. This is
+  new behaviour: the ASCAT path has no such guard.
+- **US spelling throughout** ("organization"), unlike `/ascat`'s British
+  English, and its own `SCDAA_ROLES` list led by "Patient or family member" —
+  this audience is mostly patients, families and CBOs. The two pages are
+  siblings, not variants; keep their copy independent.
+- **Form field order differs from sheet column order** (the form asks
+  organization → profession; the tab stores profession → organization).
+  `appendScdaaRow` is the single place that reconciles them.
+- **Small text uses `text-body`, not the design's `text-muted`.** Measured:
+  `--gray-500` (#7D7D85) is ≈4.1:1 on white, under the 4.5:1 WCAG AA floor
+  for the 13px eyebrows and consent line. With `text-body` (≈6.9:1) this
+  page scores **100** on Lighthouse accessibility; `/ascat`, which uses
+  `text-muted`, scores **96** and fails `color-contrast` on exactly those
+  nodes. Worth fixing on `/ascat` and anywhere else `text-muted` carries
+  small text — not done here to keep this PR scoped.
+- **`CopyEmail` is a new component**, not `ObfuscatedEmail`: the brief calls
+  for a selectable address with a Copy button, and an entity-encoded mailto
+  can be neither selected nor copied. The address is already printed on the
+  poster, so the anti-scraper trade-off does not apply. The button is only
+  rendered where the async Clipboard API exists.
+- **`id="register"` on `/sicklecellpedia-pro` already existed** — the
+  brief asked for it to be added; no change was needed, and none was made.
+- **Pre-existing, not introduced here:** every page (Home, `/ascat`,
+  `/sicklecellpedia-pro`) overflows horizontally by 57px at exactly 768px —
+  the header's `md:flex` nav and the footer nav, at the `md` breakpoint
+  boundary. `/scdaa` itself is clean at 320/390/767/1024/1280px.
+- There is still no lint script in this repo; `npx tsc --noEmit` and
+  `next build` are the checks and both pass.
+
 ### ASCAT slides PDF: English QR code now points to /ascat (2026-10-08)
 
 `public/documents/sckin-ascat-2026-slides.pdf` updated to match the deck as

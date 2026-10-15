@@ -123,6 +123,43 @@ export const ASCAT_FIELDS: FieldSpec[] = [
   { name: "message", required: false, type: "textarea", maxLength: 5000 },
 ];
 
+/**
+ * "I am a…" options on the /scdaa form — kept in sync with ScdaaForm. Ordered
+ * and worded for the SCDAA audience (mostly patients, families and CBOs, so
+ * "Patient or family member" leads and is the default), which is why this is
+ * its own list rather than a reuse of ASCAT_ROLES. US spelling.
+ */
+export const SCDAA_ROLES = [
+  "Patient or family member",
+  "Community-based organization",
+  "Patient organization",
+  "Clinician or healthcare provider",
+  "Researcher or student",
+  "Other",
+] as const;
+
+/**
+ * SCDAA 2026 stay-in-touch form (/scdaa). Same conventions as ASCAT_FIELDS:
+ * checkboxes arrive as "on" when ticked and are absent otherwise, and only
+ * name/email are required — a half-filled card from a conference floor is
+ * still a contact worth keeping. Field order here is the FORM's order; the
+ * sheet's column order is separate (see SCDAA_TAB_COLUMNS in sheets.ts).
+ */
+export const SCDAA_FIELDS: FieldSpec[] = [
+  { name: "role", required: true, type: "select", options: [...SCDAA_ROLES] },
+  { name: "name", required: true, type: "text", maxLength: 200 },
+  { name: "email", required: true, type: "email", maxLength: 254 },
+  { name: "organization", required: false, type: "text", maxLength: 300 },
+  { name: "profession", required: false, type: "text", maxLength: 200 },
+  { name: "city_state", required: false, type: "text", maxLength: 200 },
+  { name: "website", required: false, type: "text", maxLength: 300 },
+  { name: "try_product", required: false, type: "checkbox" },
+  { name: "org_interest", required: false, type: "checkbox" },
+  { name: "evaluator", required: false, type: "checkbox" },
+  { name: "newsletter", required: false, type: "checkbox" },
+  { name: "message", required: false, type: "textarea", maxLength: 5000 },
+];
+
 /** Home email signup — email only; name/HCP/country are optional per source. */
 export const NEWSLETTER_FIELDS: FieldSpec[] = [
   { name: "email", required: true, type: "email" },
