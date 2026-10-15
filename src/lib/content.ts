@@ -232,6 +232,60 @@ export interface SicklecellpediaProFrontmatter extends FrontmatterBase {
   };
 }
 
+/**
+ * /scdaa — conference landing page for the SCDAA 54th Annual National
+ * Convention (content/scdaa.md). The poster's printed QR code points at
+ * https://www.sckin.org/scdaa, so this route name is fixed: it must never
+ * redirect. Like /ascat it is absent from the navigation but indexable.
+ *
+ * US spelling throughout ("organization") — the audience is American,
+ * unlike /ascat's British-English copy. Keep the two pages' wording
+ * independent; they are siblings, not variants.
+ */
+export interface ScdaaFrontmatter extends FrontmatterBase {
+  hero: {
+    eyebrow: string;
+    headline: string;
+    body: string;
+    poster_cta: Cta;
+    form_link: Cta;
+    poster: {
+      eyebrow: string;
+      title: string;
+      authors: string;
+      /** Convention name, dates, venue and city on one line. */
+      convention: string;
+      open_label: string;
+    };
+  };
+  try: {
+    heading: string;
+    intro: string;
+    cards: Array<{ title: string; body: string; cta: Cta }>;
+  };
+  form: {
+    heading: string;
+    mission: { eyebrow: string; statement: string; body: string };
+  };
+  involve: {
+    heading: string;
+    cards: Array<{
+      eyebrow: string;
+      title: string;
+      body: string;
+      /** Shown as selectable text with a Copy button, above the CTA. */
+      email?: string;
+      cta: Cta;
+    }>;
+  };
+  feedback: {
+    heading: string;
+    body: string;
+    email: string;
+    cta: Cta;
+  };
+}
+
 export interface ContactFrontmatter extends FrontmatterBase {
   hero: {
     headline: string;
@@ -617,6 +671,7 @@ export const getSicklecellpediaPro = () =>
   getDoc<SicklecellpediaProFrontmatter>("sicklecellpedia-pro");
 export const getContact = () => getDoc<ContactFrontmatter>("contact");
 export const getAscat = () => getDoc<AscatFrontmatter>("ascat");
+export const getScdaa = () => getDoc<ScdaaFrontmatter>("scdaa");
 export const getResponsibleAi = () =>
   getDoc<ResponsibleAiFrontmatter>("responsible-ai");
 export const getPublications = () =>
