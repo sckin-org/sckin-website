@@ -48,7 +48,7 @@ Stop and ask before any one-way door:
 
 ## Analytics
 
-Two measurement systems, both mounted in `src/app/[locale]/layout.tsx` and both
+Three measurement systems, all mounted in `src/app/[locale]/layout.tsx` and all
 gated on `analyticsEnabled` from `src/lib/analytics.ts`
 (`VERCEL_ENV === "production"`), so `next dev` and preview deploys emit nothing:
 
@@ -59,9 +59,14 @@ gated on `analyticsEnabled` from `src/lib/analytics.ts`
   decision. Google treats health as a sensitive interest category and bars
   advertiser-curated audiences for it.
 - **Vercel Web Analytics**, via `<Analytics />` from `@vercel/analytics/next`.
-  Cookieless. This is the source the Impact page quotes.
+  Cookieless. This is the source the Impact page quotes — the official visit count.
+- **Cloudflare Web Analytics** (added 2026-10-20), via
+  `src/components/CloudflareWebAnalytics.tsx`; beacon token in
+  `src/lib/analytics.ts`. Cookieless. Kept for real-user page-speed data (Core
+  Web Vitals); its visit counts are secondary. JavaScript-snippet setup only —
+  sckin.org is not a Cloudflare zone and DNS stays on Route 53.
 
-Do not add a third analytics package or a second GA property. Keep condition and
+Do not add a fourth analytics package or a second GA property. Keep condition and
 symptom names out of URLs and page titles — gtag sends page path and title as
 event parameters.
 
@@ -78,4 +83,6 @@ honeypot alone does not stop bots that post straight to `/api/*`.
 Env: `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` (Production =
 the "SCKIN website forms" widget; Preview/Development = Cloudflare's
 always-pass test keys). If the site ever adds a Content-Security-Policy, allow
-`challenges.cloudflare.com` in `script-src` and `frame-src`.
+`challenges.cloudflare.com` in `script-src` and `frame-src`, plus
+`static.cloudflareinsights.com` in `script-src` and `cloudflareinsights.com` in
+`connect-src` for the analytics beacon.

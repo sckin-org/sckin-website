@@ -31,3 +31,13 @@ export const GA_CONFIG = {
   allow_google_signals: false,
   allow_ad_personalization_signals: false,
 } as const;
+
+/**
+ * Cloudflare Web Analytics beacon token (site "sckin.org", JavaScript-snippet
+ * setup — the domain is not a Cloudflare zone). Public by design for the same
+ * reason as the GA ID: the beacon ships it in the page source. Added
+ * 2026-10-20 as the third measurement system, for real-user page-speed data
+ * (Core Web Vitals) that neither GA4 nor Vercel Web Analytics shows. Vercel
+ * remains the official visit count.
+ */
+export const CLOUDFLARE_BEACON_TOKEN = "8b760f9a144743c3a2c4fb7359139540";
