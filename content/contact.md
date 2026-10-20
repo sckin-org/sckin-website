@@ -4,7 +4,7 @@ nav_label: Contact
 meta_description: Get in touch with the Sickle Cell Knowledge and Information Network — for press, partnerships, volunteering, and general enquiries.
 hero:
   headline: "Get in touch"
-  subhead: "[TO ADD]"
+  subhead: "For partnerships, press, volunteering and research enquiries."
 
 # Steer disease questions to the chatbot, not the inbox
 deflect:
@@ -31,12 +31,13 @@ form:
         - Something else
     - { name: message, label: "Message", type: textarea, required: true }
   submit_label: "Send message"
-  confirmation: "[TO ADD — what the user sees after submitting]"
+  confirmation: "Thank you — your message has reached our team, and we'll be in touch."
 
 schedule:
   heading: "Prefer to talk?"
-  body: "[TO ADD — one line, e.g. 'Book a time with our founder.']"
-  cta: { label: "Schedule a call", href: "[TO ADD — Google Calendar scheduling link]" }
+  body: "Book a 30-minute call with our founder, Zacharie Liman-Tinguiri."
+  # Section stays hidden until href is set (Google Calendar booking page).
+  cta: { label: "Schedule a call", href: "" }
 
 direct:
   email: contact@sckin.org
@@ -44,4 +45,4 @@ direct:
   linkedin: https://www.linkedin.com/company/sickle-cell-knowlege-and-information-network/
 ---
 
-[PLACEHOLDER] Optional supporting prose for the Contact page goes here.
+You can also reach us by email, or find us on Facebook and LinkedIn:

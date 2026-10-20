@@ -289,10 +289,10 @@ Dropped by design: hero image, tool images, three-tool layout.
 ### 11. Contact — `/contact`
 *Mostly stubbed. Form backend is wired; copy is not. Out of nav; footer-linked.*
 
-- [ ] Hero subhead
-- [ ] Google Calendar scheduling link
-- [ ] "Prefer to talk?" line
-- [ ] Confirmation message
+- [x] Hero subhead *(2026-10-20, see History)*
+- [ ] Google Calendar scheduling link *("Prefer to talk?" stays hidden until set — 2026-10-20)*
+- [x] "Prefer to talk?" line *(2026-10-20)*
+- [x] Confirmation message *(2026-10-20)*
 - [ ] → Paste to Claude Code
 
 ### 12. Utility ♻️
@@ -356,6 +356,23 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Contact page copy filled in; booking section hidden until its link exists (2026-10-20)
+
+Zacharie's picks for the four `[TO ADD]` / `[PLACEHOLDER]` slots in
+`content/contact.md`:
+
+- **Subhead:** "For partnerships, press, volunteering and research enquiries."
+- **Confirmation:** "Thank you — your message has reached our team, and we'll
+  be in touch." Deliberately no response-time promise.
+- **"Prefer to talk?":** "Book a 30-minute call with our founder, Zacharie
+  Liman-Tinguiri." The section now renders only when `schedule.cta.href` is
+  set, so the page no longer ships a dead "Schedule a call" link; it appears
+  once the Google Calendar booking URL is added.
+- **Body:** the Markdown body is now the lead-in line *above* the email and
+  social links ("You can also reach us by email, or find us on Facebook and
+  LinkedIn:"), instead of free prose at the bottom that would have repeated
+  the address right below the links.
 
 ### Cloudflare Turnstile on every form; bot rows marked spam (2026-10-20)
 
