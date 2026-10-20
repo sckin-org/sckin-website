@@ -36,8 +36,8 @@ form:
 schedule:
   heading: "Prefer to talk?"
   body: "Book a 30-minute call with our founder, Zacharie Liman-Tinguiri."
-  # Section stays hidden until href is set (Google Calendar booking page).
-  cta: { label: "Schedule a call", href: "" }
+  # Section stays hidden whenever href is empty (Google Calendar booking page).
+  cta: { label: "Schedule a call", href: "https://calendar.app.google/rjdDk4cz7gvHVHxo6" }
 
 direct:
   email: contact@sckin.org

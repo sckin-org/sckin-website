@@ -290,7 +290,7 @@ Dropped by design: hero image, tool images, three-tool layout.
 *Mostly stubbed. Form backend is wired; copy is not. Out of nav; footer-linked.*
 
 - [x] Hero subhead *(2026-10-20, see History)*
-- [ ] Google Calendar scheduling link *("Prefer to talk?" stays hidden until set — 2026-10-20)*
+- [x] Google Calendar scheduling link *(2026-10-20 — 30-minute founder call; "Prefer to talk?" now visible)*
 - [x] "Prefer to talk?" line *(2026-10-20)*
 - [x] Confirmation message *(2026-10-20)*
 - [ ] → Paste to Claude Code
@@ -367,8 +367,9 @@ Zacharie's picks for the four `[TO ADD]` / `[PLACEHOLDER]` slots in
   be in touch." Deliberately no response-time promise.
 - **"Prefer to talk?":** "Book a 30-minute call with our founder, Zacharie
   Liman-Tinguiri." The section now renders only when `schedule.cta.href` is
-  set, so the page no longer ships a dead "Schedule a call" link; it appears
-  once the Google Calendar booking URL is added.
+  set, so the page never ships a dead "Schedule a call" link. The Google
+  Calendar booking URL (`calendar.app.google/rjdDk4cz7gvHVHxo6`) was added the
+  same day, so the section is live.
 - **Body:** the Markdown body is now the lead-in line *above* the email and
   social links ("You can also reach us by email, or find us on Facebook and
   LinkedIn:"), instead of free prose at the bottom that would have repeated
