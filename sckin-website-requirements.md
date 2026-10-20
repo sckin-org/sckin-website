@@ -357,6 +357,47 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Cloudflare Turnstile on every form; bot rows marked spam (2026-10-20)
+
+Between 3 Aug and 20 Oct 2026, 36 of the 48 rows in the contacts tab were bot
+submissions: random mixed-case names and countries, dot-padded Gmail
+addresses, `[Press or media]` messages signed "Organization: <random> LLC", and
+a contact + pro_interest pair posted 1–10 seconds apart from the same
+address (~18 runs, accelerating in October). They were marked `status = spam`
+in the sheet on 2026-10-20; real rows stay `new`. The ascat tab had no bot
+rows; the scdaa tab was empty.
+
+The existing honeypot and in-memory rate limit did not stop them: the bots
+post JSON straight to `/api/contact` and `/api/pro-lead` without rendering
+the page, so the hidden field never exists for them. Decisions:
+
+- **Cloudflare Turnstile, verified server-side** in `createSubmissionHandler`
+  (`src/lib/turnstile.ts`), after the honeypot and before validation. One
+  check covers all five routes: contact, pro-lead, newsletter, ascat, scdaa.
+- **Client:** `src/components/TurnstileWidget.tsx`, mounted in
+  `SubmissionForm`, `NewsletterSignup`, `AscatForm` and `ScdaaForm`.
+  `appearance: "interaction-only"` on a Managed-mode widget, so most people
+  see nothing. The widget's hidden `cf-turnstile-response` input rides in the
+  existing FormData payload; the handler's whitelist drops it before the row
+  is written. Submit stays disabled until a token arrives; the widget resets
+  after any failed submit (tokens are single-use, 5-minute expiry). No npm
+  dependency — the official script is loaded once, explicit-render mode.
+- **Failure is visible, not silent** (403 + the form's fallback email), unlike
+  the honeypot's silent `ok:true`, so a real person with an expired token is
+  never shown a false "sent".
+- **Fail closed in production** if `TURNSTILE_SECRET_KEY` is missing; skipped
+  with a warning outside production so bare `next dev` still works.
+- **Keys (Vercel env):** `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and
+  `TURNSTILE_SECRET_KEY`. Production uses the Cloudflare widget "SCKIN website
+  forms" (hostnames sckin.org, www.sckin.org — DNS stays on Route 53;
+  Turnstile does not need the zone on Cloudflare). Preview and Development use
+  Cloudflare's always-pass test keys, because preview URLs are not on the
+  widget's hostname list.
+- **No Cloudflare Web Analytics beacon.** A Web Analytics site was created in
+  the Cloudflare dashboard the same day, but the "no third analytics package"
+  rule (CLAUDE.md) stands: GA4 + Vercel Web Analytics remain the only
+  measurement. The unused Cloudflare site can be deleted.
+
 ### SickleCellPedia chat pane: definite height fixes unreachable mobile input (2026-10-15)
 
 Reported on an iPhone 17 (402×874, Safari): the chat area was cramped and the

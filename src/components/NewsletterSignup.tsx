@@ -1,7 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { HONEYPOT_FIELD } from "@/lib/forms";
+import TurnstileWidget, {
+  turnstileEnabled,
+  type TurnstileHandle,
+} from "@/components/TurnstileWidget";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -12,6 +16,10 @@ type Status = "idle" | "submitting" | "success" | "error";
  */
 export default function NewsletterSignup() {
   const [status, setStatus] = useState<Status>("idle");
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  // No site key (bare `next dev`) means no token is required.
+  const verified = !turnstileEnabled || turnstileToken !== null;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,6 +37,7 @@ export default function NewsletterSignup() {
       setStatus("success");
       form.reset();
     } catch {
+      turnstileRef.current?.reset();
       setStatus("error");
     }
   }
@@ -69,11 +78,19 @@ export default function NewsletterSignup() {
         />
         <button
           type="submit"
-          disabled={status === "submitting"}
+          disabled={status === "submitting" || !verified}
           className="rounded-pill bg-white px-5 py-[11px] text-[15px] font-semibold text-heading transition-colors hover:bg-(--gray-200) disabled:opacity-60"
         >
           {status === "submitting" ? "Signing up…" : "Sign up"}
         </button>
+      </div>
+
+      <div className="mt-2">
+        <TurnstileWidget
+          ref={turnstileRef}
+          theme="dark"
+          onTokenChange={setTurnstileToken}
+        />
       </div>
 
       {status === "error" ? (

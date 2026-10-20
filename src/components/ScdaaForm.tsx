@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { HONEYPOT_FIELD } from "@/lib/forms";
+import TurnstileWidget, {
+  turnstileEnabled,
+  type TurnstileHandle,
+} from "@/components/TurnstileWidget";
 import { SCDAA_ROLES } from "@/lib/form-specs";
 
 /**
@@ -67,6 +71,10 @@ function RequiredMark() {
 export default function ScdaaForm() {
   const [role, setRole] = useState<Role>("Patient or family member");
   const [status, setStatus] = useState<Status>("idle");
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  // No site key (bare `next dev`) means no token is required.
+  const verified = !turnstileEnabled || turnstileToken !== null;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -83,6 +91,8 @@ export default function ScdaaForm() {
       setStatus("success");
     } catch {
       // Non-2xx and network errors both land here; entered values are kept.
+      // The token was spent (or rejected) — fetch a fresh one for a retry.
+      turnstileRef.current?.reset();
       setStatus("error");
     }
   }
@@ -301,9 +311,11 @@ export default function ScdaaForm() {
         />
       </div>
 
+      <TurnstileWidget ref={turnstileRef} onTokenChange={setTurnstileToken} />
+
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || !verified}
         aria-describedby={status === "error" ? "scdaa-form-error" : undefined}
         className="mt-1 min-h-[44px] rounded-pill bg-cta py-3.5 text-center text-[17px] font-semibold text-on-band transition-colors hover:bg-cta-hover focus-visible:ring-2 focus-visible:ring-(--color-cta) focus-visible:ring-offset-2 disabled:opacity-60"
       >
