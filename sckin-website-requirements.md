@@ -357,6 +357,27 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Cloudflare Web Analytics added as a third measurement system (2026-10-20)
+
+Reverses the "no third analytics package" rule, at Zacharie's request after
+reviewing the trade-offs. Decisions:
+
+- **Why:** real-user page-speed data (Core Web Vitals) from visitors' actual
+  phones and connections, which neither GA4 nor Vercel Web Analytics shows —
+  relevant for an audience largely on mobile networks (Nigeria first in the
+  assistant's country data).
+- **Vercel Web Analytics stays the official visit count** (the Impact page
+  source). The three tools will never agree exactly; Cloudflare's visit counts
+  are secondary.
+- **Privacy:** cookieless, no consent banner needed, no visitor profiling.
+  Cloudflare sees page paths and IPs; condition names stay out of URLs as
+  before.
+- **Setup:** JavaScript snippet only (site "sckin.org" in Cloudflare Web
+  Analytics). sckin.org is not a Cloudflare zone; DNS stays on Route 53.
+  Beacon token committed in `src/lib/analytics.ts` (public by design, like the
+  GA ID). Same production-only gate as GA4 and Vercel.
+- CLAUDE.md now lists three systems and caps it there ("no fourth").
+
 ### Contact page copy filled in; booking section hidden until its link exists (2026-10-20)
 
 Zacharie's picks for the four `[TO ADD]` / `[PLACEHOLDER]` slots in
@@ -411,10 +432,8 @@ the page, so the hidden field never exists for them. Decisions:
   Turnstile does not need the zone on Cloudflare). Preview and Development use
   Cloudflare's always-pass test keys, because preview URLs are not on the
   widget's hostname list.
-- **No Cloudflare Web Analytics beacon.** A Web Analytics site was created in
-  the Cloudflare dashboard the same day, but the "no third analytics package"
-  rule (CLAUDE.md) stands: GA4 + Vercel Web Analytics remain the only
-  measurement. The unused Cloudflare site can be deleted.
+- **No Cloudflare Web Analytics beacon in this PR.** Superseded later the same
+  day — see "Cloudflare Web Analytics added as a third measurement system".
 
 ### SickleCellPedia chat pane: definite height fixes unreachable mobile input (2026-10-15)
 

@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import CloudflareWebAnalytics from "@/components/CloudflareWebAnalytics";
 import { analyticsEnabled } from "@/lib/analytics";
 import { LOCALES, isLocale, type Locale } from "@/lib/i18n";
 
@@ -79,6 +80,8 @@ export default async function LocaleLayout({
             it needs no consent banner. Gated the same as GoogleAnalytics so preview
             builds and local dev don't consume the project's event quota. */}
         {analyticsEnabled && <Analytics />}
+        {/* Cookieless real-user page-speed data (Core Web Vitals). */}
+        <CloudflareWebAnalytics />
       </body>
     </html>
   );
