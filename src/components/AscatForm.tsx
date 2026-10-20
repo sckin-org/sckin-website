@@ -1,8 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { HONEYPOT_FIELD } from "@/lib/forms";
+import TurnstileWidget, {
+  turnstileEnabled,
+  type TurnstileHandle,
+} from "@/components/TurnstileWidget";
 import { ASCAT_ROLES, ASCAT_LANGUAGES } from "@/lib/form-specs";
 import type { Cta } from "@/lib/content";
 
@@ -46,6 +50,10 @@ export default function AscatForm({ linkedin }: { linkedin: Cta }) {
   const [orgInterest, setOrgInterest] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  // No site key (bare `next dev`) means no token is required.
+  const verified = !turnstileEnabled || turnstileToken !== null;
   // Snapshot of the organisation box at the moment the submit succeeded —
   // drives the success copy after the form itself is gone. (An evaluator
   // variant linking the EN/FR rating forms belongs here once those URLs
@@ -101,6 +109,8 @@ export default function AscatForm({ linkedin }: { linkedin: Cta }) {
       setStatus("success");
     } catch {
       // Non-2xx and network errors both land here; entered values are kept.
+      // The token was spent (or rejected) — fetch a fresh one for a retry.
+      turnstileRef.current?.reset();
       setStatus("error");
     }
   }
@@ -388,9 +398,11 @@ export default function AscatForm({ linkedin }: { linkedin: Cta }) {
         />
       </div>
 
+      <TurnstileWidget ref={turnstileRef} onTokenChange={setTurnstileToken} />
+
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || !verified}
         aria-describedby={status === "error" ? "ascat-form-error" : undefined}
         className="mt-1 min-h-[44px] rounded-pill bg-cta py-3.5 text-center text-[17px] font-semibold text-on-band transition-colors hover:bg-cta-hover focus-visible:ring-2 focus-visible:ring-(--color-cta) focus-visible:ring-offset-2 disabled:opacity-60"
       >

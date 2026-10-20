@@ -67,3 +67,15 @@ event parameters.
 
 **Open gap:** GA4 sets cookies and there is no consent banner. Google Consent Mode
 is required before driving UK or EU traffic to the site.
+
+## Form spam protection
+
+Every form route goes through `createSubmissionHandler`
+(`src/lib/submission-handler.ts`): rate limit → honeypot → **Cloudflare
+Turnstile** (`src/lib/turnstile.ts`) → validation → Sheets. Any new form must
+use that handler and mount `<TurnstileWidget />` inside its `<form>` — the
+honeypot alone does not stop bots that post straight to `/api/*`.
+Env: `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` (Production =
+the "SCKIN website forms" widget; Preview/Development = Cloudflare's
+always-pass test keys). If the site ever adds a Content-Security-Policy, allow
+`challenges.cloudflare.com` in `script-src` and `frame-src`.

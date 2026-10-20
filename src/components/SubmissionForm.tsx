@@ -1,7 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { HONEYPOT_FIELD } from "@/lib/forms";
+import TurnstileWidget, {
+  turnstileEnabled,
+  type TurnstileHandle,
+} from "@/components/TurnstileWidget";
 import type { FormField } from "@/lib/content";
 
 /**
@@ -41,6 +45,10 @@ export default function SubmissionForm({
   fallbackEmail,
 }: Props) {
   const [status, setStatus] = useState<Status>("idle");
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  // No site key (bare `next dev`) means no token is required.
+  const verified = !turnstileEnabled || turnstileToken !== null;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -59,6 +67,8 @@ export default function SubmissionForm({
       form.reset();
     } catch {
       // Both a non-2xx response and a network/thrown error land here.
+      // The token was spent (or rejected) — fetch a fresh one for a retry.
+      turnstileRef.current?.reset();
       setStatus("error");
     }
   }
@@ -181,9 +191,11 @@ export default function SubmissionForm({
         )
       )}
 
+      <TurnstileWidget ref={turnstileRef} onTokenChange={setTurnstileToken} />
+
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || !verified}
         aria-describedby={status === "error" ? "submission-error" : undefined}
         className="mt-1.5 rounded-pill bg-cta py-3.5 text-center text-[17px] font-semibold text-on-band transition-colors hover:bg-cta-hover disabled:opacity-60"
       >

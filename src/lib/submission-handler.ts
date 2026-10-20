@@ -4,8 +4,9 @@
  * a second approach.
  *
  * Server-only (imports the Sheets bridge + reads request headers). The pipeline:
- *   rate limit → parse JSON → honeypot → server-side validation → map to the
- *   contacts row schema → append to the Google Sheet via the service account.
+ *   rate limit → parse JSON → honeypot → Turnstile → server-side validation →
+ *   map to the contacts row schema → append to the Google Sheet via the
+ *   service account.
  * A form may instead supply `persist` to land somewhere other than the
  * combined contacts tab (ASCAT writes to its own tab of the same sheet).
  *
@@ -22,6 +23,7 @@ import {
   type ContactRow,
 } from "@/lib/sheets";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { TURNSTILE_RESPONSE_FIELD, verifyTurnstile } from "@/lib/turnstile";
 import { DEFAULT_LOCALE } from "@/lib/i18n";
 
 type PersistSpec =
@@ -72,6 +74,24 @@ export function createSubmissionHandler(
       const trap = values[HONEYPOT_FIELD];
       if (typeof trap === "string" && trap.trim() !== "") {
         return NextResponse.json({ ok: true });
+      }
+
+      // Turnstile: proves the submission came from a browser that rendered
+      // the form. Rejected visibly (not silently like the honeypot) so a real
+      // person with an expired token sees the error state and fallback email
+      // instead of a false "sent".
+      const human = await verifyTurnstile(
+        values[TURNSTILE_RESPONSE_FIELD],
+        ip
+      );
+      if (!human.ok) {
+        console.warn(
+          `[${opts.formType}] Turnstile rejected submission: ${human.reason}`
+        );
+        return NextResponse.json(
+          { error: "We couldn't verify this submission. Please try again." },
+          { status: 403 }
+        );
       }
 
       const errors = validateSubmission(opts.fields, values);
