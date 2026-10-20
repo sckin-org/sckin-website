@@ -68,7 +68,8 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {schedule ? (
+        {/* Hidden until a real booking link is set — never ship a dead CTA. */}
+        {schedule?.cta.href ? (
           <section
             data-section="schedule"
             className="mt-10 border-t border-(--gray-100) pt-8"
@@ -93,6 +94,8 @@ export default function ContactPage() {
             data-section="direct"
             className="mt-10 border-t border-(--gray-100) pt-8"
           >
+            {/* The Markdown body is the lead-in line for the direct links. */}
+            <Prose html={html} className="mb-2" />
             {direct.email ? (
               <p className="text-[15px] text-body">
                 <a
@@ -130,9 +133,9 @@ export default function ContactPage() {
               ) : null}
             </ul>
           </section>
-        ) : null}
-
-        <Prose html={html} className="mt-8" />
+        ) : (
+          <Prose html={html} className="mt-8" />
+        )}
       </article>
     </div>
   );
