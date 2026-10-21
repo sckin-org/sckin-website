@@ -363,7 +363,8 @@ The April 2026 Peer-Learning Exchange #5 talk was filmed and published by the
 Sickle Cell Disease Coalition. `content/blog/scdc-peer-learning-exchange-2026.md`
 now carries a `cta` pill, **Watch the recording** →
 `https://www.youtube.com/watch?v=9yio6bUqbys`, plus a body line noting the
-session was filmed. Decisions:
+session was recorded. Published on the Coalition's own YouTube channel
+(`@sicklecelldiseasecoalition6096`, confirmed via oEmbed). Decisions:
 
 - **Linked, not embedded.** A YouTube iframe would set third-party cookies and
   widen the open consent-banner gap; the post links out instead.

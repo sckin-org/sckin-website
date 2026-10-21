@@ -34,7 +34,6 @@ Helping the sickle cell community build the judgment to question and use AI
 well — not just use it — is exactly the conversation SCKIN exists to have,
 and we're grateful to the Sickle Cell Disease Coalition for the invitation.
 
-The Coalition filmed the session, and the full hour — talk and audience
-questions — is now available to watch.
+The session was recorded, and the recording is now available to watch.
 
 - [View the poster](https://drive.google.com/file/d/11cAybCxHmocmXkZXVo_jNb_gW0_PMAC5/view?usp=drive_link)
