@@ -12,6 +12,9 @@ summary: >-
 image: /images/publication-genai-safety-poster.jpg
 image_alt: "Poster — Can AI Be Trusted for Sickle Cell Disease Education?"
 image_href: "https://drive.google.com/file/d/11cAybCxHmocmXkZXVo_jNb_gW0_PMAC5/view?usp=drive_link"
+cta:
+  label: "Watch the recording"
+  href: "https://www.youtube.com/watch?v=9yio6bUqbys"
 ---
 
 On Tuesday, April 21, 2026, SCKIN Executive Director Zacharie Liman-Tinguiri
@@ -30,5 +33,8 @@ its limits, and where it can appropriately support education and advocacy.
 Helping the sickle cell community build the judgment to question and use AI
 well — not just use it — is exactly the conversation SCKIN exists to have,
 and we're grateful to the Sickle Cell Disease Coalition for the invitation.
+
+The Coalition filmed the session, and the full hour — talk and audience
+questions — is now available to watch.
 
 - [View the poster](https://drive.google.com/file/d/11cAybCxHmocmXkZXVo_jNb_gW0_PMAC5/view?usp=drive_link)
