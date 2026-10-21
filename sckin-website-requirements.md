@@ -372,8 +372,10 @@ session was recorded. Published on the Coalition's own YouTube channel
 - **`cta`, not a body link** — off-site links belong in frontmatter so they
   open in a new tab (body Markdown renders same-tab). `date` is unchanged, so
   the post keeps its place in the newest-first blog order.
-- The existing **View the poster** body link to Drive was left as is (it opens
-  same-tab, against the convention) — flagged, not fixed, in this PR.
+- The **View the poster** link moved from the body to frontmatter `links`, so
+  it opens in a new tab beside the CTA instead of same-tab (Zacharie, same
+  day). `content/blog/warrior-con-2026.md` still has the same pattern — a
+  body link to Google Slides — left for a separate decision.
 - `content/publications.md` lists the same talk but its `PublicationEntry`
   schema allows only one `link`, now the poster. Adding the recording there
   needs a `links` array or a swap — open.
