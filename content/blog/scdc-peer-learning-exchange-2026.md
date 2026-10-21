@@ -15,6 +15,9 @@ image_href: "https://drive.google.com/file/d/11cAybCxHmocmXkZXVo_jNb_gW0_PMAC5/v
 cta:
   label: "Watch the recording"
   href: "https://www.youtube.com/watch?v=9yio6bUqbys"
+links:
+  - label: "View the poster"
+    href: "https://drive.google.com/file/d/11cAybCxHmocmXkZXVo_jNb_gW0_PMAC5/view?usp=drive_link"
 ---
 
 On Tuesday, April 21, 2026, SCKIN Executive Director Zacharie Liman-Tinguiri
@@ -35,5 +38,3 @@ well — not just use it — is exactly the conversation SCKIN exists to have,
 and we're grateful to the Sickle Cell Disease Coalition for the invitation.
 
 The session was recorded, and the recording is now available to watch.
-
-- [View the poster](https://drive.google.com/file/d/11cAybCxHmocmXkZXVo_jNb_gW0_PMAC5/view?usp=drive_link)
