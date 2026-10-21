@@ -357,6 +357,27 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### SCDC Peer-Learning Exchange post links the recording (2026-10-21)
+
+The April 2026 Peer-Learning Exchange #5 talk was filmed and published by the
+Sickle Cell Disease Coalition. `content/blog/scdc-peer-learning-exchange-2026.md`
+now carries a `cta` pill, **Watch the recording** →
+`https://www.youtube.com/watch?v=9yio6bUqbys`, plus a body line noting the
+session was recorded. Published on the Coalition's own YouTube channel
+(`@sicklecelldiseasecoalition6096`, confirmed via oEmbed). Decisions:
+
+- **Linked, not embedded.** A YouTube iframe would set third-party cookies and
+  widen the open consent-banner gap; the post links out instead.
+- **Canonical watch URL**, without the `?si=` share token.
+- **`cta`, not a body link** — off-site links belong in frontmatter so they
+  open in a new tab (body Markdown renders same-tab). `date` is unchanged, so
+  the post keeps its place in the newest-first blog order.
+- The existing **View the poster** body link to Drive was left as is (it opens
+  same-tab, against the convention) — flagged, not fixed, in this PR.
+- `content/publications.md` lists the same talk but its `PublicationEntry`
+  schema allows only one `link`, now the poster. Adding the recording there
+  needs a `links` array or a swap — open.
+
 ### Cloudflare Web Analytics added as a third measurement system (2026-10-20)
 
 Reverses the "no third analytics package" rule, at Zacharie's request after
