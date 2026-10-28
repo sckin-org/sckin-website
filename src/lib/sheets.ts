@@ -443,3 +443,161 @@ export async function appendScdaaRow(
     throw new Error(`Sheets append (scdaa tab) responded ${res.status}`);
   }
 }
+
+/**
+ * Column order of the evaluations tab (/evaluations rater sign-ups) — tab and
+ * header created 2026-10-27, keep in sync. Unlike the ASCAT and scdaa tabs,
+ * ensureEvaluationsTab will also recreate the tab and header if they are
+ * missing. The form's `institution` field lands in the `organisation` column.
+ * The sheet's Apps Script notifier watches this tab's `timestamp` column.
+ */
+export const EVALUATIONS_SHEET_TAB = "evaluations";
+export const EVALUATIONS_TAB_COLUMNS = [
+  "timestamp",
+  "name",
+  "email",
+  "stage",
+  "qualification",
+  "organisation",
+  "evaluation_language",
+  "referred_by",
+  "newsletter",
+  "message",
+] as const;
+
+/** Only a SUCCESSFUL check is cached, as for the scdaa header. */
+let evaluationsTabVerified = false;
+
+/**
+ * Make sure the evaluations tab exists with EVALUATIONS_TAB_COLUMNS as row 1:
+ * add the tab if it is missing, write the header if row 1 is empty. A row 1
+ * that holds anything else is never overwritten — it throws a plain Error
+ * (not SheetsConfigError, for the reason given on assertScdaaHeaders), so a
+ * hand-edited tab fails loudly instead of scattering rows across the wrong
+ * columns.
+ */
+async function ensureEvaluationsTab(
+  config: WifConfig,
+  token: string
+): Promise<void> {
+  if (evaluationsTabVerified) return;
+  const spreadsheet = `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}`;
+  const auth = { Authorization: `Bearer ${token}` };
+
+  const metaRes = await fetch(`${spreadsheet}?fields=sheets.properties.title`, {
+    headers: auth,
+  });
+  if (!metaRes.ok) {
+    throw new Error(`Sheets metadata read responded ${metaRes.status}`);
+  }
+  const meta = (await metaRes.json()) as {
+    sheets?: { properties?: { title?: string } }[];
+  };
+  const exists = (meta.sheets ?? []).some(
+    (sheet) => sheet.properties?.title === EVALUATIONS_SHEET_TAB
+  );
+
+  if (!exists) {
+    const addRes = await fetch(`${spreadsheet}:batchUpdate`, {
+      method: "POST",
+      headers: { ...auth, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        requests: [{ addSheet: { properties: { title: EVALUATIONS_SHEET_TAB } } }],
+      }),
+    });
+    // Two cold instances can race to add the tab; the loser's "already
+    // exists" 400 means the tab is there, which is all we need.
+    if (!addRes.ok && !(await addRes.text()).includes("already exists")) {
+      throw new Error(`Sheets addSheet (evaluations tab) responded ${addRes.status}`);
+    }
+  }
+
+  const range = encodeURIComponent(`'${EVALUATIONS_SHEET_TAB}'!1:1`);
+  const headerRes = await fetch(
+    `${spreadsheet}/values/${range}?majorDimension=ROWS`,
+    { headers: auth }
+  );
+  if (!headerRes.ok) {
+    throw new Error(
+      `Sheets header read (evaluations tab) responded ${headerRes.status}`
+    );
+  }
+  const header =
+    ((await headerRes.json()) as { values?: string[][] }).values?.[0] ?? [];
+  const actual = header.map((cell) => (cell ?? "").trim());
+  const expected = [...EVALUATIONS_TAB_COLUMNS];
+
+  if (actual.every((cell) => cell === "")) {
+    const writeRange = encodeURIComponent(`'${EVALUATIONS_SHEET_TAB}'!A1`);
+    const writeRes = await fetch(
+      `${spreadsheet}/values/${writeRange}?valueInputOption=RAW`,
+      {
+        method: "PUT",
+        headers: { ...auth, "Content-Type": "application/json" },
+        body: JSON.stringify({ values: [expected] }),
+      }
+    );
+    if (!writeRes.ok) {
+      throw new Error(
+        `Sheets header write (evaluations tab) responded ${writeRes.status}`
+      );
+    }
+  } else if (
+    actual.length !== expected.length ||
+    !expected.every((name, i) => actual[i] === name)
+  ) {
+    throw new Error(
+      `Sheets header mismatch on the "${EVALUATIONS_SHEET_TAB}" tab. ` +
+        `Expected row 1 to be exactly [${expected.join(", ")}] ` +
+        `but found [${actual.join(", ")}]. Fix the tab by hand — this code ` +
+        `only writes the header into an empty row 1.`
+    );
+  }
+  evaluationsTabVerified = true;
+}
+
+/**
+ * Append one rater sign-up to the evaluations tab — same spreadsheet,
+ * credentials and WIF flow as the other tabs. `clean` is the whitelisted,
+ * validated field map (newsletter is "on" when ticked → TRUE/FALSE). Every
+ * submission appends — no dedup; the timestamp orders repeats.
+ */
+export async function appendEvaluationRow(
+  clean: Record<string, string>
+): Promise<void> {
+  const config = readConfig();
+  const token = await getAccessToken(config);
+  await ensureEvaluationsTab(config, token);
+
+  // Order must match EVALUATIONS_TAB_COLUMNS (A–J).
+  const values = [
+    [
+      new Date().toISOString(),
+      clean.name ?? "",
+      (clean.email ?? "").trim(),
+      clean.stage ?? "",
+      clean.qualification ?? "",
+      clean.institution ?? "",
+      clean.evaluation_language ?? "",
+      clean.referred_by ?? "",
+      clean.newsletter ? "TRUE" : "FALSE",
+      clean.message ?? "",
+    ],
+  ];
+
+  const range = encodeURIComponent(`'${EVALUATIONS_SHEET_TAB}'!A1`);
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ values }),
+    }
+  );
+  if (!res.ok) {
+    throw new Error(`Sheets append (evaluations tab) responded ${res.status}`);
+  }
+}

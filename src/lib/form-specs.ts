@@ -160,6 +160,73 @@ export const SCDAA_FIELDS: FieldSpec[] = [
   { name: "message", required: false, type: "textarea", maxLength: 5000 },
 ];
 
+/** Career-stage options on the /evaluations form — kept in sync with EvaluationsForm. */
+export const EVALUATION_STAGES = [
+  "Medical student",
+  "Foundation doctor",
+  "Resident or registrar",
+  "Consultant or attending",
+  "Other",
+] as const;
+
+/** Evaluation-language options on the /evaluations form; English is the default. */
+export const EVALUATION_LANGUAGES = ["English", "French"] as const;
+
+export type EvaluationLanguage = (typeof EVALUATION_LANGUAGES)[number];
+
+/**
+ * The rating form each rater is sent to, by evaluation language — shown on
+ * the /evaluations confirmation state, keyed by the same EVALUATION_LANGUAGES
+ * the server validates. (Raters also get the link in a personal follow-up
+ * email; nothing is sent automatically.)
+ *
+ * Google Forms "SCKIN EHA-2026 — Évaluation (EN)" / "(FR)". Both are the
+ * published (/d/e/) URLs; each form accepts responses from anyone.
+ */
+export const EVALUATION_FORM_LINKS: Record<EvaluationLanguage, string> = {
+  English:
+    "https://docs.google.com/forms/d/e/1FAIpQLSfDvwgWtWGKVgaPMtbaZ4HqDceHVk2NDIYJMKdXDu-5fRAruw/viewform",
+  French:
+    "https://docs.google.com/forms/d/e/1FAIpQLScpVIqyD_D0LZ39n9NKdQYF9t44jAV9iLhscf6CF5EA1AyY0A/viewform",
+};
+
+/**
+ * `?ref=` codes for /evaluations → the referrer prefilled into "Referred by",
+ * e.g. /evaluations?ref=besser. An unknown code is prefilled as-is, so a
+ * referral is never lost; the rater can always edit the field.
+ */
+export const EVALUATION_REFERRERS: Record<string, string> = {
+  besser: "Dr Martin Besser, Cambridge",
+};
+
+/**
+ * SickleCellPedia evaluation sign-up (/evaluations). Same conventions as
+ * ASCAT_FIELDS: the newsletter checkbox arrives as "on" when ticked and is
+ * absent otherwise. evaluation_language is required — it picks the rating
+ * form the rater is sent — and the client defaults it to English.
+ */
+export const EVALUATION_FIELDS: FieldSpec[] = [
+  { name: "name", required: true, type: "text", maxLength: 200 },
+  { name: "email", required: true, type: "email", maxLength: 254 },
+  {
+    name: "stage",
+    required: true,
+    type: "select",
+    options: [...EVALUATION_STAGES],
+  },
+  { name: "qualification", required: false, type: "text", maxLength: 200 },
+  { name: "institution", required: false, type: "text", maxLength: 300 },
+  {
+    name: "evaluation_language",
+    required: true,
+    type: "select",
+    options: [...EVALUATION_LANGUAGES],
+  },
+  { name: "referred_by", required: false, type: "text", maxLength: 300 },
+  { name: "newsletter", required: false, type: "checkbox" },
+  { name: "message", required: false, type: "textarea", maxLength: 5000 },
+];
+
 /** Home email signup — email only; name/HCP/country are optional per source. */
 export const NEWSLETTER_FIELDS: FieldSpec[] = [
   { name: "email", required: true, type: "email" },

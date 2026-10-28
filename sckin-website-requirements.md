@@ -357,6 +357,55 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### /evaluations — rater sign-up for the SickleCellPedia benchmarking study (2026-10-27)
+
+New page `/evaluations` ("Help us evaluate SickleCellPedia — A 2-hour evaluation
+study for medical professionals"), modelled on `/ascat`: copy in
+`content/evaluations.md`, `EvaluationsForm` (same honeypot, Turnstile, styling),
+and `/api/evaluations` through `createSubmissionHandler`. The two rating
+criteria (medical accuracy 1–5, duty to inform pass/fail) are verbatim from the
+study protocol. The footer cites the ASCAT 2026 abstract (Br J Haematol,
+doi:10.1111/bjh.70838) and links the SCDAA 2026 poster. Decisions:
+
+- **Not in the nav.** The page is reached from print QR codes and referral links.
+  It is indexable, with Open Graph tags like `/ascat`.
+- **`?ref=` prefills "Referred by"** from `EVALUATION_REFERRERS` in
+  `src/lib/form-specs.ts`, for example `?ref=besser` gives "Dr Martin Besser,
+  Cambridge". An unknown code is prefilled as typed, and the field stays
+  editable.
+- **Sheet tab `evaluations`** in SCKIN Website Contacts, one column per field
+  (`timestamp, name, email, stage, qualification, organisation,
+  evaluation_language, referred_by, newsletter, message`). The form's
+  "Institution" field goes in `organisation`. The tab and its header row were
+  created on 2026-10-27, styled like `scdaa`. Unlike the ASCAT and scdaa
+  tabs, the code will also add the tab if it is missing and write the header
+  into an empty row 1. A row 1 that differs from the expected header still
+  fails loudly with a 500 and is never overwritten.
+- **No automatic email; follow-up is manual.** A Resend integration was built
+  on this branch and then removed before merge. It would have sent each rater
+  their form link and the study lead a sign-up notice, which needed a new
+  vendor, three DNS records, an API key and a privacy-policy mention. For a
+  few dozen raters, a personal email from the study lead works better. The
+  confirmation screen gives the rater the form link for their language straight
+  away and says "We will also be in touch by email". The study lead hears
+  about each sign-up from the spreadsheet's own Apps Script notifier, which
+  checks the `contacts`, `ascat`, `scdaa` and now `evaluations` tabs every
+  5 minutes and sets reply-to to the submitter. That script lives in the sheet,
+  not in this repo.
+- **The rating-form links live in `EVALUATION_FORM_LINKS`** in
+  `src/lib/form-specs.ts`, beside the language options they are keyed by.
+  They point to the Google Forms "SCKIN EHA-2026 — Évaluation (EN)" and
+  "(FR)". Both open signed out (checked 2026-10-27, after the EN form was opened
+  to anyone with the link).
+- **First `sitemap.ts`.** It covers the nav and footer pages, `/evaluations`,
+  event pages and friend pages. It deliberately excludes `/whatsapp` (locked),
+  `/ascat` and `/scdaa` (conference pages, kept out by design), `/feedback`
+  (not migrated) and `/donate/success`. There is still no `robots.ts`.
+- **Print QR codes.** `scripts/generate-print-qr.mjs` writes four PNGs to
+  `public/images/qr/`: `/evaluations`, the SCDAA poster PDF, `/sicklecellpedia`
+  and `wa.me/15557513738`. They are not shown on any page.
+  `public/images/whatsapp-qr.png` is unchanged.
+
 ### SCDC Peer-Learning Exchange post links the recording (2026-10-21)
 
 The April 2026 Peer-Learning Exchange #5 talk was filmed and published by the
