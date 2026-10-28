@@ -180,13 +180,12 @@ export type EvaluationLanguage = (typeof EVALUATION_LANGUAGES)[number];
  * (imported by both) rather than in content/evaluations.md — the route must
  * not depend on content files being traced into the serverless bundle.
  *
- * Google Forms "SCKIN EHA-2026 — Évaluation (EN)" / "(FR)". The EN link is
- * the /d/<file id>/viewform form, which redirects to the published URL once
- * the form accepts responses from anyone.
+ * Google Forms "SCKIN EHA-2026 — Évaluation (EN)" / "(FR)". Both are the
+ * published (/d/e/) URLs; each form accepts responses from anyone.
  */
 export const EVALUATION_FORM_LINKS: Record<EvaluationLanguage, string> = {
   English:
-    "https://docs.google.com/forms/d/1Iytn0LZdP7xwvMBuIPhFHMaaXYrrKd6xLdt0j0TE3-U/viewform",
+    "https://docs.google.com/forms/d/e/1FAIpQLSfDvwgWtWGKVgaPMtbaZ4HqDceHVk2NDIYJMKdXDu-5fRAruw/viewform",
   French:
     "https://docs.google.com/forms/d/e/1FAIpQLScpVIqyD_D0LZ39n9NKdQYF9t44jAV9iLhscf6CF5EA1AyY0A/viewform",
 };
