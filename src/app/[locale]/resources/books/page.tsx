@@ -14,7 +14,7 @@ export function generateMetadata(): Metadata {
 /**
  * /resources/books — the first live Resources product. Copy and disclosures
  * come from content/books.md, entries from content/books/*.md (see
- * getAllBooks for the clinical-review gate). The disclosures sit above the
+ * getAllBooks for cover resolution). The disclosures sit above the
  * filters so they precede every affiliate link on the page.
  */
 export default function BooksPage() {

@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "The reference volume on transplant as a curative approach — donor selection, conditioning, outcomes and late effects."
 zachPick: false
 order: 270
-clinicalReviewNeeded: false
 ---

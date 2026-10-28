@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "A physician who is also a sickle cell patient writes from both sides of the consulting room, including on chronic pain and how it is treated."
 zachPick: false
 order: 140
-clinicalReviewNeeded: false
 ---

@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "A coping-focused personal account. The Kindle edition carries a longer title ending \"...Against All Odds\"."
 zachPick: false
 order: 180
-clinicalReviewNeeded: false
 ---

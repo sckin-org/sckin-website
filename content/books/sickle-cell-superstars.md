@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "Two child characters carry an explanation of what sickle cell is and what living with it looks like day to day."
 zachPick: false
 order: 100
-clinicalReviewNeeded: false
 ---

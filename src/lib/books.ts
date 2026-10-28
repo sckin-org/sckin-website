@@ -25,6 +25,8 @@ export const THEMES: Facet[] = [
   { slug: "health", label: "Health" },
   { slug: "social", label: "Social" },
   { slug: "memoirs", label: "Memoirs" },
+  { slug: "biography", label: "Biography" },
+  { slug: "fiction", label: "Fiction" },
 ];
 
 export type BookSort = "order" | "az" | "year";
@@ -54,6 +56,9 @@ export interface Book {
   blurb?: string;
   zachPick: boolean;
   order?: number;
+  /** Self-hosted cover (public/images/books/{isbn}.jpg) when present, else
+   * the Open Library URL; absent without an ISBN. */
+  cover?: string;
 }
 
 export interface BookFilters {

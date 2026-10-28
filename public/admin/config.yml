@@ -21,7 +21,8 @@ collections:
     label_singular: Book
     description: >-
       Entries for /resources/books. Frontmatter only — there is no body.
-      Entries with "Needs clinical review" on are left out of the live site.
+      Covers: drop the image at public/images/books/{isbn}.jpg; without one
+      the site tries Open Library, then shows a red title card.
     folder: content/books
     create: true
     extension: md
@@ -42,7 +43,7 @@ collections:
         label: ISBN
         widget: string
         required: false
-        hint: ISBN-13, digits only. Used to fetch the cover from Open Library; without it the card shows a red title card.
+        hint: ISBN-13, digits only. Names the self-hosted cover file and is the Open Library fallback key.
       - name: language
         label: Language
         widget: select
@@ -73,6 +74,8 @@ collections:
           - { label: Health, value: health }
           - { label: Social, value: social }
           - { label: Memoirs, value: memoirs }
+          - { label: Biography, value: biography }
+          - { label: Fiction, value: fiction }
       - name: bookshopUrl
         label: Bookshop.org link
         widget: string
@@ -95,8 +98,3 @@ collections:
         widget: number
         value_type: int
         hint: Default sort position on the page, lowest first.
-      - name: clinicalReviewNeeded
-        label: Needs clinical review
-        widget: boolean
-        default: true
-        hint: Leave on until a clinician has reviewed the entry. While on, the book is hidden from the live site.

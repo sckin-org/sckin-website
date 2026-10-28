@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { coverUrl, type Book } from "@/lib/books";
+import type { Book } from "@/lib/books";
 
 /**
- * One book on /resources/books: Open Library cover (or the designed title
- * card on brand red when there is no ISBN or the cover fails to load), the
- * bibliographic lines, blurb, and up to three CTAs.
+ * One book on /resources/books: cover (self-hosted, else Open Library — see
+ * getAllBooks), or the designed title card on brand red when there is no
+ * cover or it fails to load; then the bibliographic lines, blurb, and up to
+ * three CTAs.
  *
  * CTA rules: "Read free" leads when `freeUrl` is set; otherwise "Buy on
  * Bookshop.org" is primary and "Also on Amazon" secondary. Each is hidden when
@@ -14,7 +15,7 @@ import { coverUrl, type Book } from "@/lib/books";
  * carry rel="sponsored".
  */
 export default function BookCard({ book }: { book: Book }) {
-  const [coverFailed, setCoverFailed] = useState(!book.isbn);
+  const [coverFailed, setCoverFailed] = useState(!book.cover);
   const img = useRef<HTMLImageElement>(null);
 
   // A cover that 404s before hydration never reaches onError — catch it here.
@@ -57,10 +58,10 @@ export default function BookCard({ book }: { book: Book }) {
             ) : null}
           </div>
         ) : (
-          // eslint-disable-next-line @next/next/no-img-element -- external cover, may 404 by design
+          // eslint-disable-next-line @next/next/no-img-element -- the Open Library fallback may 404 by design
           <img
             ref={img}
-            src={coverUrl(book.isbn!)}
+            src={book.cover}
             alt=""
             width={112}
             height={168}

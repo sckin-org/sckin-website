@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "The TLC singer on building a career while managing sickle cell. The most widely read sickle cell memoir there is, and a useful entry point for readers who would not pick up a medical book."
 zachPick: false
 order: 120
-clinicalReviewNeeded: false
 ---

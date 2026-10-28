@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "An open-access edited volume, free to read in full — useful where textbook budgets are the constraint."
 zachPick: false
 order: 280
-clinicalReviewNeeded: false
 ---

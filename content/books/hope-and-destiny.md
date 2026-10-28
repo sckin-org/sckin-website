@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "The standard patient and parent reference, co-authored by SCKIN's Medical Director, Dr. Lewis Hsu. Covers the disease, complications, treatment options and daily management in plain language."
 zachPick: true
 order: 10
-clinicalReviewNeeded: false
 ---

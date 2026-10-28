@@ -9,11 +9,10 @@ edition: "1st"
 isbn: "9781621902218"
 language: ["en"]
 audience: ["hcp"]
-theme: ["social"]
+theme: ["biography", "social"]
 amazonUrl: ""
 bookshopUrl: ""
 blurb: "A biography of the physician who founded the first sickle cell center in the United States. Winner of the Medical Library Association's Gottlieb Prize."
 zachPick: false
 order: 350
-clinicalReviewNeeded: false
 ---

@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "The standard history of how sickle cell became a political and racial question in America, told through Memphis. The single best starting point for understanding why the disease has been treated as it has."
 zachPick: true
 order: 310
-clinicalReviewNeeded: false
 ---

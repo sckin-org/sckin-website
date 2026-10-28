@@ -16,5 +16,4 @@ freeUrl: "https://www.nhlbi.nih.gov/resources/evidence-based-management-sickle-c
 blurb: "The NHLBI expert panel's evidence-based recommendations for managing sickle cell disease, free to download."
 zachPick: false
 order: 360
-clinicalReviewNeeded: false
 ---

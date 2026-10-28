@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "Treats sickle cell as a social phenomenon as much as a clinical one — racism, disability and the structures that shape care."
 zachPick: false
 order: 300
-clinicalReviewNeeded: false
 ---

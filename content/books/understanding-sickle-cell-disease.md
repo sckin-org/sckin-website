@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "A university-press primer on the biology and clinical course of the disease. Older than the current treatment landscape, but still one of the clearest explanations of the underlying science for a lay reader."
 zachPick: false
 order: 60
-clinicalReviewNeeded: false
 ---

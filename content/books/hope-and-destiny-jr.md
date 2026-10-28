@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "The teen companion to Hope & Destiny, written for the years when young people start managing their own care. A separate learning guide and workbook is available (9780977316069)."
 zachPick: false
 order: 20
-clinicalReviewNeeded: false
 ---

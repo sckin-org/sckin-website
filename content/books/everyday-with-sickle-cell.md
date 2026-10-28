@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "Practical day-to-day guidance from a caregiver, aimed squarely at other caregivers rather than at clinicians."
 zachPick: false
 order: 210
-clinicalReviewNeeded: false
 ---

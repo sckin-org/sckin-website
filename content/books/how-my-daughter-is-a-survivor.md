@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "A mother's account of raising a child with sickle cell, written for other parents at the start of that road."
 zachPick: false
 order: 190
-clinicalReviewNeeded: false
 ---

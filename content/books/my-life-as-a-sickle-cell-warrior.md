@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "A first-person account of long-term life with the disease, written for other patients."
 zachPick: false
 order: 150
-clinicalReviewNeeded: false
 ---

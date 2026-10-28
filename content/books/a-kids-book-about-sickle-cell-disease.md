@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "Two clinicians explain sickle cell directly to a child, in the plain, unpatronising voice the series is known for. Good for ages 5 and up, and for siblings and classmates."
 zachPick: false
 order: 30
-clinicalReviewNeeded: false
 ---

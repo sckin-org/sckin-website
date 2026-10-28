@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "The major contemporary clinical reference, 720 pages across pathophysiology, organ complications and management."
 zachPick: true
 order: 240
-clinicalReviewNeeded: false
 ---

@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "How colonial and post-colonial medicine used sickle cell to construct racial categories, across Africa and the Americas."
 zachPick: false
 order: 330
-clinicalReviewNeeded: false
 ---

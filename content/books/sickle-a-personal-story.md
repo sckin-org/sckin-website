@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "An autobiography of living with the disease. A second edition was issued in 2014 by Tate Publishing, now defunct."
 zachPick: false
 order: 200
-clinicalReviewNeeded: false
 ---

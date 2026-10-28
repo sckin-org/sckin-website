@@ -382,9 +382,17 @@ stays last before Donate. Decisions:
   `order` ascending, with A–Z and Year (newest) as alternatives. The server
   renders the unfiltered list, so the default view works with JS disabled.
   The URL is applied after hydration.
-- **Clinical-review gate.** Entries with `clinicalReviewNeeded: true` are
-  dropped at build time unless `PUBLISH_UNREVIEWED_BOOKS=true` (not set in
-  any Vercel environment).
+- **No clinical-review gate (decided 2026-10-28).** The brief's
+  `clinicalReviewNeeded` flag and `PUBLISH_UNREVIEWED_BOOKS` override were
+  built, then removed before merge at Zacharie's request. The field is gone
+  from the entries, the loader and Decap. Every entry in `content/books/` is
+  published. The one flagged title, "Sickle Cell Natural Healing: A Mother's
+  Journey" (Tamika Moseley), was dropped from the list rather than held.
+- **Themes: Health · Social · Memoirs · Biography · Fiction (decided
+  2026-10-28).** The brief's three themes plus two. Fiction exists so a
+  novel is never filed as a true account on a health site; Biography covers
+  lives told by others. Retagged: "Clemmie" (Memoirs → Biography),
+  "Blood Picture" (+ Biography), "Six pieds dans l'os" (Memoirs → Fiction).
 - **Book cards.** The cover comes from Open Library by ISBN
   (`?default=false`). With no ISBN, or if the cover fails, the card shows a
   designed title card on `--surface-band` (brand red). CTAs: "Read free"
@@ -397,8 +405,7 @@ stays last before Donate. Decisions:
   personal accounts, not medical guidance.
 - **Decap collection** for `content/books` in `public/admin/config.yml`:
   multi-selects for audience, theme and language, toggles for booleans,
-  number for `order`, string for `isbn`. New entries default to
-  `clinicalReviewNeeded: true`. Select options store the values the entries
+  number for `order`, string for `isbn`. Select options store the values the entries
   use: ISO 639-1 codes for language (`en`, `fr`, `es`, plus `pt`, `ar`) and
   slugs for audience and theme. The collection config only: the `/admin` app
   and its GitHub OAuth handler are still Future work.
@@ -406,8 +413,8 @@ stays last before Donate. Decisions:
   failed Lighthouse colour contrast at 13px.
 - `/resources` and `/resources/books` are in `sitemap.ts`. Lighthouse
   accessibility: 100 on both pages, mobile and desktop.
-- **First 36 entries** landed in `content/books/`. 35 are published; "Sickle
-  Cell Natural Healing" is held for clinical review. Seven are Zach's Picks.
+- **First entries:** 36 arrived and 35 are published (Natural Healing dropped,
+  above). Seven are Zach's Picks.
 - **Blurb edits (2026-10-28):** Clemmie now credits James Herrick with the
   1910 case report (Noel was the patient). The NHLBI blurb makes no claim
   about SickleCellPedia's knowledge base. The "most widely read" claim for

@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "A practical clinical handbook from two UK haematologists — shorter and more bedside-oriented than the large reference volumes."
 zachPick: false
 order: 250
-clinicalReviewNeeded: false
 ---

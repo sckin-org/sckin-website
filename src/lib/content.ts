@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
-import { facetSlug, sortBooks, type Book } from "@/lib/books";
+import { coverUrl, facetSlug, sortBooks, type Book } from "@/lib/books";
 
 /**
  * Content loader for SCKIN.
@@ -649,8 +649,6 @@ export interface BookFrontmatter extends FrontmatterBase {
   blurb?: string;
   zachPick?: boolean;
   order?: number | string;
-  /** True keeps the entry out of the build unless PUBLISH_UNREVIEWED_BOOKS=true. */
-  clinicalReviewNeeded?: boolean;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -869,13 +867,12 @@ export function getNewsFacets(): { topics: string[]; geographies: string[] } {
 /* -------------------------------------------------------------------------- */
 
 /**
- * The books /resources/books may show, normalized for rendering and sorted by
- * `order`. Entries flagged `clinicalReviewNeeded: true` are dropped at build
- * time unless PUBLISH_UNREVIEWED_BOOKS=true (e.g. on a preview deploy for the
- * reviewer). An absent content/books/ directory is an empty list.
+ * Every book in content/books/, normalized for rendering and sorted by
+ * `order`. Covers prefer a self-hosted file at public/images/books/{isbn}.jpg
+ * (checked at build time, like team photos) and fall back to Open Library.
+ * An absent content/books/ directory is an empty list.
  */
 export function getAllBooks(): Book[] {
-  const publishUnreviewed = process.env.PUBLISH_UNREVIEWED_BOOKS === "true";
   const text = (value: unknown) =>
     value === undefined || value === null || String(value).trim() === ""
       ? undefined
@@ -889,26 +886,36 @@ export function getAllBooks(): Book[] {
     return Number.isFinite(n) ? n : undefined;
   };
 
-  const books = getCollection<BookFrontmatter>("books", () => undefined)
-    .filter((doc) => publishUnreviewed || !doc.frontmatter.clinicalReviewNeeded)
-    .map(({ slug, frontmatter: fm }): Book => ({
-      slug,
-      title: String(fm.title),
-      subtitle: text(fm.subtitle),
-      author: text(fm.author),
-      publisher: text(fm.publisher),
-      selfPublished: fm.selfPublished === true,
-      year: num(fm.year),
-      isbn: text(fm.isbn)?.replace(/[^0-9Xx]/g, "") || undefined,
-      audience: list(fm.audience),
-      theme: list(fm.theme),
-      amazonUrl: text(fm.amazonUrl),
-      bookshopUrl: text(fm.bookshopUrl),
-      freeUrl: text(fm.freeUrl),
-      blurb: text(fm.blurb),
-      zachPick: fm.zachPick === true,
-      order: num(fm.order),
-    }));
+  const coverFor = (isbn: string | undefined) => {
+    if (!isbn) return undefined;
+    const local = `/images/books/${isbn}.jpg`;
+    return publicFileExists(local) ? local : coverUrl(isbn);
+  };
+
+  const books = getCollection<BookFrontmatter>("books", () => undefined).map(
+    ({ slug, frontmatter: fm }): Book => {
+      const isbn = text(fm.isbn)?.replace(/[^0-9Xx]/g, "") || undefined;
+      return {
+        slug,
+        title: String(fm.title),
+        subtitle: text(fm.subtitle),
+        author: text(fm.author),
+        publisher: text(fm.publisher),
+        selfPublished: fm.selfPublished === true,
+        year: num(fm.year),
+        isbn,
+        audience: list(fm.audience),
+        theme: list(fm.theme),
+        amazonUrl: text(fm.amazonUrl),
+        bookshopUrl: text(fm.bookshopUrl),
+        freeUrl: text(fm.freeUrl),
+        blurb: text(fm.blurb),
+        zachPick: fm.zachPick === true,
+        order: num(fm.order),
+        cover: coverFor(isbn),
+      };
+    }
+  );
   return sortBooks(books, "order");
 }
 

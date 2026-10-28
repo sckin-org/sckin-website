@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "An alphabet book that teaches sickle cell vocabulary to young children, illustrated by Kate Hamernik."
 zachPick: false
 order: 80
-clinicalReviewNeeded: false
 ---

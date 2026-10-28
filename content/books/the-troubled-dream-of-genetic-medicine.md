@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "Three genetic diseases, three communities, and why the promise of genetic medicine arrived so unevenly across them."
 zachPick: false
 order: 320
-clinicalReviewNeeded: false
 ---

@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "A personal narrative of pain, endurance and the private side of the disease that patients rarely describe out loud."
 zachPick: false
 order: 160
-clinicalReviewNeeded: false
 ---

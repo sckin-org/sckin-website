@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "The clinical and research picture in the region carrying roughly 80% of the global burden — the context most Western textbooks leave out. A companion volume covers public health perspectives."
 zachPick: true
 order: 260
-clinicalReviewNeeded: false
 ---

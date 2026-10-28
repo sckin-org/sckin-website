@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "Two voices on surviving the disease over a lifetime."
 zachPick: false
 order: 170
-clinicalReviewNeeded: false
 ---

@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "How blood technologies shaped which diseases got named, studied and funded. Contains the key account of Herrick's 1910 case report."
 zachPick: false
 order: 340
-clinicalReviewNeeded: false
 ---

@@ -15,5 +15,4 @@ bookshopUrl: ""
 blurb: "A graphic novel built from a young patient's own account, with an illustrator working alongside her and a Mayo Clinic physician as medical editor. Ages 12 and up. A French edition exists (Fondation Ipsen BookLab, 2023)."
 zachPick: true
 order: 40
-clinicalReviewNeeded: false
 ---
