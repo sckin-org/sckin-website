@@ -428,11 +428,12 @@ stays last before Donate. Decisions:
   7 from Google Books. Clemmie uses Google Books because the publisher image
   is a mockup; My Life Beyond because Mayo Clinic Press blocks downloads;
   My Brother because AuthorHouse only has a small GIF. 10 more come from Open
-  Library. Four self-published titles have no cover anywhere ("A Doctor In A
-  Patient's Body", "Everyday with Sickle Cell", "Sickle", "Sickle Cell
-  Superstars"), and the NHLBI report has no ISBN; those five show the red
-  title card. Covers are fitted, not cropped, so square picture books show
-  whole.
+  Library. Zacharie supplied the last five by hand ("A Doctor In A Patient's
+  Body", "Everyday with Sickle Cell", "Sickle", "Sickle Cell Superstars" and
+  the NHLBI report). The NHLBI report has no ISBN, so an entry without one
+  uses `public/images/books/{slug}.jpg`. Every book now has a cover; the red
+  title card remains as the fallback. Covers are fitted, not cropped, so
+  square picture books show whole.
 - **Data fixes from the covers:** Hope & Destiny Jr. (2023, rev. 3rd ed.) is
   by Lewis L. Hsu, Carmen C. M. Rodrigues and Silvia R. Brandalise, not
   Platt/Eckman/Hsu. Hope & Destiny author order follows its cover. "My

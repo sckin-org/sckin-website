@@ -869,7 +869,8 @@ export function getNewsFacets(): { topics: string[]; geographies: string[] } {
 /**
  * Every book in content/books/, normalized for rendering and sorted by
  * `order`. Covers prefer a self-hosted file at public/images/books/{isbn}.jpg
- * (checked at build time, like team photos) and fall back to Open Library.
+ * — {slug}.jpg for an entry without an ISBN — checked at build time like
+ * team photos, and fall back to Open Library.
  * An absent content/books/ directory is an empty list.
  */
 export function getAllBooks(): Book[] {
@@ -886,10 +887,10 @@ export function getAllBooks(): Book[] {
     return Number.isFinite(n) ? n : undefined;
   };
 
-  const coverFor = (isbn: string | undefined) => {
-    if (!isbn) return undefined;
-    const local = `/images/books/${isbn}.jpg`;
-    return publicFileExists(local) ? local : coverUrl(isbn);
+  const coverFor = (isbn: string | undefined, slug: string) => {
+    const local = `/images/books/${isbn ?? slug}.jpg`;
+    if (publicFileExists(local)) return local;
+    return isbn ? coverUrl(isbn) : undefined;
   };
 
   const books = getCollection<BookFrontmatter>("books", () => undefined).map(
@@ -912,7 +913,7 @@ export function getAllBooks(): Book[] {
         blurb: text(fm.blurb),
         zachPick: fm.zachPick === true,
         order: num(fm.order),
-        cover: coverFor(isbn),
+        cover: coverFor(isbn, slug),
       };
     }
   );
