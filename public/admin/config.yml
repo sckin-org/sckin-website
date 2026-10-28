@@ -21,8 +21,9 @@ collections:
     label_singular: Book
     description: >-
       Entries for /resources/books. Frontmatter only — there is no body.
-      Covers: drop the image at public/images/books/{isbn}.jpg; without one
-      the site tries Open Library, then shows a red title card.
+      Covers: drop the image at public/images/books/{isbn}.jpg (or
+      {filename}.jpg for an entry without an ISBN); without one the site
+      tries Open Library, then shows a red title card.
     folder: content/books
     create: true
     extension: md
