@@ -357,6 +357,62 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### /evaluations — rater sign-up for the SickleCellPedia benchmarking study (2026-10-27)
+
+New page `/evaluations` ("Help us evaluate SickleCellPedia — A 2-hour evaluation
+study for medical professionals"), modelled on `/ascat`: copy in
+`content/evaluations.md`, `EvaluationsForm` (same honeypot, Turnstile, styling),
+and `/api/evaluations` through `createSubmissionHandler`. The two rating
+criteria (medical accuracy 1–5, duty to inform pass/fail) are verbatim from the
+study protocol. The footer cites the ASCAT 2026 abstract (Br J Haematol,
+doi:10.1111/bjh.70838) and links the SCDAA 2026 poster. Decisions:
+
+- **Not in the nav.** The page is reached from print QR codes and referral links.
+  It is indexable, with Open Graph tags like `/ascat`.
+- **`?ref=` prefills "Referred by"** from `EVALUATION_REFERRERS` in
+  `src/lib/form-specs.ts`, for example `?ref=besser` gives "Dr Martin Besser,
+  Cambridge". An unknown code is prefilled as typed, and the field stays
+  editable.
+- **Sheet tab `evaluations`**, one column per field (`timestamp, name, email,
+  stage, qualification, organisation, evaluation_language, referred_by,
+  newsletter, message`). The form's "Institution" field goes in `organisation`.
+  **This departs from the ASCAT and scdaa tabs, which are created by hand and
+  never have their headers written by code.** Here the code adds the tab if it
+  is missing and writes the header only into an empty row 1. A row 1 that
+  differs from the expected header still fails loudly with a 500 and is never
+  overwritten.
+- **Email goes through Resend, the site's first transactional email**
+  (`src/lib/email.ts`, `resend` package, `RESEND_API_KEY`, from
+  `SCKIN <noreply@sckin.org>`). After the row is saved, the rater gets the
+  rating-form link for their language and the study lead
+  (zacharie.liman.tinguiri@sckin.org) gets a "New evaluator sign-up" email.
+  Both are plain text, so user input can't inject markup. If an email fails,
+  the error is logged but the submission does not fail. The confirmation
+  always shows the form link, and it says "We've also emailed it to you" only
+  when the rater's email was accepted (`emailed` in the response).
+  `createSubmissionHandler`'s `persist` can now return extra response fields
+  so the route can report `emailed`.
+- **The rating-form links live in `EVALUATION_FORM_LINKS`** in
+  `src/lib/form-specs.ts`, not in the content file. The page and the API route
+  both import them, so the route does not need content files at runtime.
+  ⚠️ **They are still placeholders** (`[EN VIEWFORM LINK]` and
+  `[FR VIEWFORM LINK]`) and must be replaced before merge.
+- **Resend DNS.** `docs/resend-dns.md` lists the DKIM record
+  (`resend._domainkey`) and the `send.sckin.org` SPF TXT and MX records for
+  Route 53. The existing Google Workspace MX, the apex SPF and the DMARC
+  record stay as they are. No DNS has been changed.
+- **First `sitemap.ts`.** It covers the nav and footer pages, `/evaluations`,
+  event pages and friend pages. It deliberately excludes `/whatsapp` (locked),
+  `/ascat` and `/scdaa` (conference pages, kept out by design), `/feedback`
+  (not migrated) and `/donate/success`. There is still no `robots.ts`.
+- **Print QR codes.** `scripts/generate-print-qr.mjs` writes four PNGs to
+  `public/images/qr/`: `/evaluations`, the SCDAA poster PDF, `/sicklecellpedia`
+  and `wa.me/15557513738`. They are not shown on any page.
+  `public/images/whatsapp-qr.png` is unchanged.
+- `.env.example` is still permission-blocked, so `RESEND_API_KEY` is
+  documented in `src/lib/email.ts` and `docs/resend-dns.md` and has to be
+  added to that file by hand.
+
 ### SCDC Peer-Learning Exchange post links the recording (2026-10-21)
 
 The April 2026 Peer-Learning Exchange #5 talk was filmed and published by the

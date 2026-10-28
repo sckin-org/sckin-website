@@ -354,6 +354,33 @@ export interface AscatFrontmatter extends FrontmatterBase {
   };
 }
 
+/**
+ * /evaluations — sign-up page for medical professionals rating SickleCellPedia
+ * answers (content/evaluations.md). Not in the main navigation; reached from
+ * print QR codes and referral links (?ref=). The rating-form links live in
+ * src/lib/form-specs.ts, not here, because the API route emails them too.
+ */
+export interface EvaluationsFrontmatter extends FrontmatterBase {
+  hero: {
+    headline: string;
+    subtitle: string;
+    /** One inline-Markdown string per paragraph (see renderAccessBody). */
+    intro: string[];
+  };
+  criteria: {
+    heading: string;
+    /** Rendered "term: definition" — both verbatim from the study protocol. */
+    items: Array<{ term: string; definition: string }>;
+  };
+  form: { heading: string };
+  reference: {
+    /** Inline Markdown; the DOI link opens in a new tab. */
+    citation: string;
+    /** Path under public/ — rendered only if the file exists at build time. */
+    poster: Cta;
+  };
+}
+
 export interface ResponsibleAiFrontmatter extends FrontmatterBase {
   sections: AboutSection[];
 }
@@ -672,6 +699,8 @@ export const getSicklecellpediaPro = () =>
 export const getContact = () => getDoc<ContactFrontmatter>("contact");
 export const getAscat = () => getDoc<AscatFrontmatter>("ascat");
 export const getScdaa = () => getDoc<ScdaaFrontmatter>("scdaa");
+export const getEvaluations = () =>
+  getDoc<EvaluationsFrontmatter>("evaluations");
 export const getResponsibleAi = () =>
   getDoc<ResponsibleAiFrontmatter>("responsible-ai");
 export const getPublications = () =>
