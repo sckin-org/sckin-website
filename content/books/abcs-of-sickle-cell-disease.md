@@ -10,7 +10,7 @@ isbn: "9781735049847"
 language: ["en"]
 audience: ["children"]
 theme: ["health"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/1735049840?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "An alphabet book that teaches sickle cell vocabulary to young children, illustrated by Kate Hamernik."
 zachPick: false

@@ -10,7 +10,7 @@ isbn: "9780977316045"
 language: ["en"]
 audience: ["patients", "caregivers"]
 theme: ["health"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/0977316041?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "The standard patient and parent reference, co-authored by SCKIN's Medical Director, Dr. Lewis Hsu. Covers the disease, complications, treatment options and daily management in plain language."
 zachPick: true

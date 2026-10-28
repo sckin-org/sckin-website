@@ -439,9 +439,19 @@ stays last before Donate. Decisions:
   Brother Has Sickle Cell" adds co-author Dwayne C. Robinson. The Erhabor
   volume gets its open-access link (intechopen.com/books/11293) as "Read
   free".
-- **Open:** every `bookshopUrl` is empty, and `amazonUrl` is set on one entry
-  only, without an Associates tag. Until the affiliate links are filled in,
-  only three cards carry a button (two "Read free", one Amazon).
+- **Amazon affiliate links (2026-10-28).** Associates tag `sckin00-20`
+  (public by design: it ships in every link). Links are built from the ISBN:
+  `amazon.com/dp/{ISBN-10}?tag=sckin00-20` for the 31 books with a
+  978-prefixed ISBN, and an ISBN book search with the tag for the three with
+  979 ISBNs (no ISBN-10 exists). They were not checked page by page: Amazon
+  answers scripted checks with a CAPTCHA. The method was confirmed on "A Sick
+  Life" (product page loads) and "Six pieds dans l'os" (computed ID matches
+  the supplied link). The button reads "Buy on Amazon" when there is no
+  Bookshop link, "Also on Amazon" beside one. The disclosure now carries
+  Amazon's required statement: "As an Amazon Associate, SCKIN earns from
+  qualifying purchases."
+- **Open:** every `bookshopUrl` is empty (Bookshop.org affiliate links to
+  come). US store only: visitors outside the US land on amazon.com.
 
 ### /evaluations — rater sign-up for the SickleCellPedia benchmarking study (2026-10-27)
 

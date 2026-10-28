@@ -10,7 +10,7 @@ isbn: "9781638710134"
 language: ["en"]
 audience: ["patients", "hcp"]
 theme: ["memoirs"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/1638710139?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "A first-person account of long-term life with the disease, written for other patients."
 zachPick: false

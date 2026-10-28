@@ -10,7 +10,7 @@ isbn: "9781434374516"
 language: ["en"]
 audience: ["caregivers"]
 theme: ["memoirs"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/1434374513?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "A mother's account of raising a child with sickle cell, written for other parents at the start of that road."
 zachPick: false

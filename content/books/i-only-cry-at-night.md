@@ -10,7 +10,7 @@ isbn: "9781463573645"
 language: ["en"]
 audience: ["patients"]
 theme: ["memoirs"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/1463573642?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "A personal narrative of pain, endurance and the private side of the disease that patients rarely describe out loud."
 zachPick: false

@@ -10,7 +10,7 @@ isbn: "9781447124726"
 language: ["en"]
 audience: ["hcp"]
 theme: ["health"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/1447124723?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "A practical clinical handbook from two UK haematologists — shorter and more bedside-oriented than the large reference volumes."
 zachPick: false

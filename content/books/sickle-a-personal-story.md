@@ -10,7 +10,7 @@ isbn: "9780615265469"
 language: ["en"]
 audience: ["patients"]
 theme: ["memoirs"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/0615265464?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "An autobiography of living with the disease. A second edition was issued in 2014 by Tate Publishing, now defunct."
 zachPick: false

@@ -10,7 +10,7 @@ isbn: "9780801883262"
 language: ["en"]
 audience: ["hcp", "patients"]
 theme: ["social"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/0801883261?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "Three genetic diseases, three communities, and why the promise of genetic medicine arrived so unevenly across them."
 zachPick: false

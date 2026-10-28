@@ -10,7 +10,7 @@ isbn: "9780977316052"
 language: ["en"]
 audience: ["young-adults", "caregivers"]
 theme: ["health"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/097731605X?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "The teen companion to Hope & Destiny, written for the years when young people start managing their own care. A separate learning guide and workbook is available (9780977316069)."
 zachPick: false

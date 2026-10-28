@@ -10,7 +10,7 @@ isbn: "9781803555942"
 language: ["en"]
 audience: ["hcp"]
 theme: ["health"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/1803555947?tag=sckin00-20"
 bookshopUrl: ""
 freeUrl: "https://www.intechopen.com/books/11293"
 blurb: "An open-access edited volume, free to read in full — useful where textbook budgets are the constraint."

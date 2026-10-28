@@ -10,7 +10,7 @@ isbn: "9780812234718"
 language: ["en"]
 audience: ["hcp"]
 theme: ["social"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/0812234715?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "How colonial and post-colonial medicine used sickle cell to construct racial categories, across Africa and the Americas."
 zachPick: false

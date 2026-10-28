@@ -10,8 +10,8 @@ import type { Book } from "@/lib/books";
  * three CTAs.
  *
  * CTA rules: "Read free" leads when `freeUrl` is set; otherwise "Buy on
- * Bookshop.org" is primary and "Also on Amazon" secondary. Each is hidden when
- * its URL is empty. Only the two store links are affiliate links, so only they
+ * Bookshop.org" is primary and "Also on Amazon" secondary ("Buy on Amazon"
+ * when there is no Bookshop link). Each is hidden when its URL is empty. Only the two store links are affiliate links, so only they
  * carry rel="sponsored".
  */
 export default function BookCard({ book }: { book: Book }) {
@@ -34,7 +34,11 @@ export default function BookCard({ book }: { book: Book }) {
   if (book.bookshopUrl)
     ctas.push({ label: "Buy on Bookshop.org", href: book.bookshopUrl, affiliate: true });
   if (book.amazonUrl)
-    ctas.push({ label: "Also on Amazon", href: book.amazonUrl, affiliate: true });
+    ctas.push({
+      label: book.bookshopUrl ? "Also on Amazon" : "Buy on Amazon",
+      href: book.amazonUrl,
+      affiliate: true,
+    });
 
   return (
     <article

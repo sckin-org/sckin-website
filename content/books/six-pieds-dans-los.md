@@ -10,7 +10,7 @@ isbn: "9782336618111"
 language: ["fr"]
 audience: ["patients", "young-adults"]
 theme: ["fiction", "social"]
-amazonUrl: "https://www.amazon.com/dp/2336618117"
+amazonUrl: "https://www.amazon.com/dp/2336618117?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "A novel following a Guinean boy nicknamed \"Spaghetti\" from childhood through seminary, university in Conakry and exile in France, with sickle cell as his constant companion. Preface by Carlosse Keumeugni. The author's first novel."
 zachPick: false

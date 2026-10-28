@@ -10,7 +10,7 @@ isbn: "9781623368609"
 language: ["en"]
 audience: ["patients"]
 theme: ["memoirs"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/162336860X?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "The TLC singer on building a career while managing sickle cell. The most widely read sickle cell memoir there is, and a useful entry point for readers who would not pick up a medical book."
 zachPick: false

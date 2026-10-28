@@ -10,7 +10,7 @@ isbn: "9781945564659"
 language: ["en", "fr"]
 audience: ["young-adults", "children"]
 theme: ["memoirs", "social"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/1945564652?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "A graphic novel built from a young patient's own account, with an illustrator working alongside her and a Mayo Clinic physician as medical editor. Ages 12 and up. A French edition exists (Fondation Ipsen BookLab, 2023)."
 zachPick: true

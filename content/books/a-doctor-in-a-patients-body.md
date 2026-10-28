@@ -10,7 +10,7 @@ isbn: "9781731044266"
 language: ["en"]
 audience: ["patients", "hcp"]
 theme: ["memoirs"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/1731044267?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "A physician who is also a sickle cell patient writes from both sides of the consulting room, including on chronic pain and how it is treated."
 zachPick: false

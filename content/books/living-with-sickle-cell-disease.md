@@ -10,7 +10,7 @@ isbn: "9781493597482"
 language: ["en"]
 audience: ["patients"]
 theme: ["memoirs"]
-amazonUrl: ""
+amazonUrl: "https://www.amazon.com/dp/1493597485?tag=sckin00-20"
 bookshopUrl: ""
 blurb: "Two voices on surviving the disease over a lifetime."
 zachPick: false
