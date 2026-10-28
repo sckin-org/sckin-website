@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["hcp"]
 theme: ["health"]
 amazonUrl: "https://www.amazon.com/dp/0192630369?tag=sckin00-20"
-bookshopUrl: ""
+bookshopUrl: "https://bookshop.org/a/130592/9780192630360"
 blurb: "The classic text, built on decades of cohort work in Jamaica. Predates hydroxyurea's widespread use and the curative therapies, but remains unmatched on natural history."
 zachPick: false
 order: 290

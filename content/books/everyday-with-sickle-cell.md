@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["caregivers"]
 theme: ["social"]
 amazonUrl: "https://www.amazon.com/s?k=9798314904114&i=stripbooks&tag=sckin00-20"
-bookshopUrl: ""
+bookshopUrl: "https://bookshop.org/a/130592/9798314904114"
 blurb: "Practical day-to-day guidance from a caregiver, aimed squarely at other caregivers rather than at clinicians."
 zachPick: false
 order: 210

@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["hcp"]
 theme: ["health", "social"]
 amazonUrl: "https://www.amazon.com/dp/1032183675?tag=sckin00-20"
-bookshopUrl: ""
+bookshopUrl: "https://bookshop.org/a/130592/9781032183671"
 blurb: "The clinical and research picture in the region carrying roughly 80% of the global burden — the context most Western textbooks leave out. A companion volume covers public health perspectives."
 zachPick: true
 order: 260

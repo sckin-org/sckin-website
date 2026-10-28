@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["patients"]
 theme: ["memoirs"]
 amazonUrl: "https://www.amazon.com/dp/1493597485?tag=sckin00-20"
-bookshopUrl: ""
+bookshopUrl: "https://bookshop.org/a/130592/9781493597482"
 blurb: "Two voices on surviving the disease over a lifetime."
 zachPick: false
 order: 170

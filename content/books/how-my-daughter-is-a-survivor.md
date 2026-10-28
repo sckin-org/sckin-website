@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["caregivers"]
 theme: ["memoirs"]
 amazonUrl: "https://www.amazon.com/dp/1434374513?tag=sckin00-20"
-bookshopUrl: ""
+bookshopUrl: "https://bookshop.org/a/130592/9781434374516"
 blurb: "A mother's account of raising a child with sickle cell, written for other parents at the start of that road."
 zachPick: false
 order: 190

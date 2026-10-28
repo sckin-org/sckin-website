@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["hcp"]
 theme: ["biography", "social"]
 amazonUrl: "https://www.amazon.com/dp/1621902218?tag=sckin00-20"
-bookshopUrl: ""
+bookshopUrl: "https://bookshop.org/a/130592/9781621902218"
 blurb: "A biography of the physician who founded the first sickle cell center in the United States. Winner of the Medical Library Association's Gottlieb Prize."
 zachPick: false
 order: 350

@@ -450,8 +450,14 @@ stays last before Donate. Decisions:
   Bookshop link, "Also on Amazon" beside one. The disclosure now carries
   Amazon's required statement: "As an Amazon Associate, SCKIN earns from
   qualifying purchases."
-- **Open:** every `bookshopUrl` is empty (Bookshop.org affiliate links to
-  come). US store only: visitors outside the US land on amazon.com.
+- **Bookshop.org affiliate links (2026-10-28).** Affiliate ID 130592
+  (verification pending at the time). Every book with an ISBN links to
+  `bookshop.org/a/130592/{ISBN-13}`, so "Buy on Bookshop.org" is the main
+  button and Amazon reads "Also on Amazon". Not checked title by title:
+  bookshop.org puts a Cloudflare bot check in front of scripted requests.
+- **Open:** confirm which titles Bookshop.org stocks (via the shop's list
+  build) and drop or re-point the links for any it doesn't. Amazon is the US
+  store only: visitors outside the US land on amazon.com.
 
 ### /evaluations — rater sign-up for the SickleCellPedia benchmarking study (2026-10-27)
 
