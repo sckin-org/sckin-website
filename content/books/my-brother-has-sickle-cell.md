@@ -1,7 +1,7 @@
 ---
 title: "My Brother Has Sickle Cell"
 subtitle: ""
-author: "Erica D. Gamble"
+author: "Erica D. Gamble, Dwayne C. Robinson"
 publisher: "AuthorHouse"
 selfPublished: true
 year: 2014

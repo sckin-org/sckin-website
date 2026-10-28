@@ -1,7 +1,7 @@
 ---
 title: "Hope & Destiny Jr."
 subtitle: "The Adolescent's Guide to Sickle Cell Disease"
-author: "Allan F. Platt Jr., James Eckman, Lewis L. Hsu"
+author: "Lewis L. Hsu, Carmen C. M. Rodrigues, Silvia R. Brandalise"
 publisher: "HPC International"
 selfPublished: false
 year: 2023

@@ -1,7 +1,7 @@
 ---
 title: "Hope & Destiny"
 subtitle: "The Adult Patient and Parent's Guide to Sickle Cell Disease and Sickle Cell Trait"
-author: "Allan F. Platt Jr., Lewis L. Hsu, James Eckman"
+author: "Allan F. Platt Jr., James Eckman, Lewis L. Hsu"
 publisher: "HPC International"
 selfPublished: false
 year: 2023

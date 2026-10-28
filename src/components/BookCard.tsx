@@ -68,7 +68,7 @@ export default function BookCard({ book }: { book: Book }) {
             loading="lazy"
             decoding="async"
             onError={() => setCoverFailed(true)}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
           />
         )}
       </div>

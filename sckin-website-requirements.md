@@ -419,11 +419,29 @@ stays last before Donate. Decisions:
   1910 case report (Noel was the patient). The NHLBI blurb makes no claim
   about SickleCellPedia's knowledge base. The "most widely read" claim for
   A Sick Life stays.
+- **Self-hosted covers (decided 2026-10-28).** Covers live at
+  `public/images/books/{isbn}.jpg` (sRGB JPEG, 360px wide, ~45 KB) and win
+  over Open Library. Source order: publisher or author site, else Google
+  Books. 20 are stored: 13 from publishers (PRH, Taylor & Francis ×2,
+  University of Tennessee Press, HPC International ×2, McGraw Hill,
+  IntechOpen, L'Harmattan, Cleverly Changing Press ×3, author's press) and
+  7 from Google Books. Clemmie uses Google Books because the publisher image
+  is a mockup; My Life Beyond because Mayo Clinic Press blocks downloads;
+  My Brother because AuthorHouse only has a small GIF. 10 more come from Open
+  Library. Four self-published titles have no cover anywhere ("A Doctor In A
+  Patient's Body", "Everyday with Sickle Cell", "Sickle", "Sickle Cell
+  Superstars"), and the NHLBI report has no ISBN; those five show the red
+  title card. Covers are fitted, not cropped, so square picture books show
+  whole.
+- **Data fixes from the covers:** Hope & Destiny Jr. (2023, rev. 3rd ed.) is
+  by Lewis L. Hsu, Carmen C. M. Rodrigues and Silvia R. Brandalise, not
+  Platt/Eckman/Hsu. Hope & Destiny author order follows its cover. "My
+  Brother Has Sickle Cell" adds co-author Dwayne C. Robinson. The Erhabor
+  volume gets its open-access link (intechopen.com/books/11293) as "Read
+  free".
 - **Open:** every `bookshopUrl` is empty, and `amazonUrl` is set on one entry
   only, without an Associates tag. Until the affiliate links are filled in,
-  only two cards carry a button (NHLBI "Read free", and Amazon for "Six pieds
-  dans l'os"). Open Library has covers for 9 of the 34 published ISBNs, so
-  most cards show the red title card.
+  only three cards carry a button (two "Read free", one Amazon).
 
 ### /evaluations — rater sign-up for the SickleCellPedia benchmarking study (2026-10-27)
 
