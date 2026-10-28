@@ -445,10 +445,11 @@ export async function appendScdaaRow(
 }
 
 /**
- * Column order of the evaluations tab (/evaluations rater sign-ups). Unlike
- * the ASCAT and scdaa tabs, this one is NOT created by hand:
- * ensureEvaluationsTab creates the tab and writes this header row on first
- * use. The form's `institution` field lands in the `organisation` column.
+ * Column order of the evaluations tab (/evaluations rater sign-ups) — tab and
+ * header created 2026-10-27, keep in sync. Unlike the ASCAT and scdaa tabs,
+ * ensureEvaluationsTab will also recreate the tab and header if they are
+ * missing. The form's `institution` field lands in the `organisation` column.
+ * The sheet's Apps Script notifier watches this tab's `timestamp` column.
  */
 export const EVALUATIONS_SHEET_TAB = "evaluations";
 export const EVALUATIONS_TAB_COLUMNS = [

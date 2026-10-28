@@ -36,12 +36,8 @@ type PersistSpec =
   | {
       /** Custom persistence for forms that land outside the contacts tab
        * (e.g. the ASCAT tab). Must throw SheetsConfigError when the Sheets
-       * env is missing so the graceful not-configured path still applies.
-       * May resolve to extra fields merged into the success response
-       * (e.g. /api/evaluations reports `emailed`). */
-      persist: (
-        clean: Record<string, string>
-      ) => Promise<void | Record<string, unknown>>;
+       * env is missing so the graceful not-configured path still applies. */
+      persist: (clean: Record<string, string>) => Promise<void>;
       toRow?: never;
     };
 
@@ -114,8 +110,8 @@ export function createSubmissionHandler(
 
       try {
         if (opts.persist) {
-          const extra = await opts.persist(clean);
-          return NextResponse.json({ ...extra, ok: true });
+          await opts.persist(clean);
+          return NextResponse.json({ ok: true });
         }
         // Site is English-only today; when a locale switcher ships, thread
         // the page locale through the form payload instead of assuming the

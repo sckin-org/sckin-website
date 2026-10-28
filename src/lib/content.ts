@@ -358,7 +358,7 @@ export interface AscatFrontmatter extends FrontmatterBase {
  * /evaluations — sign-up page for medical professionals rating SickleCellPedia
  * answers (content/evaluations.md). Not in the main navigation; reached from
  * print QR codes and referral links (?ref=). The rating-form links live in
- * src/lib/form-specs.ts, not here, because the API route emails them too.
+ * src/lib/form-specs.ts beside the language options they are keyed by.
  */
 export interface EvaluationsFrontmatter extends FrontmatterBase {
   hero: {

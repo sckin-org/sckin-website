@@ -18,7 +18,8 @@ import {
 /**
  * SickleCellPedia evaluation sign-up form (/evaluations). Bespoke like
  * AscatForm (same styling, honeypot and Turnstile) because its success state
- * hands the rater their rating-form link straight away. Posts JSON to
+ * hands the rater their rating-form link straight away — the site sends no
+ * email; follow-up is personal, from the study lead. Posts JSON to
  * /api/evaluations; server validation is authoritative.
  *
  * "Referred by" is prefilled from ?ref= (see EVALUATION_REFERRERS). It is
@@ -44,7 +45,6 @@ export default function EvaluationsForm() {
   const [referredBy, setReferredBy] = useState("");
   const [newsletter, setNewsletter] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
-  const [emailed, setEmailed] = useState(false);
   const turnstileRef = useRef<TurnstileHandle>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   // No site key (bare `next dev`) means no token is required.
@@ -69,8 +69,6 @@ export default function EvaluationsForm() {
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error("Request failed");
-      const body = (await res.json()) as { emailed?: boolean };
-      setEmailed(body.emailed === true);
       setStatus("success");
     } catch {
       // Non-2xx and network errors both land here; entered values are kept.
@@ -88,8 +86,8 @@ export default function EvaluationsForm() {
         </h3>
         <p className="mt-2.5 text-[15px] leading-(--line-height-body) text-body text-pretty">
           Here is your evaluation form ({language}). It takes about 2 hours,
-          and you can work through it at your own pace.
-          {emailed ? " We’ve also emailed it to you." : null}
+          and you can work through it at your own pace. We will also be in
+          touch by email.
         </p>
         <a
           href={EVALUATION_FORM_LINKS[language]}

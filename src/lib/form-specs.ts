@@ -175,10 +175,10 @@ export const EVALUATION_LANGUAGES = ["English", "French"] as const;
 export type EvaluationLanguage = (typeof EVALUATION_LANGUAGES)[number];
 
 /**
- * The rating form each rater is sent to, by evaluation language. Shown on the
- * page's confirmation state AND emailed by /api/evaluations, so it lives here
- * (imported by both) rather than in content/evaluations.md — the route must
- * not depend on content files being traced into the serverless bundle.
+ * The rating form each rater is sent to, by evaluation language — shown on
+ * the /evaluations confirmation state, keyed by the same EVALUATION_LANGUAGES
+ * the server validates. (Raters also get the link in a personal follow-up
+ * email; nothing is sent automatically.)
  *
  * Google Forms "SCKIN EHA-2026 — Évaluation (EN)" / "(FR)". Both are the
  * published (/d/e/) URLs; each form accepts responses from anyone.
