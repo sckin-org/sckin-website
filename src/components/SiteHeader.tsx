@@ -14,6 +14,12 @@ import { DEFAULT_LOCALE, localizedHref, type Locale } from "@/lib/i18n";
  * child link stays tab-reachable without JS state. Mobile collapses behind the
  * hamburger; the Donate pill stays visible in the bar at all widths so the
  * primary CTA never hides (annex: hero CTA dominates it visually instead).
+ *
+ * The full nav only fits from lg (1024px): seven items need ~1,050px at the
+ * xl gap, ~980px at the tighter lg gap. Tablets get the hamburger.
+ *
+ * "Coming soon" children (Resources ▾) render as plain text with a tag, not
+ * links, so there is nothing to click through to a page that does not exist.
  */
 export default function SiteHeader({
   locale = DEFAULT_LOCALE,
@@ -42,12 +48,12 @@ export default function SiteHeader({
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-[26px] md:flex">
+        <div className="hidden items-center gap-4 lg:flex xl:gap-[26px]">
           {NAV_ITEMS.map((item) => (
             <div key={item.href} className="group relative">
               <Link
                 href={href(item.href)}
-                className="text-[15px] text-heading transition-colors hover:text-link"
+                className="whitespace-nowrap text-[15px] text-heading transition-colors hover:text-link"
               >
                 {item.label}
                 {item.children ? (
@@ -59,15 +65,26 @@ export default function SiteHeader({
               {item.children ? (
                 <div className="absolute left-1/2 top-full hidden -translate-x-1/2 pt-3 group-focus-within:block group-hover:block">
                   <div className="min-w-48 rounded-md border border-(--gray-100) bg-page py-2 shadow-card">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={href(child.href)}
-                        className="block whitespace-nowrap px-4 py-2 text-[15px] text-body transition-colors hover:bg-subtle hover:text-heading"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
+                    {item.children.map((child) =>
+                      child.href ? (
+                        <Link
+                          key={child.label}
+                          href={href(child.href)}
+                          className="block whitespace-nowrap px-4 py-2 text-[15px] text-body transition-colors hover:bg-subtle hover:text-heading"
+                        >
+                          {child.label}
+                        </Link>
+                      ) : (
+                        <span
+                          key={child.label}
+                          aria-disabled="true"
+                          className="flex cursor-default items-center gap-2 whitespace-nowrap px-4 py-2 text-[15px] text-body"
+                        >
+                          {child.label}
+                          <ComingSoonTag />
+                        </span>
+                      )
+                    )}
                   </div>
                 </div>
               ) : null}
@@ -87,7 +104,7 @@ export default function SiteHeader({
         </div>
 
         {/* Mobile: Donate stays visible, nav collapses behind the hamburger */}
-        <div className="flex items-center gap-3.5 md:hidden">
+        <div className="flex items-center gap-3.5 lg:hidden">
           <Link
             href={href(DONATE_CTA.href)}
             data-role="cta"
@@ -118,7 +135,7 @@ export default function SiteHeader({
       {/* Mobile menu panel */}
       <div
         id="primary-nav"
-        className={open ? "border-t border-(--gray-100) bg-page px-6 pb-8 pt-2 md:hidden" : "hidden"}
+        className={open ? "border-t border-(--gray-100) bg-page px-6 pb-8 pt-2 lg:hidden" : "hidden"}
         onClick={() => setOpen(false)}
       >
         {NAV_ITEMS.map((item) => (
@@ -131,20 +148,40 @@ export default function SiteHeader({
             </Link>
             {item.children ? (
               <div className="pb-2">
-                {item.children.map((child) => (
-                  <Link
-                    key={child.href}
-                    href={href(child.href)}
-                    className="block py-2 pl-4 text-[15px] text-body"
-                  >
-                    {child.label}
-                  </Link>
-                ))}
+                {item.children.map((child) =>
+                  child.href ? (
+                    <Link
+                      key={child.label}
+                      href={href(child.href)}
+                      className="block py-2 pl-4 text-[15px] text-body"
+                    >
+                      {child.label}
+                    </Link>
+                  ) : (
+                    <span
+                      key={child.label}
+                      aria-disabled="true"
+                      onClick={(event) => event.stopPropagation()}
+                      className="flex items-center gap-2 py-2 pl-4 text-[15px] text-body"
+                    >
+                      {child.label}
+                      <ComingSoonTag />
+                    </span>
+                  )
+                )}
               </div>
             ) : null}
           </div>
         ))}
       </div>
     </header>
+  );
+}
+
+function ComingSoonTag() {
+  return (
+    <span className="rounded-pill border border-hairline-strong px-2 py-px text-[11px] font-semibold uppercase tracking-[0.04em] text-body">
+      Coming soon
+    </span>
   );
 }

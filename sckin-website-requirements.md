@@ -22,7 +22,7 @@
 | **Design system** | Locked 2026-07-22 via Claude Design (annex: `sckin-design-spec-phase1.md`). Inter throughout · red `#8A1626` ramp (**revised 2026-07-22** from `#C41E3A` at import review — Zacharie approved the darker red the delivered ramp was anchored on; 9.5:1 on white; correct the token files' fabricated 2026-07-21 approval `$note` to this real provenance) · mobile-first (390px) · two-tone hero, no hero image · minimal-typographic (no photography on Home) · token handoff = CSS custom properties + `tokens.json`; every value must trace to a token |
 | **Stripe** | SCKIN account → Chase nonprofit account. **Apply for 501(c)(3) rate** (2.2% + 30¢ vs 2.9% + 30¢ — not automatic) |
 | **Donate defaults** | **One-time is the default** (flipped from recurring-first 2026-07-22), $25 pre-selected. Presets are frequency-dependent: one-time $25/$50/$100 · monthly $10/$20/$50 ($20 pre-selected when toggled). Monthly carries a "most impactful" tag. Existing lookup keys (`once_25/50/100`, `monthly_10/20/50`) already match — **no catalog reseed needed**. Optional "Add a note" field → Stripe metadata (to build). Homepage donate band and `/donate` share the same component + defaults |
-| **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **News ▾** (Latest News · Blog · Events — Events added 2026-09-04, see History) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
+| **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **Resources ▾** (Books · Articles · Clinical Trials · Educational Material · Who's Who — added 2026-10-28; only Books is live, the other four are non-link "Coming soon" entries, see History) · **News ▾** (Latest News · Blog · Events — Events added 2026-09-04, see History) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
 | **Publications placement** | Nav: under **Impact ▾**. Route stays **`/publications`** (no URL move — avoids redirect churn; reverses only the nav placement, not commit `a294044`) |
 | **Hypothesis** | Full text lives on **`/mission` only**; Home's Mission section carries a one-line distillation + "Our mission →" link (no duplicated full copy) |
 | **Pro leads** | Native on-site form → Google Sheet via **Workload Identity Federation API route** *(supersedes Apps Script per master doc v3.1 — switched to a service-account key 2026-07-20, `9aa2577`; switched again to keyless WIF 2026-07-23 — no service-account JSON key ever exists, see Technical setup)* |
@@ -356,6 +356,58 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Resources section and the Books page (2026-10-28)
+
+New top-level **Resources ▾** nav section for five products: Books, Articles,
+Clinical Trials, Educational Material and Who's Who. Only Books ships. This
+amends the locked 2026-07-22 nav set (Decisions locked → Navigation); News
+stays last before Donate. Decisions:
+
+- **Nav.** "Resources" links to `/resources`; "Books" to `/resources/books`.
+  The other four render as plain text with a "Coming soon" tag, not links, in
+  both the desktop dropdown and the mobile menu (`NavChild.href` is now
+  optional, with `comingSoon`).
+- **Desktop nav starts at `lg` (1024px), not `md`.** Seven items need about
+  1,050px at the 26px gap. The six-item nav already wrapped labels and
+  overflowed between 768 and ~960px. Tablets now get the hamburger; from 1024
+  to 1279px the gap tightens to 16px and labels never wrap.
+- **`/resources` hub** (`content/resources.md`): one intro paragraph (curated,
+  human-reviewed, not medical advice) and five cards in nav order. Books is a
+  link card; the others are non-clickable with a "Coming soon" pill.
+- **`/resources/books`** (`content/books.md` for copy, `content/books/*.md`
+  for entries, frontmatter only). Audience and Theme pill rows: OR within a
+  row, AND across rows. Filter and sort state lives in the query string
+  (`?audience=patients,caregivers&theme=health&sort=az`). Default sort is
+  `order` ascending, with A–Z and Year (newest) as alternatives. The server
+  renders the unfiltered list, so the default view works with JS disabled.
+  The URL is applied after hydration.
+- **Clinical-review gate.** Entries with `clinicalReviewNeeded: true` are
+  dropped at build time unless `PUBLISH_UNREVIEWED_BOOKS=true` (not set in
+  any Vercel environment).
+- **Book cards.** The cover comes from Open Library by ISBN
+  (`?default=false`). With no ISBN, or if the cover fails, the card shows a
+  designed title card on `--surface-band` (brand red). CTAs: "Read free"
+  leads when `freeUrl` is set; otherwise "Buy on Bookshop.org" is primary and
+  "Also on Amazon" secondary. Each is hidden when empty, and all open in a new
+  tab. Only the two store links carry `rel="noopener sponsored"`. "Zach's
+  Pick" badge on `zachPick: true`.
+- **Disclosures** sit above the filters, before any affiliate link: the FTC
+  affiliate disclosure, plus a note that many titles are self-published
+  personal accounts, not medical guidance.
+- **Decap collection** for `content/books` in `public/admin/config.yml`:
+  multi-selects for audience, theme and language, toggles for booleans,
+  number for `order`, string for `isbn`. New entries default to
+  `clinicalReviewNeeded: true`. The collection config only: the `/admin` app
+  and its GitHub OAuth handler are still Future work. The language options
+  (English, French, Spanish, Portuguese, Arabic) are provisional until the
+  real entries land.
+- **`PageHeader` overline is `text-body`**, site-wide. The muted grey (4.1:1)
+  failed Lighthouse colour contrast at 13px.
+- `/resources` and `/resources/books` are in `sitemap.ts`. Lighthouse
+  accessibility: 100 on both pages, mobile and desktop.
+- **Open:** the 36 book entries were not in the repo when this PR was opened. The
+  page shows its empty-state line until `content/books/` lands.
 
 ### /evaluations — rater sign-up for the SickleCellPedia benchmarking study (2026-10-27)
 

@@ -1,9 +1,10 @@
 /**
  * Site navigation model — the locked 2026-07-22 set (design annex, Navigation),
- * amended 2026-09-04 with Events under News ▾:
+ * amended 2026-09-04 with Events under News ▾ and 2026-10-28 with Resources ▾:
  *   About us ▾ · SickleCellPedia · For Clinicians · Responsible AI ·
- *   Impact ▾ (Impact · Publications) · News ▾ (Latest News · Blog · Events) ·
- *   [Donate]
+ *   Impact ▾ (Impact · Publications) · Resources ▾ (Books · Articles ·
+ *   Clinical Trials · Educational Material · Who's Who) ·
+ *   News ▾ (Latest News · Blog · Events) · [Donate]
  *
  * News ▾ taxonomy: Latest News = SCKIN's own news · Blog = updates about
  * SCKIN's work · Events = events from across the sickle cell community,
@@ -17,7 +18,9 @@
 
 export interface NavChild {
   label: string;
-  href: string;
+  /** Omitted for a "Coming soon" entry: rendered as plain, non-link text. */
+  href?: string;
+  comingSoon?: boolean;
 }
 
 export interface NavItem {
@@ -60,6 +63,17 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Responsible AI", href: "/responsible-ai" },
   ...(IMPACT_NAV_LIVE ? [IMPACT_ITEM] : []),
   {
+    label: "Resources",
+    href: "/resources",
+    children: [
+      { label: "Books", href: "/resources/books" },
+      { label: "Articles", comingSoon: true },
+      { label: "Clinical Trials", comingSoon: true },
+      { label: "Educational Material", comingSoon: true },
+      { label: "Who's Who", comingSoon: true },
+    ],
+  },
+  {
     label: "News",
     href: "/news",
     children: [
@@ -70,4 +84,4 @@ export const NAV_ITEMS: NavItem[] = [
   },
 ];
 
-export const DONATE_CTA: NavChild = { label: "Donate", href: "/donate" };
+export const DONATE_CTA = { label: "Donate", href: "/donate" };

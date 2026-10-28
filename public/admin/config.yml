@@ -1,0 +1,88 @@
+# Decap CMS configuration.
+#
+# Collections only, for now. The /admin app itself (public/admin/index.html)
+# and its GitHub OAuth handler are not wired yet: they need a GitHub OAuth app
+# plus a token-exchange API route (no Netlify git-gateway on Vercel). See
+# "Wire Decap CMS" under Future work in sckin-website-requirements.md.
+# Field names below are the frontmatter contract the site reads
+# (BookFrontmatter in src/lib/content.ts) — keep them in sync.
+
+backend:
+  name: github
+  repo: sckin-org/sckin-website
+  branch: main
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: books
+    label: Books
+    label_singular: Book
+    description: >-
+      Entries for /resources/books. Frontmatter only — there is no body.
+      Entries with "Needs clinical review" on are left out of the live site.
+    folder: content/books
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{order}}. {{title}} — {{author}}"
+    sortable_fields: [order, title, year]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: subtitle, label: Subtitle, widget: string, required: false }
+      - { name: author, label: Author, widget: string }
+      - { name: publisher, label: Publisher, widget: string, required: false }
+      - { name: selfPublished, label: Self-published, widget: boolean, default: false }
+      - { name: year, label: Year, widget: number, value_type: int, required: false }
+      - { name: edition, label: Edition, widget: string, required: false }
+      - name: isbn
+        label: ISBN
+        widget: string
+        required: false
+        hint: ISBN-13, digits only. Used to fetch the cover from Open Library; without it the card shows a red title card.
+      - name: language
+        label: Language
+        widget: select
+        multiple: true
+        required: false
+        options: [English, French, Spanish, Portuguese, Arabic]
+      - name: audience
+        label: Audience
+        widget: select
+        multiple: true
+        options: [Children, Young Adults, Patients, Caregivers, HCP]
+      - name: theme
+        label: Theme
+        widget: select
+        multiple: true
+        options: [Health, Social, Memoirs]
+      - name: bookshopUrl
+        label: Bookshop.org link
+        widget: string
+        required: false
+        hint: Affiliate link. Shown as "Buy on Bookshop.org".
+      - name: amazonUrl
+        label: Amazon link
+        widget: string
+        required: false
+        hint: Affiliate link. Shown as "Also on Amazon".
+      - name: freeUrl
+        label: Free-to-read link
+        widget: string
+        required: false
+        hint: When set, "Read free" becomes the main button.
+      - { name: blurb, label: Blurb, widget: text, required: false }
+      - { name: zachPick, label: "Zach's Pick", widget: boolean, default: false }
+      - name: order
+        label: Order
+        widget: number
+        value_type: int
+        hint: Default sort position on the page, lowest first.
+      - name: clinicalReviewNeeded
+        label: Needs clinical review
+        widget: boolean
+        default: true
+        hint: Leave on until a clinician has reviewed the entry. While on, the book is hidden from the live site.
