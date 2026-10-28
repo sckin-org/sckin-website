@@ -62,9 +62,10 @@ export async function sendEvaluationEmails(
   // Header-safe: a newline in a subject line is rejected or mangled.
   const name = clean.name.replace(/\s+/g, " ");
 
+  // No user-entered text in the rater email: it goes to whatever address was
+  // submitted, so echoing the name would let anyone send their own words
+  // from noreply@sckin.org.
   const raterText = [
-    `Dear ${name},`,
-    "",
     "Thank you for volunteering to evaluate SickleCellPedia.",
     "",
     `Here is the evaluation form (${language}):`,

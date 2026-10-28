@@ -70,22 +70,11 @@ export default function EvaluationsPage() {
             </div>
           </div>
 
-          <div
-            id="form"
-            data-section="form"
-            className="min-w-0 scroll-mt-24 rounded-lg bg-subtle p-6 md:col-start-2 md:row-span-2 md:row-start-1 md:p-7"
-          >
-            <h2 className="text-[22px] font-semibold tracking-[-0.01em] text-heading">
-              {form.heading}
-            </h2>
-            <div className="mt-5">
-              <EvaluationsForm />
-            </div>
-          </div>
-
+          {/* DOM order is the mobile (and reading) order: copy → criteria →
+              form. On desktop the form card spans the right column. */}
           <div
             data-section="criteria"
-            className="min-w-0 rounded-lg bg-subtle p-5 md:col-start-1 md:self-start md:p-6"
+            className="min-w-0 rounded-lg bg-subtle p-5 md:col-start-1 md:row-start-2 md:self-start md:p-6"
           >
             <h2 className="text-[19px] font-semibold leading-[1.35] text-heading">
               {criteria.heading}
@@ -103,6 +92,19 @@ export default function EvaluationsPage() {
                 </div>
               ))}
             </dl>
+          </div>
+
+          <div
+            id="form"
+            data-section="form"
+            className="min-w-0 scroll-mt-24 rounded-lg bg-subtle p-6 md:col-start-2 md:row-span-2 md:row-start-1 md:p-7"
+          >
+            <h2 className="text-[22px] font-semibold tracking-[-0.01em] text-heading">
+              {form.heading}
+            </h2>
+            <div className="mt-5">
+              <EvaluationsForm />
+            </div>
           </div>
         </section>
 
