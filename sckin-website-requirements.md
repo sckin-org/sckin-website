@@ -395,8 +395,10 @@ doi:10.1111/bjh.70838) and links the SCDAA 2026 poster. Decisions:
 - **The rating-form links live in `EVALUATION_FORM_LINKS`** in
   `src/lib/form-specs.ts`, not in the content file. The page and the API route
   both import them, so the route does not need content files at runtime.
-  ⚠️ **They are still placeholders** (`[EN VIEWFORM LINK]` and
-  `[FR VIEWFORM LINK]`) and must be replaced before merge.
+  They point to the Google Forms "SCKIN EHA-2026 — Évaluation (EN)" and
+  "(FR)". ⚠️ As of 2026-10-27 the FR form opens publicly, but the **EN form
+  returns 401 when signed out**. It must accept responses from anyone before
+  merge.
 - **Resend DNS.** `docs/resend-dns.md` lists the DKIM record
   (`resend._domainkey`) and the `send.sckin.org` SPF TXT and MX records for
   Route 53. The existing Google Workspace MX, the apex SPF and the DMARC
