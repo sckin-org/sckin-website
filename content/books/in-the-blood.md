@@ -1,0 +1,19 @@
+---
+title: "In the Blood"
+subtitle: "Sickle Cell Anemia and the Politics of Race"
+author: "Melbourne Tapper"
+publisher: "University of Pennsylvania Press"
+selfPublished: false
+year: 1999
+edition: "1st"
+isbn: "9780812234718"
+language: ["en"]
+audience: ["hcp"]
+theme: ["social"]
+amazonUrl: ""
+bookshopUrl: ""
+blurb: "How colonial and post-colonial medicine used sickle cell to construct racial categories, across Africa and the Americas."
+zachPick: false
+order: 330
+clinicalReviewNeeded: false
+---

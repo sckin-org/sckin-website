@@ -398,16 +398,21 @@ stays last before Donate. Decisions:
 - **Decap collection** for `content/books` in `public/admin/config.yml`:
   multi-selects for audience, theme and language, toggles for booleans,
   number for `order`, string for `isbn`. New entries default to
-  `clinicalReviewNeeded: true`. The collection config only: the `/admin` app
-  and its GitHub OAuth handler are still Future work. The language options
-  (English, French, Spanish, Portuguese, Arabic) are provisional until the
-  real entries land.
+  `clinicalReviewNeeded: true`. Select options store the values the entries
+  use: ISO 639-1 codes for language (`en`, `fr`, `es`, plus `pt`, `ar`) and
+  slugs for audience and theme. The collection config only: the `/admin` app
+  and its GitHub OAuth handler are still Future work.
 - **`PageHeader` overline is `text-body`**, site-wide. The muted grey (4.1:1)
   failed Lighthouse colour contrast at 13px.
 - `/resources` and `/resources/books` are in `sitemap.ts`. Lighthouse
   accessibility: 100 on both pages, mobile and desktop.
-- **Open:** the 36 book entries were not in the repo when this PR was opened. The
-  page shows its empty-state line until `content/books/` lands.
+- **First 36 entries** landed in `content/books/`. 35 are published; "Sickle
+  Cell Natural Healing" is held for clinical review. Seven are Zach's Picks.
+- **Open:** every `bookshopUrl` is empty, and `amazonUrl` is set on one entry
+  only, without an Associates tag. Until the affiliate links are filled in,
+  only two cards carry a button (NHLBI "Read free", and Amazon for "Six pieds
+  dans l'os"). Open Library has covers for 9 of the 34 published ISBNs, so
+  most cards show the red title card.
 
 ### /evaluations — rater sign-up for the SickleCellPedia benchmarking study (2026-10-27)
 

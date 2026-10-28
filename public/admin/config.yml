@@ -48,17 +48,31 @@ collections:
         widget: select
         multiple: true
         required: false
-        options: [English, French, Spanish, Portuguese, Arabic]
+        hint: ISO 639-1 codes, as stored in the entries.
+        options:
+          - { label: English, value: en }
+          - { label: French, value: fr }
+          - { label: Spanish, value: es }
+          - { label: Portuguese, value: pt }
+          - { label: Arabic, value: ar }
       - name: audience
         label: Audience
         widget: select
         multiple: true
-        options: [Children, Young Adults, Patients, Caregivers, HCP]
+        options:
+          - { label: Children, value: children }
+          - { label: Young Adults, value: young-adults }
+          - { label: Patients, value: patients }
+          - { label: Caregivers, value: caregivers }
+          - { label: HCP, value: hcp }
       - name: theme
         label: Theme
         widget: select
         multiple: true
-        options: [Health, Social, Memoirs]
+        options:
+          - { label: Health, value: health }
+          - { label: Social, value: social }
+          - { label: Memoirs, value: memoirs }
       - name: bookshopUrl
         label: Bookshop.org link
         widget: string
