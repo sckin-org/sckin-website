@@ -408,6 +408,10 @@ stays last before Donate. Decisions:
   accessibility: 100 on both pages, mobile and desktop.
 - **First 36 entries** landed in `content/books/`. 35 are published; "Sickle
   Cell Natural Healing" is held for clinical review. Seven are Zach's Picks.
+- **Blurb edits (2026-10-28):** Clemmie now credits James Herrick with the
+  1910 case report (Noel was the patient). The NHLBI blurb makes no claim
+  about SickleCellPedia's knowledge base. The "most widely read" claim for
+  A Sick Life stays.
 - **Open:** every `bookshopUrl` is empty, and `amazonUrl` is set on one entry
   only, without an Associates tag. Until the affiliate links are filled in,
   only two cards carry a button (NHLBI "Read free", and Amazon for "Six pieds

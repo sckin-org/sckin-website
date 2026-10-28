@@ -13,7 +13,7 @@ theme: ["health"]
 amazonUrl: ""
 bookshopUrl: ""
 freeUrl: "https://www.nhlbi.nih.gov/resources/evidence-based-management-sickle-cell-disease-expert-panel-report-2014"
-blurb: "The NHLBI expert panel report, free to download. Not a purchase — included because it is the evidence base SickleCellPedia's own knowledge is grounded in."
+blurb: "The NHLBI expert panel's evidence-based recommendations for managing sickle cell disease, free to download."
 zachPick: false
 order: 360
 clinicalReviewNeeded: false

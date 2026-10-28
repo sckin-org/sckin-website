@@ -12,7 +12,7 @@ audience: ["patients", "young-adults"]
 theme: ["memoirs", "social"]
 amazonUrl: ""
 bookshopUrl: ""
-blurb: "Recovers the life of Walter Clement Noel, the Grenadian dental student whose 1910 case report first described sickle cell in the Western medical literature — the patient behind the paper."
+blurb: "Recovers the life of Walter Clement Noel, the Grenadian dental student whose case, reported by James Herrick in 1910, was the first description of sickle cell in Western medical literature — the patient behind the paper."
 zachPick: true
 order: 130
 clinicalReviewNeeded: false
