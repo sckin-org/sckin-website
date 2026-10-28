@@ -22,7 +22,7 @@
 | **Design system** | Locked 2026-07-22 via Claude Design (annex: `sckin-design-spec-phase1.md`). Inter throughout · red `#8A1626` ramp (**revised 2026-07-22** from `#C41E3A` at import review — Zacharie approved the darker red the delivered ramp was anchored on; 9.5:1 on white; correct the token files' fabricated 2026-07-21 approval `$note` to this real provenance) · mobile-first (390px) · two-tone hero, no hero image · minimal-typographic (no photography on Home) · token handoff = CSS custom properties + `tokens.json`; every value must trace to a token |
 | **Stripe** | SCKIN account → Chase nonprofit account. **Apply for 501(c)(3) rate** (2.2% + 30¢ vs 2.9% + 30¢ — not automatic) |
 | **Donate defaults** | **One-time is the default** (flipped from recurring-first 2026-07-22), $25 pre-selected. Presets are frequency-dependent: one-time $25/$50/$100 · monthly $10/$20/$50 ($20 pre-selected when toggled). Monthly carries a "most impactful" tag. Existing lookup keys (`once_25/50/100`, `monthly_10/20/50`) already match — **no catalog reseed needed**. Optional "Add a note" field → Stripe metadata (to build). Homepage donate band and `/donate` share the same component + defaults |
-| **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **News ▾** (Latest News · Blog · Events — Events added 2026-09-04, see History) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
+| **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **Resources ▾** (Books · Articles · Clinical Trials · Educational Material · Who's Who — added 2026-10-28; only Books is live, the other four are non-link "Coming soon" entries, see History) · **News ▾** (Latest News · Blog · Events — Events added 2026-09-04, see History) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
 | **Publications placement** | Nav: under **Impact ▾**. Route stays **`/publications`** (no URL move — avoids redirect churn; reverses only the nav placement, not commit `a294044`) |
 | **Hypothesis** | Full text lives on **`/mission` only**; Home's Mission section carries a one-line distillation + "Our mission →" link (no duplicated full copy) |
 | **Pro leads** | Native on-site form → Google Sheet via **Workload Identity Federation API route** *(supersedes Apps Script per master doc v3.1 — switched to a service-account key 2026-07-20, `9aa2577`; switched again to keyless WIF 2026-07-23 — no service-account JSON key ever exists, see Technical setup)* |
@@ -356,6 +356,108 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Resources section and the Books page (2026-10-28)
+
+New top-level **Resources ▾** nav section for five products: Books, Articles,
+Clinical Trials, Educational Material and Who's Who. Only Books ships. This
+amends the locked 2026-07-22 nav set (Decisions locked → Navigation); News
+stays last before Donate. Decisions:
+
+- **Nav.** "Resources" links to `/resources`; "Books" to `/resources/books`.
+  The other four render as plain text with a "Coming soon" tag, not links, in
+  both the desktop dropdown and the mobile menu (`NavChild.href` is now
+  optional, with `comingSoon`).
+- **Desktop nav starts at `lg` (1024px), not `md`.** Seven items need about
+  1,050px at the 26px gap. The six-item nav already wrapped labels and
+  overflowed between 768 and ~960px. Tablets now get the hamburger; from 1024
+  to 1279px the gap tightens to 16px and labels never wrap.
+- **`/resources` hub** (`content/resources.md`): one intro paragraph (curated,
+  human-reviewed, not medical advice) and five cards in nav order. Books is a
+  link card; the others are non-clickable with a "Coming soon" pill.
+- **`/resources/books`** (`content/books.md` for copy, `content/books/*.md`
+  for entries, frontmatter only). Audience and Theme pill rows: OR within a
+  row, AND across rows. Filter and sort state lives in the query string
+  (`?audience=patients,caregivers&theme=health&sort=az`). Default sort is
+  `order` ascending, with A–Z and Year (newest) as alternatives. The server
+  renders the unfiltered list, so the default view works with JS disabled.
+  The URL is applied after hydration.
+- **No clinical-review gate (decided 2026-10-28).** The brief's
+  `clinicalReviewNeeded` flag and `PUBLISH_UNREVIEWED_BOOKS` override were
+  built, then removed before merge at Zacharie's request. The field is gone
+  from the entries, the loader and Decap. Every entry in `content/books/` is
+  published. The one flagged title, "Sickle Cell Natural Healing: A Mother's
+  Journey" (Tamika Moseley), was dropped from the list rather than held.
+- **Themes: Health · Social · Memoirs · Biography · Fiction (decided
+  2026-10-28).** The brief's three themes plus two. Fiction exists so a
+  novel is never filed as a true account on a health site; Biography covers
+  lives told by others. Retagged: "Clemmie" (Memoirs → Biography),
+  "Blood Picture" (+ Biography), "Six pieds dans l'os" (Memoirs → Fiction).
+- **Book cards.** The cover comes from Open Library by ISBN
+  (`?default=false`). With no ISBN, or if the cover fails, the card shows a
+  designed title card on `--surface-band` (brand red). CTAs: "Read free"
+  leads when `freeUrl` is set; otherwise "Buy on Bookshop.org" is primary and
+  "Also on Amazon" secondary. Each is hidden when empty, and all open in a new
+  tab. Only the two store links carry `rel="noopener sponsored"`. "Zach's
+  Pick" badge on `zachPick: true`.
+- **Disclosures** sit above the filters, before any affiliate link: the FTC
+  affiliate disclosure, plus a note that many titles are self-published
+  personal accounts, not medical guidance.
+- **Decap collection** for `content/books` in `public/admin/config.yml`:
+  multi-selects for audience, theme and language, toggles for booleans,
+  number for `order`, string for `isbn`. Select options store the values the entries
+  use: ISO 639-1 codes for language (`en`, `fr`, `es`, plus `pt`, `ar`) and
+  slugs for audience and theme. The collection config only: the `/admin` app
+  and its GitHub OAuth handler are still Future work.
+- **`PageHeader` overline is `text-body`**, site-wide. The muted grey (4.1:1)
+  failed Lighthouse colour contrast at 13px.
+- `/resources` and `/resources/books` are in `sitemap.ts`. Lighthouse
+  accessibility: 100 on both pages, mobile and desktop.
+- **First entries:** 36 arrived and 35 are published (Natural Healing dropped,
+  above). Seven are Zach's Picks.
+- **Blurb edits (2026-10-28):** Clemmie now credits James Herrick with the
+  1910 case report (Noel was the patient). The NHLBI blurb makes no claim
+  about SickleCellPedia's knowledge base. The "most widely read" claim for
+  A Sick Life stays.
+- **Self-hosted covers (decided 2026-10-28).** Covers live at
+  `public/images/books/{isbn}.jpg` (sRGB JPEG, 360px wide, ~45 KB) and win
+  over Open Library. Source order: publisher or author site, else Google
+  Books. 20 are stored: 13 from publishers (PRH, Taylor & Francis ×2,
+  University of Tennessee Press, HPC International ×2, McGraw Hill,
+  IntechOpen, L'Harmattan, Cleverly Changing Press ×3, author's press) and
+  7 from Google Books. Clemmie uses Google Books because the publisher image
+  is a mockup; My Life Beyond because Mayo Clinic Press blocks downloads;
+  My Brother because AuthorHouse only has a small GIF. 10 more come from Open
+  Library. Four self-published titles have no cover anywhere ("A Doctor In A
+  Patient's Body", "Everyday with Sickle Cell", "Sickle", "Sickle Cell
+  Superstars"), and the NHLBI report has no ISBN; those five show the red
+  title card. Covers are fitted, not cropped, so square picture books show
+  whole.
+- **Data fixes from the covers:** Hope & Destiny Jr. (2023, rev. 3rd ed.) is
+  by Lewis L. Hsu, Carmen C. M. Rodrigues and Silvia R. Brandalise, not
+  Platt/Eckman/Hsu. Hope & Destiny author order follows its cover. "My
+  Brother Has Sickle Cell" adds co-author Dwayne C. Robinson. The Erhabor
+  volume gets its open-access link (intechopen.com/books/11293) as "Read
+  free".
+- **Amazon affiliate links (2026-10-28).** Associates tag `sckin00-20`
+  (public by design: it ships in every link). Links are built from the ISBN:
+  `amazon.com/dp/{ISBN-10}?tag=sckin00-20` for the 31 books with a
+  978-prefixed ISBN, and an ISBN book search with the tag for the three with
+  979 ISBNs (no ISBN-10 exists). They were not checked page by page: Amazon
+  answers scripted checks with a CAPTCHA. The method was confirmed on "A Sick
+  Life" (product page loads) and "Six pieds dans l'os" (computed ID matches
+  the supplied link). The button reads "Buy on Amazon" when there is no
+  Bookshop link, "Also on Amazon" beside one. The disclosure now carries
+  Amazon's required statement: "As an Amazon Associate, SCKIN earns from
+  qualifying purchases."
+- **Bookshop.org affiliate links (2026-10-28).** Affiliate ID 130592
+  (verification pending at the time). Every book with an ISBN links to
+  `bookshop.org/a/130592/{ISBN-13}`, so "Buy on Bookshop.org" is the main
+  button and Amazon reads "Also on Amazon". Not checked title by title:
+  bookshop.org puts a Cloudflare bot check in front of scripted requests.
+- **Open:** confirm which titles Bookshop.org stocks (via the shop's list
+  build) and drop or re-point the links for any it doesn't. Amazon is the US
+  store only: visitors outside the US land on amazon.com.
 
 ### /evaluations — rater sign-up for the SickleCellPedia benchmarking study (2026-10-27)
 

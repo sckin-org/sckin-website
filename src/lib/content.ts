@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
+import { coverUrl, facetSlug, sortBooks, type Book } from "@/lib/books";
 
 /**
  * Content loader for SCKIN.
@@ -601,6 +602,55 @@ export interface LegalFrontmatter extends FrontmatterBase {
   lastUpdated: string;
 }
 
+/** /resources hub (content/resources.md): intro + one card per product. */
+export interface ResourcesFrontmatter extends FrontmatterBase {
+  intro: string;
+  /** Rendered in this order. A card without `href` is not clickable and
+   * carries the `tag` pill (e.g. "Coming soon"). */
+  products: Array<{
+    name: string;
+    description: string;
+    href?: string;
+    tag?: string;
+  }>;
+}
+
+/** /resources/books landing copy (content/books.md — sits beside the
+ * content/books/ entries). */
+export interface BooksLandingFrontmatter extends FrontmatterBase {
+  intro: string;
+  /** Shown above the list: the FTC affiliate disclosure, then the note on
+   * self-published personal accounts. One plain string per paragraph. */
+  disclosures: string[];
+  /** Line shown when no reviewed entries exist yet. */
+  empty: string;
+}
+
+/**
+ * One book (content/books/*.md, frontmatter only). camelCase like the legal
+ * files: it is the contract for the Decap `books` collection
+ * (public/admin/config.yml) — keep it stable. YAML may hand back an unquoted
+ * ISBN as a number or a one-item list as a string; getAllBooks normalizes.
+ */
+export interface BookFrontmatter extends FrontmatterBase {
+  subtitle?: string;
+  author?: string;
+  publisher?: string;
+  selfPublished?: boolean;
+  year?: number | string;
+  edition?: string;
+  isbn?: string | number;
+  language?: string[] | string;
+  audience?: string[] | string;
+  theme?: string[] | string;
+  amazonUrl?: string;
+  bookshopUrl?: string;
+  freeUrl?: string;
+  blurb?: string;
+  zachPick?: boolean;
+  order?: number | string;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Loader                                                                     */
 /* -------------------------------------------------------------------------- */
@@ -709,6 +759,8 @@ export const getNewsLanding = () => getDoc<NewsLandingFrontmatter>("news");
 export const getBlogLanding = () => getDoc<BlogLandingFrontmatter>("blog");
 export const getEventsLanding = (locale?: string) =>
   getDoc<EventsLandingFrontmatter>("events", locale);
+export const getResources = () => getDoc<ResourcesFrontmatter>("resources");
+export const getBooksLanding = () => getDoc<BooksLandingFrontmatter>("books");
 export const getPrivacy = () => getDoc<LegalFrontmatter>("legal/privacy");
 export const getTerms = () => getDoc<LegalFrontmatter>("legal/terms");
 
@@ -808,6 +860,63 @@ export function getNewsFacets(): { topics: string[]; geographies: string[] } {
     topics: [...topics].sort(),
     geographies: [...geographies].sort(),
   };
+}
+
+/* -------------------------------------------------------------------------- */
+/* Books (Resources)                                                          */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Every book in content/books/, normalized for rendering and sorted by
+ * `order`. Covers prefer a self-hosted file at public/images/books/{isbn}.jpg
+ * (checked at build time, like team photos) and fall back to Open Library.
+ * An absent content/books/ directory is an empty list.
+ */
+export function getAllBooks(): Book[] {
+  const text = (value: unknown) =>
+    value === undefined || value === null || String(value).trim() === ""
+      ? undefined
+      : String(value).trim();
+  const list = (value: unknown) =>
+    (Array.isArray(value) ? value : value ? [value] : [])
+      .map((v) => facetSlug(String(v)))
+      .filter(Boolean);
+  const num = (value: unknown) => {
+    const n = Number(text(value));
+    return Number.isFinite(n) ? n : undefined;
+  };
+
+  const coverFor = (isbn: string | undefined) => {
+    if (!isbn) return undefined;
+    const local = `/images/books/${isbn}.jpg`;
+    return publicFileExists(local) ? local : coverUrl(isbn);
+  };
+
+  const books = getCollection<BookFrontmatter>("books", () => undefined).map(
+    ({ slug, frontmatter: fm }): Book => {
+      const isbn = text(fm.isbn)?.replace(/[^0-9Xx]/g, "") || undefined;
+      return {
+        slug,
+        title: String(fm.title),
+        subtitle: text(fm.subtitle),
+        author: text(fm.author),
+        publisher: text(fm.publisher),
+        selfPublished: fm.selfPublished === true,
+        year: num(fm.year),
+        isbn,
+        audience: list(fm.audience),
+        theme: list(fm.theme),
+        amazonUrl: text(fm.amazonUrl),
+        bookshopUrl: text(fm.bookshopUrl),
+        freeUrl: text(fm.freeUrl),
+        blurb: text(fm.blurb),
+        zachPick: fm.zachPick === true,
+        order: num(fm.order),
+        cover: coverFor(isbn),
+      };
+    }
+  );
+  return sortBooks(books, "order");
 }
 
 /* -------------------------------------------------------------------------- */
