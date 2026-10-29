@@ -358,6 +358,21 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Books page links SCKIN's Bookshop.org list (2026-10-29)
+
+"Browse our list on Bookshop.org — buying there supports independent
+bookstores." links to
+https://bookshop.org/lists/sickle-cell-books-recommended-by-sckin, opening in
+a new tab with `rel="noopener sponsored"`. Copy lives in `store:` in
+`content/books.md`.
+
+- **Below the disclosures, not in the intro or inside them.** The list link
+  is an affiliate link, so it follows the commission disclosure like every
+  other one on the page. The disclosure lines themselves stay plain, with no
+  call to action.
+- **"Our list", not "every book".** Bookshop.org does not carry every title
+  on the page.
+
 ### Optional email and newsletter opt-in on "Suggest a book" (2026-10-29)
 
 Reverses the "no email" decision of 2026-10-28 below. The form gains an

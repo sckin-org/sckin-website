@@ -11,8 +11,15 @@ disclosures:
   - "SCKIN earns a commission when you buy through our Bookshop.org and Amazon links, at no extra cost to you. As an Amazon Associate, SCKIN earns from qualifying purchases."
   - "Many of these titles are self-published personal accounts. They reflect individual experience, not medical guidance."
 empty: The first titles are being reviewed and will appear here soon.
-# "Suggest a book" link and inline form, shown above the filters. No email is
-# collected and no reply is promised.
+# SCKIN's Bookshop.org list, linked just below the disclosures (it is an
+# affiliate link, so it must come after them). The list may not carry every
+# title on this page — keep the wording to "the list", not "every book".
+store:
+  link: Browse our list on Bookshop.org
+  note: buying there supports independent bookstores.
+  url: https://bookshop.org/lists/sickle-cell-books-recommended-by-sckin
+# "Suggest a book" link and inline form, shown above the filters. Email is
+# optional; the newsletter box appears only once an email is typed.
 suggest:
   link: Suggest a book
   intro: Know a book about sickle cell that belongs on this list? Tell us about it.

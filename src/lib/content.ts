@@ -624,6 +624,9 @@ export interface BooksLandingFrontmatter extends FrontmatterBase {
   disclosures: string[];
   /** Line shown when no reviewed entries exist yet. */
   empty: string;
+  /** SCKIN's Bookshop.org list — an affiliate link, rendered after the
+   * disclosures. */
+  store: { link: string; note: string; url: string };
   /** "Suggest a book" link and inline form (BookSuggestionForm). */
   suggest: BookSuggestionCopy;
 }

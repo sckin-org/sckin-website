@@ -16,8 +16,9 @@ export function generateMetadata(): Metadata {
  * /resources/books — the first live Resources product. Copy and disclosures
  * come from content/books.md, entries from content/books/*.md (see
  * getAllBooks for cover resolution). The disclosures sit above the
- * filters so they precede every affiliate link on the page; the "Suggest a
- * book" toggle sits between them and the list.
+ * filters so they precede every affiliate link on the page — the
+ * Bookshop.org list link included, which follows them directly; the
+ * "Suggest a book" toggle sits between those and the list.
  */
 export default function BooksPage() {
   const { frontmatter } = getBooksLanding();
@@ -44,7 +45,23 @@ export default function BooksPage() {
           ))}
         </aside>
 
-        <div className="mt-6 max-w-[720px]">
+        <p
+          data-role="bookshop-list"
+          className="mt-5 max-w-[720px] text-[15px] leading-(--line-height-body) text-body"
+        >
+          <a
+            href={frontmatter.store.url}
+            target="_blank"
+            rel="noopener sponsored"
+            className="font-semibold text-link transition-colors hover:text-link-hover"
+          >
+            {frontmatter.store.link}
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>{" "}
+          — {frontmatter.store.note}
+        </p>
+
+        <div className="mt-4 max-w-[720px]">
           <BookSuggestionForm copy={frontmatter.suggest} />
         </div>
 
