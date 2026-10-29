@@ -427,10 +427,11 @@ stays last before Donate. Decisions:
   IntechOpen, L'Harmattan, Cleverly Changing Press ×3, author's press) and
   7 from Google Books. Clemmie uses Google Books because the publisher image
   is a mockup; My Life Beyond because Mayo Clinic Press blocks downloads;
-  My Brother because AuthorHouse only has a small GIF. 10 more come from Open
+  My Brother because AuthorHouse only has a small GIF. 9 more come from Open
   Library. Zacharie supplied the last five by hand ("A Doctor In A Patient's
   Body", "Everyday with Sickle Cell", "Sickle", "Sickle Cell Superstars" and
-  the NHLBI report). The NHLBI report has no ISBN, so an entry without one
+  the NHLBI report), and later a sharp "Dying in the City of the Blues" to
+  replace Open Library's faded scan. The NHLBI report has no ISBN, so an entry without one
   uses `public/images/books/{slug}.jpg`. Every book now has a cover; the red
   title card remains as the fallback. Covers are fitted, not cropped, so
   square picture books show whole.
