@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["hcp"]
 theme: ["health"]
 amazonUrl: "https://www.amazon.com/dp/3319872923?tag=sckin00-20"
-bookshopUrl: "https://bookshop.org/a/130592/9783319872926"
+bookshopUrl: "https://bookshop.org/a/130592/9783319623276" # the 2017 hardcover; Bookshop.org does not stock the softcover reprint above
 blurb: "The reference volume on transplant as a curative approach — donor selection, conditioning, outcomes and late effects."
 zachPick: false
 order: 270

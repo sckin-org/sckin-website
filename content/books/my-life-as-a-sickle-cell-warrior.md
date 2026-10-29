@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["patients", "hcp"]
 theme: ["memoirs"]
 amazonUrl: "https://www.amazon.com/dp/1638710139?tag=sckin00-20"
-bookshopUrl: "https://bookshop.org/a/130592/9781638710134"
+bookshopUrl: "" # Bookshop.org has no print edition for sale (checked 2026-10-29)
 blurb: "A first-person account of long-term life with the disease, written for other patients."
 zachPick: false
 order: 150

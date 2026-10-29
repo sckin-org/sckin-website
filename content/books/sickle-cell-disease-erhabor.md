@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["hcp"]
 theme: ["health"]
 amazonUrl: "https://www.amazon.com/dp/1803555947?tag=sckin00-20"
-bookshopUrl: "https://bookshop.org/a/130592/9781803555942"
+bookshopUrl: "" # Bookshop.org has no print edition for sale (checked 2026-10-29)
 freeUrl: "https://www.intechopen.com/books/11293"
 blurb: "An open-access edited volume, free to read in full — useful where textbook budgets are the constraint."
 zachPick: false

@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["caregivers", "patients"]
 theme: ["memoirs", "social"]
 amazonUrl: "https://www.amazon.com/dp/1497385733?tag=sckin00-20"
-bookshopUrl: "https://bookshop.org/a/130592/9781497385733"
+bookshopUrl: "" # Bookshop.org has no print edition for sale (checked 2026-10-29)
 blurb: "A coping-focused personal account. The Kindle edition carries a longer title ending \"...Against All Odds\"."
 zachPick: false
 order: 180
