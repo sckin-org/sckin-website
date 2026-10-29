@@ -16,7 +16,7 @@ empty: The first titles are being reviewed and will appear here soon.
 # title on this page — keep the wording to "the list", not "every book".
 store:
   link: Browse our list on Bookshop.org
-  note: Buying there supports independent bookstores.
+  note: buying there supports independent bookstores.
   url: https://bookshop.org/lists/sickle-cell-books-recommended-by-sckin
 # "Suggest a book" link and inline form, shown above the filters. Email is
 # optional; the newsletter box appears only once an email is typed.

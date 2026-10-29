@@ -360,7 +360,7 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ### Books page links SCKIN's Bookshop.org list (2026-10-29)
 
-"Browse our list on Bookshop.org — Buying there supports independent
+"Browse our list on Bookshop.org — buying there supports independent
 bookstores." links to
 https://bookshop.org/lists/sickle-cell-books-recommended-by-sckin, opening in
 a new tab with `rel="noopener sponsored"`. Copy lives in `store:` in
