@@ -227,6 +227,28 @@ export const EVALUATION_FIELDS: FieldSpec[] = [
   { name: "message", required: false, type: "textarea", maxLength: 5000 },
 ];
 
+/** Earliest publication year the "Suggest a book" form accepts. */
+export const BOOK_SUGGESTION_MIN_YEAR = 1900;
+
+/**
+ * "Suggest a book" on /resources/books → the book_suggestions tab. No email
+ * or name: SCKIN reviews suggestions and promises no reply. The ISBN's raw
+ * maxLength leaves room for hyphens and spaces; it is checksum-validated and
+ * stored normalized (see appendBookSuggestionRow).
+ */
+export const BOOK_SUGGESTION_FIELDS: FieldSpec[] = [
+  { name: "title", required: true, type: "text", maxLength: 200 },
+  { name: "author", required: true, type: "text", maxLength: 200 },
+  {
+    name: "publication_year",
+    required: true,
+    type: "integer",
+    min: BOOK_SUGGESTION_MIN_YEAR,
+    max: "currentYear",
+  },
+  { name: "isbn", required: false, type: "isbn", maxLength: 30 },
+];
+
 /** Home email signup — email only; name/HCP/country are optional per source. */
 export const NEWSLETTER_FIELDS: FieldSpec[] = [
   { name: "email", required: true, type: "email" },

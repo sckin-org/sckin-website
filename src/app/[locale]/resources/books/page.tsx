@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getAllBooks, getBooksLanding } from "@/lib/content";
 import PageHeader from "@/components/PageHeader";
 import BookBrowser from "@/components/BookBrowser";
+import BookSuggestionForm from "@/components/BookSuggestionForm";
 
 export function generateMetadata(): Metadata {
   const { frontmatter } = getBooksLanding();
@@ -15,7 +16,8 @@ export function generateMetadata(): Metadata {
  * /resources/books — the first live Resources product. Copy and disclosures
  * come from content/books.md, entries from content/books/*.md (see
  * getAllBooks for cover resolution). The disclosures sit above the
- * filters so they precede every affiliate link on the page.
+ * filters so they precede every affiliate link on the page; the "Suggest a
+ * book" toggle sits between them and the list.
  */
 export default function BooksPage() {
   const { frontmatter } = getBooksLanding();
@@ -42,7 +44,11 @@ export default function BooksPage() {
           ))}
         </aside>
 
-        <div className="mt-10">
+        <div className="mt-6 max-w-[720px]">
+          <BookSuggestionForm copy={frontmatter.suggest} />
+        </div>
+
+        <div className="mt-8">
           {books.length ? (
             <BookBrowser books={books} />
           ) : (
