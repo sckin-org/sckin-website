@@ -11,7 +11,7 @@ language: ["en"]
 audience: ["children"]
 theme: ["health", "social"]
 amazonUrl: "https://www.amazon.com/s?k=9798892810647&i=stripbooks&tag=sckin00-20"
-bookshopUrl: "" # Bookshop.org sells only the ebook (checked 2026-10-29)
+bookshopUrl: "https://bookshop.org/a/130592/9798892810654" # the ebook; Bookshop.org has no print edition (checked 2026-10-29)
 blurb: "Two clinicians explain sickle cell directly to a child, in the plain, unpatronising voice the series is known for. Good for ages 5 and up, and for siblings and classmates."
 zachPick: false
 order: 30

@@ -363,15 +363,19 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 Every "Buy on Bookshop.org" link was opened in a browser (affiliate account
 130592, now verified) and compared with SCKIN's 21-title Bookshop.org list.
 Rule: **the Bookshop button appears only when Bookshop.org sells a print
-edition**; otherwise the card shows "Buy on Amazon" alone.
+edition** — or, for the two titles that exist there only as ebooks, the
+ebook; otherwise the card shows "Buy on Amazon" alone.
 
 - **Kept (18):** the link loads a print edition that can be added to the cart
   or backordered.
 - **Re-pointed (1):** *Sickle Cell Disease and Hematopoietic Stem Cell
   Transplantation* goes to the 2017 hardcover (9783319623276); Bookshop does
   not stock the softcover reprint the entry lists. `isbn` stays the softcover.
-- **Removed, ebook only (2):** *A Sick Life* and *A Kids Book About Sickle
-  Cell Disease*. They stay on the Bookshop.org list as ebooks.
+- **Ebook links (2):** *A Sick Life* (9781623368616) and *A Kids Book About
+  Sickle Cell Disease* (9798892810654) link to their ebooks, matching the
+  Bookshop.org list — Bookshop has no print edition of either, and its page
+  shows "Ebook" as the only format. (First removed, then restored the same day
+  for consistency with the list.)
 - **Removed, no print edition for sale (13):** the link 404s for *Hope &
   Destiny*, *Hope & Destiny Jr.*, *A Doctor in a Patient's Body*, *Everyday
   with Sickle Cell*, *Sickle* (Friend), *Sickle Cell Superstars* and *The
