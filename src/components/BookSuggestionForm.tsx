@@ -17,6 +17,10 @@ import type { BookSuggestionCopy } from "@/lib/content";
  * required, maxLength, the year's min/max, and the ISBN checksum through
  * setCustomValidity.
  *
+ * Email is optional. The newsletter box (unticked) appears only once an
+ * email is typed, and unmounts with its value if the email is cleared — the
+ * server also ignores it without an email.
+ *
  * The form (and so Turnstile) mounts only once opened, which also means the
  * year's max is the visitor's current year, not the prerender's. Focus moves
  * to Title on open and to the confirmation on success, so it is never lost
@@ -43,6 +47,8 @@ export default function BookSuggestionForm({
 }) {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
+  const [email, setEmail] = useState("");
+  const hasEmail = email.trim() !== "";
   const titleRef = useRef<HTMLInputElement>(null);
   const confirmationRef = useRef<HTMLDivElement>(null);
   const turnstileRef = useRef<TurnstileHandle>(null);
@@ -117,7 +123,7 @@ export default function BookSuggestionForm({
             role="status"
             className="scroll-mt-24 text-[15px] leading-(--line-height-body) text-heading outline-none"
           >
-            {copy.success}
+            {hasEmail ? copy.success_with_email : copy.success}
           </div>
         ) : (
           <>
@@ -218,6 +224,46 @@ export default function BookSuggestionForm({
                   </p>
                 </div>
               </div>
+
+              <div>
+                <label htmlFor="suggest-email" className={LABEL_CLASS}>
+                  {copy.email_label}
+                </label>
+                <input
+                  id="suggest-email"
+                  name="email"
+                  type="email"
+                  maxLength={254}
+                  autoComplete="email"
+                  aria-describedby="suggest-email-hint"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={INPUT_CLASS}
+                />
+                <p
+                  id="suggest-email-hint"
+                  className="mt-1.5 text-[13px] leading-[1.5] text-body"
+                >
+                  {copy.email_hint}
+                </p>
+              </div>
+
+              {hasEmail ? (
+                <label
+                  htmlFor="suggest-newsletter"
+                  className="flex cursor-pointer items-start gap-3 py-1"
+                >
+                  <input
+                    id="suggest-newsletter"
+                    name="newsletter"
+                    type="checkbox"
+                    className="mt-[3px] h-5 w-5 shrink-0 accent-(--color-cta) focus-visible:ring-2 focus-visible:ring-(--color-cta) focus-visible:ring-offset-2"
+                  />
+                  <span className="text-[14px] leading-[1.5] font-semibold text-heading">
+                    {copy.newsletter_label}
+                  </span>
+                </label>
+              ) : null}
 
               <TurnstileWidget
                 ref={turnstileRef}

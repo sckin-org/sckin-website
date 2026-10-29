@@ -231,10 +231,11 @@ export const EVALUATION_FIELDS: FieldSpec[] = [
 export const BOOK_SUGGESTION_MIN_YEAR = 1900;
 
 /**
- * "Suggest a book" on /resources/books → the book_suggestions tab. No email
- * or name: SCKIN reviews suggestions and promises no reply. The ISBN's raw
- * maxLength leaves room for hyphens and spaces; it is checksum-validated and
- * stored normalized (see appendBookSuggestionRow).
+ * "Suggest a book" on /resources/books → the book_suggestions tab. No name;
+ * email is optional (so SCKIN can say when a book is added) and the
+ * newsletter box, unticked by default, only counts alongside an email — see
+ * appendBookSuggestionRow. The ISBN's raw maxLength leaves room for hyphens
+ * and spaces; it is checksum-validated and stored normalized.
  */
 export const BOOK_SUGGESTION_FIELDS: FieldSpec[] = [
   { name: "title", required: true, type: "text", maxLength: 200 },
@@ -247,6 +248,8 @@ export const BOOK_SUGGESTION_FIELDS: FieldSpec[] = [
     max: "currentYear",
   },
   { name: "isbn", required: false, type: "isbn", maxLength: 30 },
+  { name: "email", required: false, type: "email", maxLength: 254 },
+  { name: "newsletter", required: false, type: "checkbox" },
 ];
 
 /** Home email signup — email only; name/HCP/country are optional per source. */
