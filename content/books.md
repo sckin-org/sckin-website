@@ -22,8 +22,12 @@ suggest:
   isbn_label: ISBN
   isbn_hint: Optional. ISBN-10 or ISBN-13, with or without hyphens.
   isbn_error: Enter a valid ISBN-10 or ISBN-13, or leave this blank.
+  email_label: Email
+  email_hint: Optional — so we can tell you if we add the book.
+  newsletter_label: Send me the SCKIN newsletter.
   submit: Send suggestion
   sending: Sending…
   success: Thanks — we review every suggestion.
+  success_with_email: Thanks — we review every suggestion, and we'll let you know if we add it.
   error: Something went wrong. Please try again, or email us at
 ---

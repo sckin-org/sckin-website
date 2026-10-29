@@ -639,9 +639,15 @@ export interface BookSuggestionCopy {
   isbn_hint: string;
   /** Shown by the browser when the ISBN fails its checksum. */
   isbn_error: string;
+  email_label: string;
+  email_hint: string;
+  /** Checkbox label; the box appears only once an email is typed. */
+  newsletter_label: string;
   submit: string;
   sending: string;
   success: string;
+  /** Replaces `success` when the suggestion came with an email. */
+  success_with_email: string;
   /** Inline error; the fallback email address is appended. */
   error: string;
 }

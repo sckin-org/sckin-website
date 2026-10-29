@@ -621,6 +621,8 @@ export const BOOK_SUGGESTIONS_TAB_COLUMNS = [
   "author",
   "publication_year",
   "isbn",
+  "email",
+  "newsletter",
   "locale",
   "status",
   "notes",
@@ -630,8 +632,10 @@ export const BOOK_SUGGESTIONS_TAB_COLUMNS = [
  * Append one book suggestion to the book_suggestions tab — same spreadsheet,
  * credentials and WIF flow as the other tabs. `clean` is the whitelisted,
  * validated field map; the ISBN is stored normalized (digits, plus a final
- * "X" for some ISBN-10s). Locale comes from DEFAULT_LOCALE, as for contacts.
- * Every submission appends — no dedup; the same title twice is a signal.
+ * "X" for some ISBN-10s). newsletter is TRUE only when the box was ticked
+ * AND an email was given — an opt-in with no address means nothing. Locale
+ * comes from DEFAULT_LOCALE, as for contacts. Every submission appends — no
+ * dedup; the same title twice is a signal.
  */
 export async function appendBookSuggestionRow(
   clean: Record<string, string>
@@ -645,7 +649,9 @@ export async function appendBookSuggestionRow(
     BOOK_SUGGESTIONS_TAB_COLUMNS
   );
 
-  // Order must match BOOK_SUGGESTIONS_TAB_COLUMNS (A–I).
+  const email = (clean.email ?? "").trim();
+
+  // Order must match BOOK_SUGGESTIONS_TAB_COLUMNS (A–K).
   const values = [
     [
       crypto.randomUUID(),
@@ -655,6 +661,8 @@ export async function appendBookSuggestionRow(
       // A number, so the cell is numeric (validation guarantees digits).
       Number(clean.publication_year),
       clean.isbn ? normalizeIsbn(clean.isbn) : "",
+      email,
+      email && clean.newsletter ? "TRUE" : "FALSE",
       DEFAULT_LOCALE,
       "new",
       "",

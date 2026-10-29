@@ -357,6 +357,27 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Optional email and newsletter opt-in on "Suggest a book" (2026-10-29)
+
+Reverses the "no email" decision of 2026-10-28 below. The form gains an
+optional **Email** ("so we can tell you if we add the book") and, only once an
+email is typed, an **unticked** "Send me the SCKIN newsletter." box.
+
+- **Unticked, not pre-ticked.** A public page asks for an active opt-in (the
+  SCDAA pre-tick was a conference-floor choice and does not carry over).
+- **Columns** are now `id, created_at, title, author, publication_year, isbn,
+  email, newsletter, locale, status, notes`; the tab's header row was updated
+  at deploy. `newsletter` is `TRUE` only with an email; without one it is
+  `FALSE` whatever was posted.
+- **Opt-ins are moved into Kit by hand**, as for the ASCAT, SCDAA and
+  evaluations forms — nothing syncs automatically.
+- **Success copy** gains "…and we'll let you know if we add it" when an email
+  was given. The spreadsheet's email notifier sets reply-to from the `email`
+  column, so a suggestion with an email can be answered from the notification.
+- **Open gap:** the site's privacy notice (`content/legal/privacy.md`) covers
+  only the SickleCellPedia chatbot, not the website's forms — this one or the
+  ones that already collected email.
+
 ### "Suggest a book" form on the Books page (2026-10-28)
 
 A "Suggest a book" toggle between the disclosures and the filters opens an
