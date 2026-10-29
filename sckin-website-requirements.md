@@ -312,6 +312,7 @@ Dropped by design: hero image, tool images, three-tool layout.
 - [x] ToS content consistent with what the WhatsApp bot tells users (welcome references `sckin.org/whatsapp` terms) *(`/whatsapp` links straight to `/terms` and `/privacy`)*
 - [x] Link both from the footer *(Privacy · Terms, every page)*
 - [x] → Paste to Claude Code *(shipped 2026-07-19)*
+- [ ] **`/privacy` covers the website, not just the chatbot** *(added 2026-10-29)* — `content/legal/privacy.md` describes only SickleCellPedia / Drepanopedia. Add what sckin.org itself collects and why: the forms (Contact, newsletter, Pro interest, ASCAT, SCDAA, evaluations, "Suggest a book" — name, email, role/organization, message, newsletter opt-in) · where it is kept (Google Sheets; newsletter opt-ins copied into Kit by hand) · Cloudflare Turnstile on every form · analytics (GA4 sets cookies; Vercel and Cloudflare Web Analytics are cookieless) · Stripe for donations · retention, and how to ask for access or deletion · bump `lastUpdated`. Keep the URL unchanged — Meta re-validates it
 
 ---
 
@@ -376,7 +377,7 @@ email is typed, an **unticked** "Send me the SCKIN newsletter." box.
   column, so a suggestion with an email can be answered from the notification.
 - **Open gap:** the site's privacy notice (`content/legal/privacy.md`) covers
   only the SickleCellPedia chatbot, not the website's forms — this one or the
-  ones that already collected email.
+  ones that already collected email. Tracked in §13 Legal.
 
 ### "Suggest a book" form on the Books page (2026-10-28)
 
