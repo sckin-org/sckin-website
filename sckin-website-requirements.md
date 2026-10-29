@@ -358,6 +358,31 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Bookshop.org buttons only where Bookshop sells the print book (2026-10-29)
+
+Every "Buy on Bookshop.org" link was opened in a browser (affiliate account
+130592, now verified) and compared with SCKIN's 21-title Bookshop.org list.
+Rule: **the Bookshop button appears only when Bookshop.org sells a print
+edition**; otherwise the card shows "Buy on Amazon" alone.
+
+- **Kept (18):** the link loads a print edition that can be added to the cart
+  or backordered.
+- **Re-pointed (1):** *Sickle Cell Disease and Hematopoietic Stem Cell
+  Transplantation* goes to the 2017 hardcover (9783319623276); Bookshop does
+  not stock the softcover reprint the entry lists. `isbn` stays the softcover.
+- **Removed, ebook only (2):** *A Sick Life* and *A Kids Book About Sickle
+  Cell Disease*. They stay on the Bookshop.org list as ebooks.
+- **Removed, no print edition for sale (13):** the link 404s for *Hope &
+  Destiny*, *Hope & Destiny Jr.*, *A Doctor in a Patient's Body*, *Everyday
+  with Sickle Cell*, *Sickle* (Friend), *Sickle Cell Superstars* and *The
+  Ultimate Sickle Cell Activity Book*, and shows "Unavailable" for *Living
+  With Sickle Cell Disease*, *Resilience*, *My Life as a Sickle Cell Warrior*,
+  *Sickle Cell Disease* (Serjeant), *Sickle Cell Disease* (Erhabor) and
+  *Understanding Sickle Cell Disease* (Bloom — Bookshop's same-titled book is
+  a different author).
+- Each blank `bookshopUrl` carries a dated YAML comment giving the reason, so
+  a re-check knows what to look for.
+
 ### Books page links SCKIN's Bookshop.org list (2026-10-29)
 
 "Browse our list on Bookshop.org — buying there supports independent
@@ -526,9 +551,10 @@ stays last before Donate. Decisions:
   `bookshop.org/a/130592/{ISBN-13}`, so "Buy on Bookshop.org" is the main
   button and Amazon reads "Also on Amazon". Not checked title by title:
   bookshop.org puts a Cloudflare bot check in front of scripted requests.
-- **Open:** confirm which titles Bookshop.org stocks (via the shop's list
-  build) and drop or re-point the links for any it doesn't. Amazon is the US
-  store only: visitors outside the US land on amazon.com.
+- ~~**Open:** confirm which titles Bookshop.org stocks (via the shop's list
+  build) and drop or re-point the links for any it doesn't.~~ Done
+  2026-10-29, see that day's entry. Amazon is the US store only: visitors
+  outside the US land on amazon.com.
 
 ### /evaluations — rater sign-up for the SickleCellPedia benchmarking study (2026-10-27)
 
