@@ -1,7 +1,7 @@
 /**
  * Shared submission route-handler factory. The SickleCellPedia Pro,
- * newsletter, Contact and ASCAT forms all use this one pattern — do not fork
- * a second approach.
+ * newsletter, Contact, ASCAT, SCDAA, evaluations and "Suggest a book" forms
+ * all use this one pattern — do not fork a second approach.
  *
  * Server-only (imports the Sheets bridge + reads request headers). The pipeline:
  *   rate limit → parse JSON → honeypot → Turnstile → server-side validation →

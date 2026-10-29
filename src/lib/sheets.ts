@@ -32,6 +32,8 @@
  */
 import crypto from "node:crypto";
 import { getVercelOidcToken } from "@vercel/oidc";
+import { DEFAULT_LOCALE } from "@/lib/i18n";
+import { normalizeIsbn } from "@/lib/forms";
 
 /** Thrown when WIF config or the spreadsheet ID is not configured. */
 export class SheetsConfigError extends Error {
@@ -339,16 +341,17 @@ export const SCDAA_TAB_COLUMNS = [
 ] as const;
 
 /**
- * Has this instance already confirmed the scdaa header row? Only a SUCCESSFUL
- * check is cached, so correcting the sheet recovers without a redeploy.
+ * Hand-made tabs whose header row this instance has already confirmed. Only a
+ * SUCCESSFUL check is cached, so correcting the sheet recovers without a
+ * redeploy.
  */
-let scdaaHeadersVerified = false;
+const verifiedTabHeaders = new Set<string>();
 
 /**
- * Verify row 1 of the scdaa tab matches SCDAA_TAB_COLUMNS exactly before the
- * first write of an instance's life. Headers are NEVER written: the tab is
- * created by hand, and silently appending to a tab whose columns have shifted
- * would scatter contacts across the wrong fields.
+ * Verify row 1 of a hand-made tab (scdaa, book_suggestions) matches `columns`
+ * exactly before the first write of an instance's life. Headers are NEVER
+ * written: the tab is created by hand, and silently appending to a tab whose
+ * columns have shifted would scatter rows across the wrong fields.
  *
  * Deliberately throws a plain Error, not SheetsConfigError — the route turns
  * SheetsConfigError into `{ok:true, persisted:false}`, which would show the
@@ -356,39 +359,41 @@ let scdaaHeadersVerified = false;
  * surface as a 500 and the form's inline error, so the submission is retried
  * once the sheet is fixed rather than lost quietly.
  */
-async function assertScdaaHeaders(
+async function assertTabHeaders(
   config: WifConfig,
-  token: string
+  token: string,
+  tab: string,
+  columns: readonly string[]
 ): Promise<void> {
-  if (scdaaHeadersVerified) return;
+  if (verifiedTabHeaders.has(tab)) return;
 
-  const range = encodeURIComponent(`'${SCDAA_SHEET_TAB}'!1:1`);
+  const range = encodeURIComponent(`'${tab}'!1:1`);
   const res = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${range}?majorDimension=ROWS`,
     { headers: { Authorization: `Bearer ${token}` } }
   );
   if (!res.ok) {
     throw new Error(
-      `Sheets header read (scdaa tab) responded ${res.status} — ` +
-        `does the "${SCDAA_SHEET_TAB}" tab exist?`
+      `Sheets header read (${tab} tab) responded ${res.status} — ` +
+        `does the "${tab}" tab exist?`
     );
   }
   const header =
     ((await res.json()) as { values?: string[][] }).values?.[0] ?? [];
   const actual = header.map((cell) => (cell ?? "").trim());
-  const expected = [...SCDAA_TAB_COLUMNS];
+  const expected = [...columns];
   const matches =
     actual.length === expected.length &&
     expected.every((name, i) => actual[i] === name);
   if (!matches) {
     throw new Error(
-      `Sheets header mismatch on the "${SCDAA_SHEET_TAB}" tab. ` +
+      `Sheets header mismatch on the "${tab}" tab. ` +
         `Expected row 1 to be exactly [${expected.join(", ")}] ` +
         `but found [${actual.join(", ")}]. Fix the tab by hand — this code ` +
         `never writes headers.`
     );
   }
-  scdaaHeadersVerified = true;
+  verifiedTabHeaders.add(tab);
 }
 
 /**
@@ -405,7 +410,7 @@ export async function appendScdaaRow(
 ): Promise<void> {
   const config = readConfig();
   const token = await getAccessToken(config);
-  await assertScdaaHeaders(config, token);
+  await assertTabHeaders(config, token, SCDAA_SHEET_TAB, SCDAA_TAB_COLUMNS);
   const bool = (value: string | undefined) => (value ? "TRUE" : "FALSE");
 
   // Order must match SCDAA_TAB_COLUMNS (A–M), not the form's field order.
@@ -472,7 +477,7 @@ let evaluationsTabVerified = false;
  * Make sure the evaluations tab exists with EVALUATIONS_TAB_COLUMNS as row 1:
  * add the tab if it is missing, write the header if row 1 is empty. A row 1
  * that holds anything else is never overwritten — it throws a plain Error
- * (not SheetsConfigError, for the reason given on assertScdaaHeaders), so a
+ * (not SheetsConfigError, for the reason given on assertTabHeaders), so a
  * hand-edited tab fails loudly instead of scattering rows across the wrong
  * columns.
  */
@@ -599,5 +604,78 @@ export async function appendEvaluationRow(
   );
   if (!res.ok) {
     throw new Error(`Sheets append (evaluations tab) responded ${res.status}`);
+  }
+}
+
+/**
+ * Column order of the book_suggestions tab ("Suggest a book" on
+ * /resources/books) — tab and header created by hand, keep in sync. Verified
+ * like the scdaa tab, never written. `status` starts at "new" for review;
+ * `notes` is left for the reviewer.
+ */
+export const BOOK_SUGGESTIONS_SHEET_TAB = "book_suggestions";
+export const BOOK_SUGGESTIONS_TAB_COLUMNS = [
+  "id",
+  "created_at",
+  "title",
+  "author",
+  "publication_year",
+  "isbn",
+  "locale",
+  "status",
+  "notes",
+] as const;
+
+/**
+ * Append one book suggestion to the book_suggestions tab — same spreadsheet,
+ * credentials and WIF flow as the other tabs. `clean` is the whitelisted,
+ * validated field map; the ISBN is stored normalized (digits, plus a final
+ * "X" for some ISBN-10s). Locale comes from DEFAULT_LOCALE, as for contacts.
+ * Every submission appends — no dedup; the same title twice is a signal.
+ */
+export async function appendBookSuggestionRow(
+  clean: Record<string, string>
+): Promise<void> {
+  const config = readConfig();
+  const token = await getAccessToken(config);
+  await assertTabHeaders(
+    config,
+    token,
+    BOOK_SUGGESTIONS_SHEET_TAB,
+    BOOK_SUGGESTIONS_TAB_COLUMNS
+  );
+
+  // Order must match BOOK_SUGGESTIONS_TAB_COLUMNS (A–I).
+  const values = [
+    [
+      crypto.randomUUID(),
+      new Date().toISOString(),
+      clean.title ?? "",
+      clean.author ?? "",
+      // A number, so the cell is numeric (validation guarantees digits).
+      Number(clean.publication_year),
+      clean.isbn ? normalizeIsbn(clean.isbn) : "",
+      DEFAULT_LOCALE,
+      "new",
+      "",
+    ],
+  ];
+
+  const range = encodeURIComponent(`'${BOOK_SUGGESTIONS_SHEET_TAB}'!A1`);
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ values }),
+    }
+  );
+  if (!res.ok) {
+    throw new Error(
+      `Sheets append (book_suggestions tab) responded ${res.status}`
+    );
   }
 }

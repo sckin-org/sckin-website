@@ -624,6 +624,26 @@ export interface BooksLandingFrontmatter extends FrontmatterBase {
   disclosures: string[];
   /** Line shown when no reviewed entries exist yet. */
   empty: string;
+  /** "Suggest a book" link and inline form (BookSuggestionForm). */
+  suggest: BookSuggestionCopy;
+}
+
+/** Copy for the "Suggest a book" form — one key per visible string. */
+export interface BookSuggestionCopy {
+  link: string;
+  intro: string;
+  title_label: string;
+  author_label: string;
+  year_label: string;
+  isbn_label: string;
+  isbn_hint: string;
+  /** Shown by the browser when the ISBN fails its checksum. */
+  isbn_error: string;
+  submit: string;
+  sending: string;
+  success: string;
+  /** Inline error; the fallback email address is appended. */
+  error: string;
 }
 
 /**

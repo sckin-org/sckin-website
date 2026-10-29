@@ -357,6 +357,38 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### "Suggest a book" form on the Books page (2026-10-28)
+
+A "Suggest a book" toggle between the disclosures and the filters opens an
+inline form (the site has no modals): Title, Author, Publication year, ISBN
+(optional). It posts to `/api/book-suggestions` through
+`createSubmissionHandler` (rate limit, honeypot, Turnstile, validation) and
+appends to the hand-made **`book_suggestions`** tab of SCKIN Website Contacts.
+Decisions:
+
+- **No email or name, no promised reply.** The success line is "Thanks — we
+  review every suggestion." Suggestions are reviewed in the sheet: `status`
+  starts at `new`, `notes` is left for the reviewer.
+- **Columns** `id, created_at, title, author, publication_year, isbn, locale,
+  status, notes`, verified before the first write of an instance and never
+  written (the scdaa header check is now a shared `assertTabHeaders`).
+  `id` is `crypto.randomUUID()` and `locale` is `DEFAULT_LOCALE`, both as for
+  contacts. The year is written as a number.
+- **Validation.** Title and author required, up to 200 characters; year a
+  whole number from 1900 to the current year (resolved per request); ISBN
+  optional, ISBN-10 or ISBN-13, checksum-checked and stored without hyphens or
+  spaces. `FieldSpec` gained `integer` and `isbn` types for this. In the
+  browser the same rules give native validation messages, the ISBN checksum
+  through `setCustomValidity`.
+- **A filled honeypot** gets the shared handler's silent `ok` and writes
+  nothing, as on every other form.
+- **English only.** `LOCALES` is `["en"]`, so the copy lives in the `suggest`
+  block of `content/books.md`. When French ships, the link reads "Suggérer un
+  livre".
+- **Tested on the PR preview, not locally.** The Sheets variables exist only
+  in Production and Preview, so a local `next dev` acknowledges without
+  writing.
+
 ### Resources section and the Books page (2026-10-28)
 
 New top-level **Resources ▾** nav section for five products: Books, Articles,
