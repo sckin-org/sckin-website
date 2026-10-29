@@ -4,7 +4,7 @@ subtitle: "A Guide for Kids"
 author: "Gunner Doyle"
 publisher: "Independently published"
 selfPublished: true
-year: null
+year: 2023
 edition: "1st"
 isbn: "9798373332392"
 language: ["en"]
