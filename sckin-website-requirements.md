@@ -22,7 +22,7 @@
 | **Design system** | Locked 2026-07-22 via Claude Design (annex: `sckin-design-spec-phase1.md`). Inter throughout · red `#8A1626` ramp (**revised 2026-07-22** from `#C41E3A` at import review — Zacharie approved the darker red the delivered ramp was anchored on; 9.5:1 on white; correct the token files' fabricated 2026-07-21 approval `$note` to this real provenance) · mobile-first (390px) · two-tone hero, no hero image · minimal-typographic (no photography on Home) · token handoff = CSS custom properties + `tokens.json`; every value must trace to a token |
 | **Stripe** | SCKIN account → Chase nonprofit account. **Apply for 501(c)(3) rate** (2.2% + 30¢ vs 2.9% + 30¢ — not automatic) |
 | **Donate defaults** | **One-time is the default** (flipped from recurring-first 2026-07-22), $25 pre-selected. Presets are frequency-dependent: one-time $25/$50/$100 · monthly $10/$20/$50 ($20 pre-selected when toggled). Monthly carries a "most impactful" tag. Existing lookup keys (`once_25/50/100`, `monthly_10/20/50`) already match — **no catalog reseed needed**. Optional "Add a note" field → Stripe metadata (to build). Homepage donate band and `/donate` share the same component + defaults |
-| **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **Resources ▾** (Books · Articles · Clinical Trials · Educational Material · Who's Who — added 2026-10-28; only Books is live, the other four are non-link "Coming soon" entries, see History) · **News ▾** (Latest News · Blog · Events — Events added 2026-09-04, see History) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
+| **Navigation** | Locked 2026-07-22: **About us ▾** (SCKIN · Our Founder · Board · Collaborators · Friends) · **SickleCellPedia** · **For Clinicians** (label for `/sicklecellpedia-pro`) · **Responsible AI** · **Impact ▾** (Impact · Publications) · **Resources ▾** (Books · Articles · Clinical Trials · Educational Material · Who's Who — added 2026-10-28; Books is live, Articles went live 2026-10-29, the other three are non-link "Coming soon" entries, see History) · **News ▾** (Latest News · Blog · Events — Events added 2026-09-04, see History) · **Donate** (red button, only red element in nav). Reserved slot for future language toggle. Contact stays out of nav (footer-linked). Impact ▾ goes live only when `/impact` has real numbers; until then Publications is the dropdown's only live entry |
 | **Publications placement** | Nav: under **Impact ▾**. Route stays **`/publications`** (no URL move — avoids redirect churn; reverses only the nav placement, not commit `a294044`) |
 | **Hypothesis** | Full text lives on **`/mission` only**; Home's Mission section carries a one-line distillation + "Our mission →" link (no duplicated full copy) |
 | **Pro leads** | Native on-site form → Google Sheet via **Workload Identity Federation API route** *(supersedes Apps Script per master doc v3.1 — switched to a service-account key 2026-07-20, `9aa2577`; switched again to keyless WIF 2026-07-23 — no service-account JSON key ever exists, see Technical setup)* |
@@ -357,6 +357,65 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 ---
 
 ## History
+
+### Articles page: foundational papers for clinicians (2026-10-29)
+
+`/resources/articles` ships as the second Resources product: a chronological
+reading list of 29 foundational peer-reviewed papers on sickle cell disease,
+for healthcare professionals. Static build: no agent, database or API route.
+Decisions:
+
+- **Data in `content/articles.json`, not one Markdown file per entry.** Books
+  uses `content/books/*.md`, but these records are headed for an `articles`
+  table in Postgres. A JSON array keeps the field names 1:1 with that table
+  (`ArticleRecord` in `src/lib/articles.ts`). `content/impact-data/*.json` is
+  the precedent for JSON in `content/`. Page copy stays in
+  `content/articles.md`. No Decap collection.
+- **`editorNote` is internal and never ships.** `getAllArticles` drops it on
+  the server, so it is absent from the HTML, the client props and the JS
+  chunks (checked by grepping the build).
+- **Order:** oldest first by default, with a "Newest first" toggle
+  (`?sort=newest`). Same-year papers keep their order in the JSON file, and
+  newest-first is the exact reverse. Filters never reorder.
+- **Filters** follow the Books pattern: pill rows for Theme, Impact, Study
+  type, Region (a record matches if any of its regions is selected) and
+  Population. OR within a row, AND across rows. A "Show only" row holds the
+  Guidelines (`tags` contains "Guidelines") and Free-full-text toggles.
+  Options are derived from the data in a fixed order. State lives in the
+  query string (`?theme=biology&study=rct&guidelines=1&free=1`). "Clear
+  filters" keeps the order. As on Books, the rows wrap on mobile rather than
+  collapse.
+- **`PillRow`, `Facet` and `facetSlug` moved to shared modules**
+  (`src/components/PillRow.tsx`, `src/lib/facets.ts`). The Books page uses
+  them unchanged.
+- **Cards:** year in the left column (where Books shows the cover), the short
+  title as the heading, the citation, "What it established", then badges
+  (theme, Guidelines, impact, study type, population, regions; each with a
+  visually hidden facet name) and links. "Free full text" is a filled red
+  pill; DOI and PubMed are outlined. All three open in a new tab with
+  `rel="noopener noreferrer"`, and each is hidden when null (Ohene-Frempong
+  1998 has no DOI). Population "All" reads "All ages" on the card. Each card
+  has `id={record.id}` for deep links.
+- **Built but unused today:** `hostedPdf` adds a "Download PDF" button for
+  `/articles/{hostedPdf}` under `public/articles/` (no PDFs are in the repo).
+  `plainLanguageNote` shows under "Why it matters". `currency: "Superseded"`
+  mutes the card, adds a "Superseded" tag and links to the `supersededBy`
+  card. A link to a card hidden by the current filters clears them so the
+  card shows. All three were checked with temporary values, then reverted.
+- **JSON-LD:** an `ItemList` of `ScholarlyArticle` (title, first author,
+  year as `datePublished`, journal as `isPartOf`, DOI URL as `sameAs` when
+  present).
+- **Registration:** Articles is a live link in the Resources ▾ menu (desktop
+  and mobile) and on the `/resources` hub. The hub copy no longer promises a
+  plain-language note on every entry. `/resources/articles` is in
+  `sitemap.ts`.
+- **Card anchors contain condition terms** (e.g. `#2000-vichinsky-acute-chest-syndrome`).
+  The brief requires `id={record.id}`. They are fragments, not paths, so the
+  page path and title gtag sends stay `/resources/articles` and "Foundational
+  Articles". GA4's full `page_location` can still carry the fragment when
+  someone opens a deep link. Flagged for review, not changed.
+- **Not done here:** scanning or ingestion, Postgres, hosted PDFs,
+  translations, social posting.
 
 ### Bookshop.org buttons only where Bookshop sells the print book (2026-10-29)
 

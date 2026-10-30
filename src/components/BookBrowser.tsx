@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import BookCard from "@/components/BookCard";
+import PillRow from "@/components/PillRow";
 import {
   AUDIENCES,
   DEFAULT_FILTERS,
@@ -14,7 +15,6 @@ import {
   type Book,
   type BookFilters,
   type BookSort,
-  type Facet,
 } from "@/lib/books";
 
 /**
@@ -119,43 +119,5 @@ export default function BookBrowser({ books }: { books: Book[] }) {
         </p>
       )}
     </div>
-  );
-}
-
-function PillRow({
-  legend,
-  facets,
-  selected,
-  onToggle,
-}: {
-  legend: string;
-  facets: Facet[];
-  selected: string[];
-  onToggle: (slug: string) => void;
-}) {
-  return (
-    <fieldset>
-      <legend className="overline-label text-body">{legend}</legend>
-      <div className="mt-2.5 flex flex-wrap gap-2">
-        {facets.map((facet) => {
-          const on = selected.includes(facet.slug);
-          return (
-            <button
-              key={facet.slug}
-              type="button"
-              aria-pressed={on}
-              onClick={() => onToggle(facet.slug)}
-              className={
-                on
-                  ? "rounded-pill border border-selected bg-selected px-3.5 py-1.5 text-[14px] font-semibold text-on-selected transition-colors"
-                  : "rounded-pill border border-hairline-strong px-3.5 py-1.5 text-[14px] font-semibold text-body transition-colors hover:border-heading hover:text-heading"
-              }
-            >
-              {facet.label}
-            </button>
-          );
-        })}
-      </div>
-    </fieldset>
   );
 }
