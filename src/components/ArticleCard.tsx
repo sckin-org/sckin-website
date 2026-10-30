@@ -16,8 +16,9 @@ import {
  * full text" lead as filled pills; DOI and PubMed follow as outlined ones.
  * Each is hidden when its field is null. External links open in a new tab.
  *
- * A Superseded record is muted, labelled, and points to its replacement's
- * card (`#{supersededBy}`); `replacement` is that record when it exists.
+ * A Superseded record is muted, labelled, and links to its replacement's
+ * card by that card's `anchor`; `replacement` is the record `supersededBy`
+ * names, absent if no such record exists (then the line has no link).
  */
 export default function ArticleCard({
   article,
@@ -49,7 +50,7 @@ export default function ArticleCard({
 
   return (
     <article
-      id={article.id}
+      id={article.anchor}
       data-role="article"
       data-currency={article.currency}
       className={`flex scroll-mt-24 flex-col gap-2 rounded-lg border border-hairline p-4 md:flex-row md:gap-5 md:p-5 ${
@@ -100,14 +101,16 @@ export default function ArticleCard({
         {superseded && article.supersededBy ? (
           <p data-role="superseded-by" className="mt-3 text-[15px] text-body">
             Superseded by{" "}
-            <a
-              href={`#${article.supersededBy}`}
-              className="font-semibold text-link transition-colors hover:text-link-hover"
-            >
-              {replacement
-                ? `${replacement.firstAuthor} ${replacement.year}, ${replacement.shortTitle}`
-                : "a newer article"}
-            </a>
+            {replacement ? (
+              <a
+                href={`#${replacement.anchor}`}
+                className="font-semibold text-link transition-colors hover:text-link-hover"
+              >
+                {`${replacement.firstAuthor} ${replacement.year}, ${replacement.shortTitle}`}
+              </a>
+            ) : (
+              "a newer article"
+            )}
           </p>
         ) : null}
 

@@ -15,7 +15,8 @@ import { facetSlug, type Facet } from "@/lib/facets";
  * so it never reaches the HTML or the client payload.
  */
 export interface ArticleRecord {
-  /** `{year}-{firstAuthor}-{shortTitle}`, slugged; the card's anchor. */
+  /** `{year}-{firstAuthor}-{shortTitle}`, slugged; the record key. Not the
+   * card's anchor: shortTitles name conditions, which stay out of URLs. */
   id: string;
   year: number;
   shortTitle: string;
@@ -43,8 +44,32 @@ export interface ArticleRecord {
   editorNote: string | null;
 }
 
-/** An article as the page renders it: the record minus `editorNote`. */
-export type Article = Omit<ArticleRecord, "editorNote">;
+/** An article as the page renders it: the record minus `editorNote`, plus
+ * the card's URL fragment (articleAnchors). */
+export type Article = Omit<ArticleRecord, "editorNote"> & { anchor: string };
+
+/**
+ * Card anchors, keyed by record id: `{year}-{firstAuthor}`, slugged
+ * (`#2000-vichinsky`). The record id would put the short title, and so a
+ * condition name, into a shareable URL that GA4's page_location can carry
+ * (see CLAUDE.md, Analytics). A second paper with the same year and first
+ * author gets `-2`, then `-3`, counted in the order given — pass the list
+ * oldest first so anchors stay put when newer papers are added.
+ */
+export function articleAnchors(
+  records: Array<Pick<ArticleRecord, "id" | "year" | "firstAuthor">>
+): Map<string, string> {
+  const anchors = new Map<string, string>();
+  const used = new Set<string>();
+  for (const { id, year, firstAuthor } of records) {
+    const base = `${year}-${facetSlug(firstAuthor)}`;
+    let anchor = base;
+    for (let n = 2; used.has(anchor); n++) anchor = `${base}-${n}`;
+    used.add(anchor);
+    anchors.set(id, anchor);
+  }
+  return anchors;
+}
 
 /** Facet values in display order; `label` is the value as stored. Options
  * the data does not use are dropped (articleFacets), and any value the data

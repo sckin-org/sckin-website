@@ -29,7 +29,7 @@ function itemList(title: string, articles: Article[]) {
       position: i + 1,
       item: {
         "@type": "ScholarlyArticle",
-        "@id": `${PAGE_URL}#${article.id}`,
+        "@id": `${PAGE_URL}#${article.anchor}`,
         name: article.title,
         author: { "@type": "Person", name: article.firstAuthor },
         datePublished: String(article.year),

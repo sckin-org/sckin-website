@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
-import { sortArticles, type Article, type ArticleRecord } from "@/lib/articles";
+import { articleAnchors, type Article, type ArticleRecord } from "@/lib/articles";
 import { coverUrl, facetSlug, sortBooks, type Book } from "@/lib/books";
 
 /**
@@ -969,17 +969,22 @@ export function getAllBooks(): Book[] {
 /**
  * Every record in content/articles.json, oldest first, with the internal
  * `editorNote` removed here — on the server — so it never reaches the page
- * or the client component's props. An absent file is an empty list.
+ * or the client component's props, and each card's `anchor` added (see
+ * articleAnchors). An absent file is an empty list.
  */
 export function getAllArticles(): Article[] {
   const file = path.join(CONTENT_DIR, "articles.json");
   if (!fs.existsSync(file)) return [];
   const records = JSON.parse(fs.readFileSync(file, "utf8")) as ArticleRecord[];
-  const articles = records.map(
+  const oldestFirst = [...records].sort((a, b) => a.year - b.year);
+  const anchors = articleAnchors(oldestFirst);
+  return oldestFirst.map(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- dropped on purpose
-    ({ editorNote, ...article }): Article => article
+    ({ editorNote, ...record }): Article => ({
+      ...record,
+      anchor: anchors.get(record.id)!,
+    })
   );
-  return sortArticles(articles, "oldest");
 }
 
 /* -------------------------------------------------------------------------- */

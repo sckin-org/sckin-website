@@ -30,7 +30,7 @@ const SHOW_ONLY = [
  * "Newest first" toggle. Filters only narrow the list; the order is the
  * toggle's alone. State lives in the query string
  * (`?theme=biology&study=rct,cohort&free=1&sort=newest`) so a filtered view
- * can be shared; the `#id` hash of a deep link is kept.
+ * can be shared; the `#anchor` hash of a deep link is kept.
  *
  * The server render is the unfiltered, oldest-first view, so the full list
  * is in the static HTML and works with JS disabled. The URL is read only
@@ -68,8 +68,8 @@ export default function ArticleBrowser({
     // and scrolled to.
     const reveal = () => {
       const id = decodeURIComponent(window.location.hash.slice(1));
-      if (!id || !articles.some((a) => a.id === id)) return;
-      if (filterArticles(articles, current.current).some((a) => a.id === id)) return;
+      if (!id || !articles.some((a) => a.anchor === id)) return;
+      if (filterArticles(articles, current.current).some((a) => a.anchor === id)) return;
       update({ ...DEFAULT_FILTERS, order: current.current.order });
       requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView());
     };

@@ -394,8 +394,19 @@ Decisions:
   visually hidden facet name) and links. "Free full text" is a filled red
   pill; DOI and PubMed are outlined. All three open in a new tab with
   `rel="noopener noreferrer"`, and each is hidden when null (Ohene-Frempong
-  1998 has no DOI). Population "All" reads "All ages" on the card. Each card
-  has `id={record.id}` for deep links.
+  1998 has no DOI). Population "All" reads "All ages" on the card.
+- **Card anchors are `{year}-{firstAuthor}`, not the record id (decided
+  2026-10-29).** The brief asked for `id={record.id}`, but ids end in the
+  short title, which often names a condition
+  (`2000-vichinsky-acute-chest-syndrome`). A shared deep link would put that
+  in the URL, and GA4's `page_location` can carry the fragment. That breaks
+  the CLAUDE.md rule against condition names in URLs, so the rule stands and
+  the brief was amended. Cards are deep-linked as `#2000-vichinsky`. A second
+  paper with the same year and first author gets `-2`, counted oldest first.
+  `articleAnchors` in `src/lib/articles.ts` derives the anchors. The record
+  `id` is unchanged: it stays the data key, so `supersededBy` still names an
+  id, and the page translates it to the anchor. The JSON-LD `@id`s use the
+  anchors too.
 - **Built but unused today:** `hostedPdf` adds a "Download PDF" button for
   `/articles/{hostedPdf}` under `public/articles/` (no PDFs are in the repo).
   `plainLanguageNote` shows under "Why it matters". `currency: "Superseded"`
@@ -409,11 +420,6 @@ Decisions:
   and mobile) and on the `/resources` hub. The hub copy no longer promises a
   plain-language note on every entry. `/resources/articles` is in
   `sitemap.ts`.
-- **Card anchors contain condition terms** (e.g. `#2000-vichinsky-acute-chest-syndrome`).
-  The brief requires `id={record.id}`. They are fragments, not paths, so the
-  page path and title gtag sends stay `/resources/articles` and "Foundational
-  Articles". GA4's full `page_location` can still carry the fragment when
-  someone opens a deep link. Flagged for review, not changed.
 - **Not done here:** scanning or ingestion, Postgres, hosted PDFs,
   translations, social posting.
 
