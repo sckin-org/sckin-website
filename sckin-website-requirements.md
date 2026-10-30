@@ -358,6 +358,38 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### Next.js 16.2.10 → 16.4.3 for security fixes (2026-10-30)
+
+GitHub listed 33 Dependabot alerts on `main`, about 25 of them in Next.js.
+`npm audit` also reported three newer Next.js advisories covering every
+version up to 16.4.0, one of them critical (remote code execution through the
+Image Optimization API with SVG files). The site uses `next/image`, so that one
+applies. 16.4.3 is the first release that fixes all of them, which is why this
+goes past the last 16.3 patch (16.3.8).
+
+- **`next` is pinned at `16.4.3`** (exact, as before). React stays 19.2.4.
+- **`npm audit fix` (no `--force`)** moved indirect packages within their
+  allowed ranges: `js-yaml` 3.15.2, `nanoid` 3.3.20, `source-map-js` 1.2.2,
+  `baseline-browser-mapping` 2.11.34. `sharp` (0.35.5) and `postcss` (8.5.23)
+  came with Next.
+- **Left open: `zod` (high), via `@vercel/oidc` → `@vercel/cli-config`.**
+  Fixing it means `@vercel/oidc` 4.x (a major version) or a forced `zod`
+  override. That package signs the Google Sheets calls behind every form, and
+  testing a change means real submissions on the preview. The flaw is in
+  parsing the developer's local Vercel CLI config, which no site visitor can
+  reach. To do separately.
+- **The middleware bypass advisory** (Turbopack, single locale) matched this
+  site's setup, but `src/middleware.ts` only does locale routing, not access
+  control.
+- **Build warnings, not errors:** the `middleware` file convention is
+  deprecated in favour of `proxy`, and `metadataBase` is unset. Both are
+  separate follow-ups.
+- **Checked on a local production build:**
+  - Every listed page returns 200, and an unknown path returns 404.
+  - `/en/mission` redirects (308) to `/mission`.
+  - `next/image` URLs serve images.
+  - The form and checkout API routes reject an empty request with 400.
+
 ### Articles page: foundational papers for clinicians (2026-10-29)
 
 `/resources/articles` ships as the second Resources product: a chronological
