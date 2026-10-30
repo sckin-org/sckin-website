@@ -1,6 +1,7 @@
 /**
  * Site navigation model — the locked 2026-07-22 set (design annex, Navigation),
- * amended 2026-09-04 with Events under News ▾ and 2026-10-28 with Resources ▾:
+ * amended 2026-09-04 with Events under News ▾, 2026-10-28 with Resources ▾
+ * and 2026-10-29 with Articles going live under it:
  *   About us ▾ · SickleCellPedia · For Clinicians · Responsible AI ·
  *   Impact ▾ (Impact · Publications) · Resources ▾ (Books · Articles ·
  *   Clinical Trials · Educational Material · Who's Who) ·
@@ -67,7 +68,7 @@ export const NAV_ITEMS: NavItem[] = [
     href: "/resources",
     children: [
       { label: "Books", href: "/resources/books" },
-      { label: "Articles", comingSoon: true },
+      { label: "Articles", href: "/resources/articles" },
       { label: "Clinical Trials", comingSoon: true },
       { label: "Educational Material", comingSoon: true },
       { label: "Who's Who", comingSoon: true },

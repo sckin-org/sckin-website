@@ -5,11 +5,9 @@
  * reads content/books/*.md lives in src/lib/content.ts (getAllBooks).
  */
 
-export interface Facet {
-  /** URL value, e.g. `?audience=young-adults`. */
-  slug: string;
-  label: string;
-}
+import { facetSlug, type Facet } from "@/lib/facets";
+
+export { facetSlug, type Facet };
 
 /** Pill rows, in display order. Matching against frontmatter is by slug, so
  * "Young Adults", "young adults" and "young-adults" all land on one pill. */
@@ -72,14 +70,6 @@ export const DEFAULT_FILTERS: BookFilters = {
   theme: [],
   sort: "order",
 };
-
-export function facetSlug(value: string): string {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
 
 /** OR within a row, AND across rows; an empty row matches everything. */
 export function filterBooks(books: Book[], filters: BookFilters): Book[] {

@@ -1,6 +1,6 @@
 ---
 title: Resources
-meta_description: Curated, human-reviewed sickle cell information for patients, families and clinicians — books today, with articles, clinical trials, educational material and a directory of organizations to follow.
+meta_description: Curated, human-reviewed sickle cell information for patients, families and clinicians — books and foundational articles today, with clinical trials, educational material and a directory of organizations to follow.
 intro: >-
   Resources is SCKIN's curated library of sickle cell information for
   patients, families and clinicians. Every entry is chosen and reviewed by
@@ -14,8 +14,8 @@ products:
     description: Books about sickle cell for children, young adults, patients, caregivers and clinicians, from health guides to memoirs.
     href: /resources/books
   - name: Articles
-    description: A curated reading list of the research that matters, each with a plain-language note on why.
-    tag: Coming soon
+    description: Foundational peer-reviewed papers on sickle cell disease, in the order they were published, for healthcare professionals.
+    href: /resources/articles
   - name: Clinical Trials
     description: Curative and gene-therapy trials by approach, country and age, with last-verified dates.
     tag: Coming soon

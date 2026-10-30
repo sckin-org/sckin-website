@@ -13,8 +13,8 @@ export function generateMetadata(): Metadata {
 
 /**
  * /resources — hub for the five Resources products (content/resources.md).
- * Only Books is live: its card is a link; the others are plain cards with a
- * "Coming soon" pill and are deliberately not clickable.
+ * Books and Articles are live: their cards are links; the others are plain
+ * cards with a "Coming soon" pill and are deliberately not clickable.
  */
 export default function ResourcesPage() {
   const { frontmatter } = getResources();

@@ -29,6 +29,7 @@ const STATIC_PATHS = [
   "/events",
   "/resources",
   "/resources/books",
+  "/resources/articles",
   "/donate",
   "/contact",
   "/evaluations",
