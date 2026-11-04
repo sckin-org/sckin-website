@@ -367,19 +367,23 @@ presented by Anish Chackochan, MD, MBA (Chiesi Global Rare Diseases), hosted
 in partnership with Chiesi. It is a relayed third-party event, so it went into
 `content/events/`, not the Blog. Decisions:
 
-- **Neutral slug and page title.** The CLAUDE.md rule keeps condition names
-  out of URLs and page titles, and gtag sends both to GA4. "Sickle cell"
-  already appears in event titles (the Chicago summit), but "iron overload"
-  and "transfusions" would be new. So the slug is
-  `scdaa-webinar-2026-11-05` and the title (H1, `<title>`, card heading) is
-  "SCDAA webinar with Anish Chackochan, MD, MBA". The talk title appears in
-  the summary and the body only.
+- **Neutral slug; real talk title as the page title (rule waived for this
+  page).** The CLAUDE.md rule keeps condition names out of URLs and page
+  titles, because gtag sends both to GA4. The first version (PR #57) applied
+  the rule to both: slug `scdaa-webinar-2026-11-05` and the title "SCDAA
+  webinar with Anish Chackochan, MD, MBA". The same day, Zacharie chose the
+  real talk title, **Blood Transfusions and Iron Overload in Sickle Cell
+  Disease**, as the title (H1, `<title>`, card heading). This waives the
+  rule's page-title half for this event only: GA4 now receives "iron
+  overload" in `page_title` for this page. The slug stays neutral, so the
+  URL rule still holds and the published link doesn't change. The rule in
+  CLAUDE.md stands for everything else.
 - **Times:** `-05:00` offsets, because US daylight saving time ends 2026-11-01.
 - **Registration:** the flyer's `bit.ly/SCDAA-IronOverload`, kept as printed,
   as with the Chicago summit's tinyurl. It resolves to a Zoom registration
   page, so `platform: Zoom`.
-- **Only facts from the flyer.** `cost` and `sourceNote` are omitted: the
-  flyer states no fee, and nobody is named as sharing it with SCKIN. The body
+- **Facts:** the flyer, plus two facts from Zacharie. The event is free
+  (`cost: Free`), and SCDAA shared it with SCKIN (`sourceNote`). The body
   makes no medical claims; the standard community disclaimer covers the
   pharma partnership.
 - **Assets:** the flyer came as a 1200×1500 JPG, re-encoded without metadata
