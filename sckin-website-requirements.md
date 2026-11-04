@@ -358,6 +358,38 @@ Impact last on purpose — it depends on numbers you may still be gathering, and
 
 ## History
 
+### SCDAA iron overload webinar listed under Events (2026-11-04)
+
+Zacharie supplied SCDAA's flyer (`SCDAA 2026 11 05 SCD and IRON
+Overload.jpg`) for **Blood Transfusions and Iron Overload in Sickle Cell
+Disease**, a one-hour SCDAA webinar on Thursday 2026-11-05, 12 to 1 pm ET,
+presented by Anish Chackochan, MD, MBA (Chiesi Global Rare Diseases), hosted
+in partnership with Chiesi. It is a relayed third-party event, so it went into
+`content/events/`, not the Blog. Decisions:
+
+- **Neutral slug and page title.** The CLAUDE.md rule keeps condition names
+  out of URLs and page titles, and gtag sends both to GA4. "Sickle cell"
+  already appears in event titles (the Chicago summit), but "iron overload"
+  and "transfusions" would be new. So the slug is
+  `scdaa-webinar-2026-11-05` and the title (H1, `<title>`, card heading) is
+  "SCDAA webinar with Anish Chackochan, MD, MBA". The talk title appears in
+  the summary and the body only.
+- **Times:** `-05:00` offsets, because US daylight saving time ends 2026-11-01.
+- **Registration:** the flyer's `bit.ly/SCDAA-IronOverload`, kept as printed,
+  as with the Chicago summit's tinyurl. It resolves to a Zoom registration
+  page, so `platform: Zoom`.
+- **Only facts from the flyer.** `cost` and `sourceNote` are omitted: the
+  flyer states no fee, and nobody is named as sharing it with SCKIN. The body
+  makes no medical claims; the standard community disclaimer covers the
+  pharma partnership.
+- **Assets:** the flyer came as a 1200×1500 JPG, re-encoded without metadata
+  to `public/images/events/scdaa-webinar-2026-11-05.jpg`. A one-page PDF
+  converted from the same image goes to
+  `public/documents/scdaa-webinar-2026-11-05.pdf`, so "Download the flyer
+  (PDF)" stays accurate. The detail page's hardcoded 1600×2071 image
+  dimensions are left alone: `h-auto w-full` renders the 4:5 flyer
+  correctly.
+
 ### Next.js 16.2.10 → 16.4.3 for security fixes (2026-10-30)
 
 GitHub listed 33 Dependabot alerts on `main`, about 25 of them in Next.js.
